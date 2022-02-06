@@ -36,9 +36,9 @@ prob_ode = ODEProblem(sir_ode!,u0,tspan,p);
 
 
 sol_ode = solve(prob_ode);
+umatrix = permutedims(hcat(sol_ode(t).u...))  # vector of vectors to matrix
 
-
-df_ode = DataFrame(sol_ode(t)')
+df_ode = DataFrame(umatrix,:auto)
 df_ode[!,:t] = t;
 
 

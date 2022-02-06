@@ -12,6 +12,7 @@ short topics
 
 * installing julia
 * installing vscode
+* workflows for modules: https://docs.julialang.org/en/v1/manual/workflow-tips/#A-basic-editor/REPL-workflow
 * running julia as standalone app
 * running julia inside vscode
 * working with the REPL
@@ -21,20 +22,21 @@ short topics
     * println function hello world
 * running a file in vscode: 01.jl
 * `include` function: 01.jl
-* assigning a variable
-* installing a package: distributions
-    * create file 02.jl, say you want to use the Distributions package and create a normal distribution with `n = Normal(1.0,0.5)`. 
-    * look at `?quantile` (last entry) and `?pdf` and finally compute the value of the pdf at the 0.95 quantile of your distribution `n`
-* type `varinfo()`
+* assigning a variable. standard, unicode, maths
+
 * data types
     * basic built-in types
         * conversions
-    * tupes
+    * tuples
     * arrays
         cliboard data from browser
     * Composite Types
     * Dictionaries
     * strings
+* installing a package: distributions
+    * create file 02.jl, say you want to use the Distributions package and create a normal distribution with `n = Normal(1.0,0.5)`. 
+    * look at `?quantile` (last entry) and `?pdf` and finally compute the value of the pdf at the 0.95 quantile of your distribution `n`
+* type `varinfo()`
 * functions
     * functions for types: multiple dispatch
     * methods
@@ -54,3 +56,14 @@ short topics
 1. University of Barcelona
 2. Bocconi (Parts of it)
 3. SciencesPo (Parts of it)
+
+
+## Resources
+
+I used examples and got inspiration from several excellent tutorials out there to build this boot camp:
+
+* [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html) by @benlauwens is fully comprehensive and *very complete* intro to julia, which I highly recommend.
+* [The Julia Express](http://bogumilkaminski.pl/files/julia_express.pdf) by @bkamins is a much condensed version - great for a quick start.
+* [From Zero to Hero](https://github.com/Datseris/Zero2Hero-JuliaWorkshop) by @datseris is a great tutorial series, bit more advanced but great insights for beginners as well.
+
+Have a look at the [dedicated section](https://julialang.org/learning/) on the julialang website for more great material!
