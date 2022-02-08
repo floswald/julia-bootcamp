@@ -10,9 +10,10 @@ We have 8 blocks of one hour each. Each block will be interrupted several times 
 
 short topics
 
+## session 1
+
 * installing julia
-* installing vscode
-* workflows for modules: https://docs.julialang.org/en/v1/manual/workflow-tips/#A-basic-editor/REPL-workflow
+* installing vscode and julia extension
 * running julia as standalone app
 * running julia inside vscode
 * working with the REPL
@@ -22,7 +23,10 @@ short topics
     * println function hello world
 * running a file in vscode: 01.jl
 * `include` function: 01.jl
+* workflows for modules: https://docs.julialang.org/en/v1/manual/workflow-tips/#A-basic-editor/REPL-workflow
 * assigning a variable. standard, unicode, maths
+
+
 
 * data types
     * basic built-in types
@@ -41,12 +45,29 @@ short topics
     * functions for types: multiple dispatch
     * methods
 * 
+
+## notebooks
+
+1. assigning varialbes
+1. arrays
+2. datatypes
+1. functions and programming constructs
+1. performance: https://docs.julialang.org/en/v1/manual/performance-tips/, @code_warntype
+1. plotting
+1. interactive plotting and dashboards
+
+## project
+
+* solve a consumption/savings problem and see whether we can speed it up by parallelizing the algorithm
+
+
+
 * arrays
 * plotting
 
 
 ## day 2
-* computing a value function in parallel
+* computing a value function in parallel: https://www.sas.upenn.edu/~jesusfv/Guide_Parallel.pdf and https://github.com/floswald/Parallel_Computing/tree/master
 
 
 ## Who is this course for?
