@@ -66,6 +66,7 @@ The first session we will do freestyle, in terminal and VScode. then we will swi
 2. performance
 3. plotting
 4. interactive plotting and dashboards
+5. Dataframes (to be added) ; https://dataframes.juliadata.org/stable/
 
 ## Homeworks
 
