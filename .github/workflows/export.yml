@@ -44,6 +44,7 @@ jobs:
                     Export_cache_dir="pluto_state_cache",
                     Export_baked_notebookfile=false,
                     Export_baked_state=false,
+                    Export_exclude = ["snippets/interactive.jl"]
                     # more parameters can go here
                   )'
 
