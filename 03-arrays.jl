@@ -208,6 +208,11 @@ a2'
 # ╔═╡ 09e97578-55a5-11eb-1042-0d7ea64aa830
 vcat(ones(3),1.1)
 
+# ╔═╡ 6f434e7b-3f6d-4e51-b566-9d6e212cb2b3
+md"""
+#
+"""
+
 # ╔═╡ 516b88a0-55a5-11eb-105e-17c75539d751
 hcat(rand(2,2),falses(2,3))
 
@@ -227,6 +232,8 @@ So, `Any` is the overarching data type at the root of the type graph. You can ha
 
 # ╔═╡ e0fd8a60-822e-48cd-94c5-a14a2e97d6fc
 md"""
+#
+
 You can also put different-length obejects in to arrays. An array is *just another container*:
 """
 
@@ -238,7 +245,7 @@ typeof(mix)  # see how it promoted everyting to Float64?
 
 # ╔═╡ 42febc06-3feb-4f1e-ad82-ca5d8d8018b1
 md"""
-combining existing arrays
+### combining existing arrays
 """
 
 # ╔═╡ 2c750c3d-3038-4279-9ffc-ac4258af0075
@@ -284,6 +291,11 @@ length(z)
 # ╔═╡ 60b6d98a-678a-11eb-34f0-91b61835ccc2
 push!(z, "hi")
 
+# ╔═╡ 6ad042d4-71ac-448c-825d-a54997bee9b6
+md"""
+#
+"""
+
 # ╔═╡ b77ae9fe-679a-11eb-19de-678b04bcc042
 pushfirst!(z, 1, 1)
 
@@ -318,9 +330,15 @@ so we could have also done before:
 # ╔═╡ 3c4111cc-55a6-11eb-198b-458475b9b85f
 hcat(rand(2,2), ["hi" for i in 1:2, j in 1:5 ])
 
+# ╔═╡ 75640521-a952-4c86-81cd-397df0280d64
+md"""
+#
+
+"""
+
 # ╔═╡ 626879e4-6603-4606-83bd-9388071a46b9
 md"""
----
+#
 """
 
 # ╔═╡ 85cda2a3-9a2e-45ea-b0a6-f982660660c9
@@ -346,6 +364,8 @@ sum(s1)
 
 # ╔═╡ 3734e433-42cd-4573-8ac7-0013c767e28e
 md"""
+#
+
 what's even better is to use a so-called *Generator*, which will *not* create an entire array of values, before summing it, but will perform the operation on the fly (summing the next number in line to the current sum):
 """
 
@@ -357,11 +377,23 @@ md"""
 Time to start talking a bit about performance now. Will do much more of it, for now lets just do a simple benchmark on 2 ways of running that summation (for larger indices to see a real difference).
 """
 
+# ╔═╡ 8934a18d-1b61-4054-979a-d180fa77ffa2
+md"""
+#
+
+"""
+
 # ╔═╡ 8cc15db6-0869-4037-928e-9ae9ba4957ed
 b1 = @benchmark f1()
 
 # ╔═╡ b1dac8d1-c818-4353-961c-a75747541181
 b2 = @benchmark f2()
+
+# ╔═╡ 7597a626-6a5a-45c8-96e8-ae89ec891512
+md"""
+#
+
+"""
 
 # ╔═╡ f88db9bb-5635-4e1c-812e-0fc961b1c997
 ratio( median(b1), median(b2) )   # `ratio`, `median` from BenchmarkTools
@@ -488,6 +520,8 @@ v
 
 # ╔═╡ e71d752c-34a9-401b-9e0f-abf0c0bfde81
 md"""
+#
+
 Broadcasting is ubiquous in julia, and it is a major difference to `R` or `matlab`. Those languages *automatically vectorize many function calls* for you, so this would work in R
 """
 
@@ -504,9 +538,16 @@ exp.([1.0,2.0])
 
 # ╔═╡ 6c9a8f92-af66-4d56-a824-ba8c065ab1d0
 md"""
+#
+
 While this may look a bit awkward and like a limitation at first sight, you will soon find out that the ability of julia to broadcast operations over entire arrays is extremely powerful, for a simple reason: while in `R` and `matlab` and so on, some developer had to sit down and *design the function* `exp for vectors`, the `.` in julia works **for every function, even your own**. While this clearly belongs into our *Performance* section, if you want to more about this, here is a [post](https://julialang.org/blog/2018/05/extensible-broadcast-fusion/) about introduction of the broadcast for our own functions, and here [another one](https://julialang.org/blog/2017/01/moredots/) about how julia *unrolls loops and fuses them into one pass over the input array*. Geeky stuff. 🔥
 
 What if I also told you that the same technology (the dot-broadcast) will work, whether we use a standard julia array, like here, or a `CUDA.jl` array, that will run on your massive GPU in that huge data centre where you rented some very large compute capacity? 😮 . Real Geek stuff. 🔥🔥🔥
+"""
+
+# ╔═╡ b2ef6805-383d-4537-9476-d2b922116a0a
+md"""
+#
 """
 
 # ╔═╡ 9aad3dec-6702-11eb-15c9-75d6b2d3713e
@@ -638,6 +679,11 @@ md"Notice that julia is *column-major* storage: i.e. we travers first columns, t
 
 "
 
+# ╔═╡ 538eefb5-d5eb-42d7-a282-9d4c33521815
+md"""
+#
+"""
+
 # ╔═╡ e0180ac6-6705-11eb-3fe0-1ffdb3809f11
 M[:]
 
@@ -646,9 +692,6 @@ vec(M)
 
 # ╔═╡ 7fb9ae2e-6704-11eb-0db7-abc17c115185
 md"library"
-
-# ╔═╡ b06da6cc-a2e0-4a5c-83f8-1d5cc59114f7
-
 
 # ╔═╡ 1e745340-6703-11eb-0853-2d40b6d3bc46
 info(text) = Markdown.MD(Markdown.Admonition("info", "Info", [text]));
@@ -661,18 +704,6 @@ info(md"Wait, didn't you say the all need to have the *same type*? ↪ yes, they
 
 # ╔═╡ 08bb40ae-956e-40c5-a18e-b1907dadfbb8
 tip(text) = Markdown.MD(Markdown.Admonition("tip", "Tip", [text]));
-
-# ╔═╡ 7268d01a-6702-11eb-057d-a33ff7b6dff5
-tip("Question",md"
-
-* If you were followign along, what is this going to do?
-
-```julia
-v[4:7] = [0, 0, 0, 0]
-```
-
-#
-")
 
 # ╔═╡ 057e6407-3f3d-4b4d-bca8-fd77014cdb76
 q(text) = Markdown.MD(Markdown.Admonition("tip", "Question", [text]));
@@ -695,6 +726,18 @@ q(md"""
 * Tell us the consumption $c$ associated with all savings choices $a_{t+1}$ if $a=1,y=1$ by indexing your `cons` array from above!
 * That is, just index `cons` in the corresponding indices (and use `:` for the savings dimension)
 """)
+
+# ╔═╡ 7268d01a-6702-11eb-057d-a33ff7b6dff5
+q(md"
+
+* If you were followign along, what is this going to do?
+
+```julia
+v[4:7] = [0, 0, 0, 0]
+```
+
+#
+")
 
 # ╔═╡ e48c1410-6702-11eb-06c4-8300fc6614af
 q(md"
@@ -1652,6 +1695,7 @@ version = "0.9.1+5"
 # ╠═d97da51c-55a4-11eb-305c-1bb0e1634cb0
 # ╠═e27215b8-55a4-11eb-21c5-2738c0897729
 # ╠═09e97578-55a5-11eb-1042-0d7ea64aa830
+# ╟─6f434e7b-3f6d-4e51-b566-9d6e212cb2b3
 # ╠═516b88a0-55a5-11eb-105e-17c75539d751
 # ╠═2835338a-679a-11eb-1557-a75b2d2d657a
 # ╠═6242d548-55a5-11eb-22e4-531a821011c9
@@ -1661,7 +1705,7 @@ version = "0.9.1+5"
 # ╟─e0fd8a60-822e-48cd-94c5-a14a2e97d6fc
 # ╠═8bebe92a-88ec-481d-b260-fffcdb6e7a49
 # ╠═9e125fa4-0ee4-4dcd-99da-429622e1866b
-# ╠═42febc06-3feb-4f1e-ad82-ca5d8d8018b1
+# ╟─42febc06-3feb-4f1e-ad82-ca5d8d8018b1
 # ╠═2c750c3d-3038-4279-9ffc-ac4258af0075
 # ╠═39dd6e58-927e-4df8-9996-8d9de266e9f2
 # ╟─c2106201-4492-433d-a98a-d2393921f93b
@@ -1673,6 +1717,7 @@ version = "0.9.1+5"
 # ╠═592f0b86-678a-11eb-39f4-55ec3bd7989a
 # ╠═5d2906c8-678a-11eb-3e11-05f1efd3f778
 # ╠═60b6d98a-678a-11eb-34f0-91b61835ccc2
+# ╟─6ad042d4-71ac-448c-825d-a54997bee9b6
 # ╠═b77ae9fe-679a-11eb-19de-678b04bcc042
 # ╠═be5f5cf0-679a-11eb-2b4f-f7d5ab85c6a0
 # ╠═686337f0-678a-11eb-09bd-2badaadba117
@@ -1682,6 +1727,7 @@ version = "0.9.1+5"
 # ╠═17ef63ac-55a6-11eb-3713-77dfe04fa601
 # ╟─2cfde6f6-55a6-11eb-0a12-6b336a02c015
 # ╠═3c4111cc-55a6-11eb-198b-458475b9b85f
+# ╟─75640521-a952-4c86-81cd-397df0280d64
 # ╟─899051a8-d1c4-4763-b372-3d7b3b499bd3
 # ╟─626879e4-6603-4606-83bd-9388071a46b9
 # ╟─85cda2a3-9a2e-45ea-b0a6-f982660660c9
@@ -1693,8 +1739,10 @@ version = "0.9.1+5"
 # ╠═23f7fa4a-f5dd-4bf7-b6bc-9e0bbd4bf2d0
 # ╟─33a6f0c5-6f3e-4ec4-9a82-5c9134ae2d95
 # ╠═cdae4a9c-ee2f-48a5-800e-963213301e30
+# ╟─8934a18d-1b61-4054-979a-d180fa77ffa2
 # ╠═8cc15db6-0869-4037-928e-9ae9ba4957ed
 # ╠═b1dac8d1-c818-4353-961c-a75747541181
+# ╟─7597a626-6a5a-45c8-96e8-ae89ec891512
 # ╠═f88db9bb-5635-4e1c-812e-0fc961b1c997
 # ╠═86016eaa-8b0d-4ca7-b822-4bb421e45c26
 # ╟─08bc3323-7e33-492e-a6c5-a7bee0016576
@@ -1729,11 +1777,12 @@ version = "0.9.1+5"
 # ╟─074dccd8-6702-11eb-038c-0b8c14b62647
 # ╠═58d5e0ce-6702-11eb-2130-b1e9f84e5a65
 # ╠═64be4458-6702-11eb-02f9-37de11e2b41f
-# ╠═e71d752c-34a9-401b-9e0f-abf0c0bfde81
+# ╟─e71d752c-34a9-401b-9e0f-abf0c0bfde81
 # ╠═abd4c30f-806f-4cb3-8857-80cbd3b32ae5
 # ╟─164d6171-748c-4816-885e-d1884578cd27
 # ╠═045a03af-5105-4081-b069-95a9c359b33d
 # ╟─6c9a8f92-af66-4d56-a824-ba8c065ab1d0
+# ╟─b2ef6805-383d-4537-9476-d2b922116a0a
 # ╟─7268d01a-6702-11eb-057d-a33ff7b6dff5
 # ╠═9aad3dec-6702-11eb-15c9-75d6b2d3713e
 # ╠═9e35cf88-6702-11eb-2a92-0f9271383c8f
@@ -1762,15 +1811,15 @@ version = "0.9.1+5"
 # ╟─63b39b30-6705-11eb-11ef-31053508273a
 # ╠═7e404c62-6705-11eb-2886-6b9da420f7b0
 # ╟─a07a1634-6705-11eb-0342-61fd861a94a9
+# ╟─538eefb5-d5eb-42d7-a282-9d4c33521815
 # ╠═e0180ac6-6705-11eb-3fe0-1ffdb3809f11
 # ╠═e4dca698-6705-11eb-2e54-e751eb17d068
 # ╟─7fb9ae2e-6704-11eb-0db7-abc17c115185
-# ╠═b06da6cc-a2e0-4a5c-83f8-1d5cc59114f7
-# ╠═1e745340-6703-11eb-0853-2d40b6d3bc46
-# ╠═426a4592-c04e-44fc-a01f-a1b61b823eeb
-# ╠═08bb40ae-956e-40c5-a18e-b1907dadfbb8
-# ╠═057e6407-3f3d-4b4d-bca8-fd77014cdb76
-# ╠═0e7c8540-a939-49ed-89a6-46588c4b0e58
-# ╠═7dc2bb38-6704-11eb-2aed-8563be2b3d89
+# ╟─1e745340-6703-11eb-0853-2d40b6d3bc46
+# ╟─426a4592-c04e-44fc-a01f-a1b61b823eeb
+# ╟─08bb40ae-956e-40c5-a18e-b1907dadfbb8
+# ╟─057e6407-3f3d-4b4d-bca8-fd77014cdb76
+# ╟─0e7c8540-a939-49ed-89a6-46588c4b0e58
+# ╟─7dc2bb38-6704-11eb-2aed-8563be2b3d89
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

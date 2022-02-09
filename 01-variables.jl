@@ -4,16 +4,20 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ c20ae2b4-50d0-4634-9e85-a1eaaf0afa8c
-using Colors  # package for color functionality
-
-# ╔═╡ b7c5d3db-9a8f-46dc-a5be-42f5be2220fb
-using Dates # built-in dates package
+# ╔═╡ 5d6b38c3-c977-44fd-9ef4-cc931b3b334f
+begin
+	using PlutoUI
+	using Colors  # working with colors later
+	using Dates # and with dates
+end
 
 # ╔═╡ 505963ac-853c-11ec-028c-b34d1d0e028f
 md"""
 # Julia Bootcamp
 """
+
+# ╔═╡ 43077757-7064-4fa9-9ab2-ab8875a425ac
+html"<button onclick='present()'>present</button>"
 
 # ╔═╡ b182aaf9-6b81-4697-8a37-83ff03fba00e
 md"""
@@ -23,6 +27,11 @@ md"""
 * Your variable names can be any Unicode character
 * Strings are in double quotes `"` and single quotes `'` are characters
 * We can to `LaTeX` completion with the TAB key.
+"""
+
+# ╔═╡ b6f354d2-ace2-4605-bf6a-10acc1b9170a
+md"""
+#
 """
 
 # ╔═╡ 0f882cf2-a25f-4481-b8c7-15e7aa780a10
@@ -45,6 +54,11 @@ y = x ^ 2
 
 # ╔═╡ 6bf1f569-c6f8-43d0-9ea6-e77f3db4c7c4
 ifelse(😄 + 💃 == 🍕, md"🎉 this is the correct, OMG", md"🤮 Oh no, totally wrong")
+
+# ╔═╡ 0e3b68ed-6627-4246-b736-55a2942fff86
+md"""
+#
+"""
 
 # ╔═╡ c8181ff7-7edf-46b2-91ce-1b0ae9221c92
 md"""
@@ -76,6 +90,11 @@ typeof(🍕)
 
 # ╔═╡ c4d1cb6b-7226-4f2d-a9f6-4c0cb541483e
 typeof("¿Cuál es el significado de qué onda wey?")
+
+# ╔═╡ a11f932d-0e0e-4bc4-8497-6b6236fbce96
+md"""
+#
+"""
 
 # ╔═╡ 9b9160b8-4c60-4a6e-821d-1f4b9c78c9e4
 md"""
@@ -114,9 +133,6 @@ true || false   # short circuit and
 # ╔═╡ df64ae39-7593-434a-87b8-54178af73f76
 true && false   # short circuit or
 
-# ╔═╡ c890d968-6004-4dbb-9f84-33fcf542ff4f
-
-
 # ╔═╡ 23771d6f-a197-49fd-b53f-9df398598017
 md"""
 
@@ -150,6 +166,11 @@ convert(Int,2.0)
 
 # ╔═╡ 9fdf6eeb-8dec-4db4-8f76-808693d9e3af
 Int(2.0)
+
+# ╔═╡ 958d00a2-106b-4ff6-ad84-c8619803431d
+md"""
+#
+"""
 
 # ╔═╡ 63dc06e0-cad1-4519-8aed-44255dd63e80
 string(true)
@@ -188,7 +209,7 @@ promote(1, 2.5)  # `upgrades` the Int to a Float
 
 # ╔═╡ 4a353442-e563-4e2f-917f-e31e0059019b
 md"""
-### Strings
+## Strings
 """
 
 # ╔═╡ 0b51f9e2-49db-40e6-8538-dc6f3a3b56b5
@@ -206,8 +227,15 @@ string("hi"," there")
 # ╔═╡ d4558619-6fce-4cf7-9552-10553d0b13c1
 string("number = ",112)
 
+# ╔═╡ 8da9efe7-1366-40f0-99a5-5cacb43a9b08
+md"""
+#
+"""
+
 # ╔═╡ bd00eff7-031a-4cb4-ac5c-67a97538d9b6
 md"""
+#
+
 There are bunch of *special strings* in julia as well. Like in this notebook, I'm using *markdown strings* all the time with `md"string"` (part of the `Markdown` package).
 """
 
@@ -254,6 +282,16 @@ pwd()  # useful in an interactive session
 # ╔═╡ 9286d7d7-4eea-4236-83d2-f6c3ccc8bd0f
 cd(".")  # change to directory (the dot is the current directory!)
 
+# ╔═╡ 8f40a4da-4534-48b9-bd5b-4255fc199a3b
+md"""
+#
+"""
+
+# ╔═╡ c77df580-26b5-4c61-a4cc-22859c073c49
+md"""
+#
+"""
+
 # ╔═╡ b26020a0-bb82-4261-be06-f39162edad13
 contains("There are many football clubs in Barelona", "football")
 
@@ -265,6 +303,11 @@ r = r"A|B"  # a regex
 
 # ╔═╡ d29a6c41-e72b-4be9-a695-09c835375483
 occursin(r,"CDE")
+
+# ╔═╡ 13c888eb-59f4-4777-8a06-dbc5c4f94e4a
+md"""
+#
+"""
 
 # ╔═╡ 57b72616-2eb4-4154-a5a2-df5c02220417
 occursin(r,"The A-Team")
@@ -298,6 +341,8 @@ you would get the *fourth element* of `c`.
 
 **Julia indexing starts at 1!**
 
+#
+
 ### Tuples and NamedTuples
 
 Tuples are immutable (often short) sequences of values. *immutable* means you can't change them.
@@ -317,6 +362,8 @@ w[4] = 10  # cannot change a tuple, i.e. cannot assign a different value
 
 # ╔═╡ c7e68933-095d-4fd7-a938-12a93856f298
 md"""
+#
+
 NamedTuples are similar, but you can give names. 
 """
 
@@ -361,6 +408,8 @@ typeof(rb)
 
 # ╔═╡ 65422359-25c9-43db-90c0-161abbad4ac4
 md"""
+#
+
 you can collect all values into a standard array with 
 """
 
@@ -380,6 +429,8 @@ ra[5] = 2
 
 # ╔═╡ 833a7d75-12ea-44c6-b946-da287566dee1
 md"""
+
+#
 ranges can be built on many data types, not just numbers.
 """
 
@@ -400,7 +451,7 @@ dr[2]
 
 # ╔═╡ 6768aba8-5135-4b11-a9a8-81a84c130c61
 md"""
-### Dictionaries
+## Dictionaries
 
 * Similar to `R` `list` objects
 * Similar to `python` `dicts`
@@ -416,14 +467,27 @@ phonebook = Dict(:john => 34221, :mary => 12344)
 # ╔═╡ d02618a3-720d-42f1-89fb-ff80733e2339
 phonebook[:john]
 
+# ╔═╡ 7f873cab-e58e-4e3c-bf75-b60cf9628648
+md"""
+#
+"""
+
 # ╔═╡ 72229086-eedb-4bd0-8f0c-49bb5731e1f8
 phonebook[1]
+
+# ╔═╡ 1b1ef328-3a16-4a59-bf4a-a411401ad245
+
 
 # ╔═╡ cd456c1f-0b63-45f7-aea2-f9f2a205bbb0
 phonebook[:peter] = 43210  # notice once it's created, assign with '='
 
 # ╔═╡ 51d37b9d-f630-4ed3-9ec4-699cd68470cd
 phonebook["florian"] = 12334  # wrong type of key
+
+# ╔═╡ a3397a22-3917-4782-a4b4-ea330293b7cf
+md"""
+#
+"""
 
 # ╔═╡ 666f5e87-5e14-4cd0-8c44-497d11562414
 typeof(phonebook)
@@ -437,8 +501,13 @@ keys(phonebook)
 # ╔═╡ 87a56c3a-1e2e-489e-a790-783180e6cc21
 values(phonebook)
 
+# ╔═╡ d488f5d3-149c-4ce5-892b-7d113b712dfe
+md"""
+#
+"""
+
 # ╔═╡ a42fcc5d-2998-48cd-a5c6-aa97be940af0
-with_terminal() do
+with_terminal() do  # i have to use the `with_terminal` function in Pluto
 	for (k,v) in phonebook
 		println("The number of $k is $v")
 	end
@@ -452,6 +521,11 @@ filter( p -> p.first == :peter, phonebook)  # x -> 2x is an anonymous function
 
 # ╔═╡ e125a1af-ce81-491b-b7a2-c3e7e0ee8216
 filter( p -> p.second > 12500, phonebook)
+
+# ╔═╡ 060bc6c4-cb85-4ee8-98f8-91656a478631
+md"""
+#
+"""
 
 # ╔═╡ d64bdfdb-50d5-476d-81ae-2543e0e246da
 begin
@@ -494,9 +568,11 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
 Colors = "~0.12.8"
+PlutoUI = "~0.7.34"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -506,8 +582,20 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 julia_version = "1.7.1"
 manifest_format = "2.0"
 
+[[deps.AbstractPlutoDingetjes]]
+deps = ["Pkg"]
+git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
+uuid = "6e696c72-6542-2067-7265-42206c756150"
+version = "1.1.4"
+
+[[deps.ArgTools]]
+uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
+
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
+
+[[deps.Base64]]
+uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
@@ -529,11 +617,58 @@ uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
+[[deps.Downloads]]
+deps = ["ArgTools", "LibCURL", "NetworkOptions"]
+uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
+
 [[deps.FixedPointNumbers]]
 deps = ["Statistics"]
 git-tree-sha1 = "335bfdceacc84c5cdf16aadc768aa5ddfc5383cc"
 uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.8.4"
+
+[[deps.Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.4"
+
+[[deps.HypertextLiteral]]
+git-tree-sha1 = "2b078b5a615c6c0396c77810d92ee8c6f470d238"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.3"
+
+[[deps.IOCapture]]
+deps = ["Logging", "Random"]
+git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
+uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
+version = "0.2.2"
+
+[[deps.InteractiveUtils]]
+deps = ["Markdown"]
+uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+
+[[deps.JSON]]
+deps = ["Dates", "Mmap", "Parsers", "Unicode"]
+git-tree-sha1 = "8076680b162ada2a031f707ac7b4953e30667a37"
+uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+version = "0.21.2"
+
+[[deps.LibCURL]]
+deps = ["LibCURL_jll", "MozillaCACerts_jll"]
+uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
+
+[[deps.LibCURL_jll]]
+deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
+uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+
+[[deps.LibGit2]]
+deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
+uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
+
+[[deps.LibSSH2_jll]]
+deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
+uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
 
 [[deps.Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
@@ -542,13 +677,53 @@ uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 deps = ["Libdl", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
+[[deps.Logging]]
+uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
+
+[[deps.Markdown]]
+deps = ["Base64"]
+uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+
+[[deps.MbedTLS_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+
+[[deps.Mmap]]
+uuid = "a63ad114-7e13-5084-954f-fe012c677804"
+
+[[deps.MozillaCACerts_jll]]
+uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
+
+[[deps.NetworkOptions]]
+uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
+
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
 
+[[deps.Parsers]]
+deps = ["Dates"]
+git-tree-sha1 = "0b5cfbb704034b5b4c1869e36634438a047df065"
+uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
+version = "2.2.1"
+
+[[deps.Pkg]]
+deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+
+[[deps.PlutoUI]]
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
+git-tree-sha1 = "8979e9802b4ac3d58c503a20f2824ad67f9074dd"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.34"
+
 [[deps.Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
+[[deps.REPL]]
+deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
+uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
 
 [[deps.Random]]
 deps = ["SHA", "Serialization"]
@@ -565,6 +740,9 @@ uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
+[[deps.Sockets]]
+uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
+
 [[deps.SparseArrays]]
 deps = ["LinearAlgebra", "Random"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
@@ -573,17 +751,48 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
+[[deps.TOML]]
+deps = ["Dates"]
+uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+
+[[deps.Tar]]
+deps = ["ArgTools", "SHA"]
+uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
+
+[[deps.Test]]
+deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
+uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[[deps.UUIDs]]
+deps = ["Random", "SHA"]
+uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+
 [[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+
+[[deps.Zlib_jll]]
+deps = ["Libdl"]
+uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
 
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+
+[[deps.nghttp2_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+
+[[deps.p7zip_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 """
 
 # ╔═╡ Cell order:
+# ╠═5d6b38c3-c977-44fd-9ef4-cc931b3b334f
 # ╟─505963ac-853c-11ec-028c-b34d1d0e028f
+# ╟─43077757-7064-4fa9-9ab2-ab8875a425ac
 # ╟─b182aaf9-6b81-4697-8a37-83ff03fba00e
+# ╟─b6f354d2-ace2-4605-bf6a-10acc1b9170a
 # ╠═0f882cf2-a25f-4481-b8c7-15e7aa780a10
 # ╠═883d1dae-d6aa-4c42-8676-50dbcd3ab5c9
 # ╠═0d32140e-26c7-46d6-a97b-97d279eedf5e
@@ -591,13 +800,15 @@ uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 # ╠═672bc5e6-fd9d-476c-81c8-c046a9d055dc
 # ╠═4ca5b69a-545b-4713-88f0-592182ee439d
 # ╠═6bf1f569-c6f8-43d0-9ea6-e77f3db4c7c4
+# ╟─0e3b68ed-6627-4246-b736-55a2942fff86
 # ╟─c8181ff7-7edf-46b2-91ce-1b0ae9221c92
 # ╟─b848b674-bd41-432f-9ed4-542bd991780b
 # ╠═88513608-ac93-466f-b9ec-6f249e97731f
-# ╠═30f00ec5-3f97-4624-8b2f-397fc5c97e71
+# ╟─30f00ec5-3f97-4624-8b2f-397fc5c97e71
 # ╠═b8df2f83-5877-41c1-87f9-0d70001f3043
 # ╠═c4d1cb6b-7226-4f2d-a9f6-4c0cb541483e
-# ╠═9b9160b8-4c60-4a6e-821d-1f4b9c78c9e4
+# ╟─a11f932d-0e0e-4bc4-8497-6b6236fbce96
+# ╟─9b9160b8-4c60-4a6e-821d-1f4b9c78c9e4
 # ╠═3f5625cd-2718-402b-9ef0-7ae3e1eba7d7
 # ╟─111deaa0-2970-4e53-92dc-8636cb723b72
 # ╟─9bbab050-ad99-4bcc-be23-50d4b1379108
@@ -606,7 +817,6 @@ uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 # ╠═76dbda14-90ca-4910-873d-045c0ac29aae
 # ╠═d7435925-5479-4ff7-9c0e-89759db7f58c
 # ╠═df64ae39-7593-434a-87b8-54178af73f76
-# ╠═c890d968-6004-4dbb-9f84-33fcf542ff4f
 # ╟─23771d6f-a197-49fd-b53f-9df398598017
 # ╟─8182aa7a-160b-4341-a429-2b1890b4107d
 # ╟─45cd1145-bbcc-49cc-981d-997dd4ca652e
@@ -614,6 +824,7 @@ uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 # ╠═0bac8b82-3450-4ab3-8db4-d47cff57f24a
 # ╠═173f003a-6c10-4b81-9e0f-896a6681c08e
 # ╠═9fdf6eeb-8dec-4db4-8f76-808693d9e3af
+# ╟─958d00a2-106b-4ff6-ad84-c8619803431d
 # ╠═63dc06e0-cad1-4519-8aed-44255dd63e80
 # ╠═51787899-7339-4210-aa62-c4d1960f2333
 # ╠═c4128a1b-1e1c-4808-9da7-895fc5b88e46
@@ -631,6 +842,7 @@ uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 # ╠═c5bceb53-3dd1-48b9-b36d-e9ed5bd6a55c
 # ╠═e415a8ef-c9d1-404e-a945-0613e3118a53
 # ╠═d4558619-6fce-4cf7-9552-10553d0b13c1
+# ╟─8da9efe7-1366-40f0-99a5-5cacb43a9b08
 # ╟─066a7ddd-7203-44aa-9029-0566f91a0348
 # ╟─bd00eff7-031a-4cb4-ac5c-67a97538d9b6
 # ╠═0be453a4-7b06-4d9c-9868-3ca8ee341f83
@@ -644,12 +856,15 @@ uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 # ╠═6a126422-62cc-4b8e-998b-5fa11520049b
 # ╠═9cbb941a-bbf6-49a1-892c-962f16bbab90
 # ╠═9286d7d7-4eea-4236-83d2-f6c3ccc8bd0f
+# ╟─8f40a4da-4534-48b9-bd5b-4255fc199a3b
 # ╟─b24fcce2-f729-49e2-9cbc-b0cf28ca6e33
+# ╟─c77df580-26b5-4c61-a4cc-22859c073c49
 # ╠═b26020a0-bb82-4261-be06-f39162edad13
 # ╠═567e6a01-baca-4c9e-b1f9-dba2885a0805
 # ╠═42e71a94-29c3-43e2-a669-a62fb54a3ca7
 # ╠═d29a6c41-e72b-4be9-a695-09c835375483
 # ╟─cc346dd2-5920-46b7-b192-db59ce4f04d6
+# ╟─13c888eb-59f4-4777-8a06-dbc5c4f94e4a
 # ╠═57b72616-2eb4-4154-a5a2-df5c02220417
 # ╠═a74db094-81c7-4f23-af47-9a93aecca866
 # ╠═2f507515-bf94-48f5-9473-7195abdaa3ca
@@ -660,14 +875,14 @@ uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 # ╠═bd9dc1c7-eb73-458b-bfd7-cf043311a881
 # ╠═d8760510-1773-44c9-9f59-f3bcd3badb0e
 # ╠═3b483860-094c-41b0-8f2a-f99e08abe29c
-# ╠═c7e68933-095d-4fd7-a938-12a93856f298
+# ╟─c7e68933-095d-4fd7-a938-12a93856f298
 # ╠═5ce16643-19c2-4f56-81c3-e5865e656a6e
 # ╠═527925b4-5bef-4299-8947-2f78e3c71c65
 # ╠═87782135-a05d-4e84-ad8e-b4d163632904
 # ╠═43012bd6-83b4-41f4-ac8a-1cabea0e1417
 # ╟─89b15836-c931-4902-b3c8-faaa0c6e4761
 # ╠═92c3561d-a180-4e72-80b0-f936c7ad51d1
-# ╠═4d64e715-3d3d-4a5f-90fb-328052c3ff97
+# ╟─4d64e715-3d3d-4a5f-90fb-328052c3ff97
 # ╠═6c676131-b7b0-4faa-9261-9ac6b14ccc32
 # ╠═c096fc85-3a1c-4667-8e62-595a65b65b8c
 # ╠═778e0c66-e9cf-45ab-8fc8-95955a208bd7
@@ -677,29 +892,32 @@ uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 # ╟─1ab25def-758c-4d6d-83e1-33fc37ec04aa
 # ╠═78160acc-fa24-4cd3-9d89-9750df24caac
 # ╠═b1210e5b-2ba9-47f5-b965-360b5c0cda88
-# ╠═833a7d75-12ea-44c6-b946-da287566dee1
+# ╟─833a7d75-12ea-44c6-b946-da287566dee1
 # ╠═8fe2d586-65ce-4df2-8b17-3406b95ab914
 # ╠═1438bcde-9d01-4d5e-b273-f675a5383e67
-# ╠═c20ae2b4-50d0-4634-9e85-a1eaaf0afa8c
 # ╠═ac6f68fd-5c84-4650-98f1-b26f4a7bc547
-# ╠═b7c5d3db-9a8f-46dc-a5be-42f5be2220fb
 # ╠═70598515-4f53-4c0a-92a2-ff18ac36c3f5
 # ╠═dc8722ce-2a0e-4a87-8cb9-5704c74ed7fd
 # ╟─6768aba8-5135-4b11-a9a8-81a84c130c61
 # ╠═b48a6589-22a1-4dec-9bd5-96d6fb33d8b8
 # ╠═d02618a3-720d-42f1-89fb-ff80733e2339
+# ╟─7f873cab-e58e-4e3c-bf75-b60cf9628648
 # ╠═72229086-eedb-4bd0-8f0c-49bb5731e1f8
+# ╠═1b1ef328-3a16-4a59-bf4a-a411401ad245
 # ╠═cd456c1f-0b63-45f7-aea2-f9f2a205bbb0
 # ╠═51d37b9d-f630-4ed3-9ec4-699cd68470cd
+# ╟─a3397a22-3917-4782-a4b4-ea330293b7cf
 # ╠═666f5e87-5e14-4cd0-8c44-497d11562414
 # ╠═5d9eea1e-3f09-4634-9a8a-91000fe9bdde
 # ╠═11efb440-cf18-4e8a-9751-f92a0a85f96e
 # ╠═87a56c3a-1e2e-489e-a790-783180e6cc21
+# ╟─d488f5d3-149c-4ce5-892b-7d113b712dfe
 # ╠═a42fcc5d-2998-48cd-a5c6-aa97be940af0
 # ╠═b8061445-404d-46c6-a811-4f4cb566fb25
 # ╠═2046420f-ad09-4143-9072-0320d20b3ef3
 # ╠═e125a1af-ce81-491b-b7a2-c3e7e0ee8216
+# ╟─060bc6c4-cb85-4ee8-98f8-91656a478631
 # ╟─6caf7a73-7377-4e6f-9858-b9cdc141746d
-# ╠═d64bdfdb-50d5-476d-81ae-2543e0e246da
+# ╟─d64bdfdb-50d5-476d-81ae-2543e0e246da
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

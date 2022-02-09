@@ -6,9 +6,8 @@ using InteractiveUtils
 
 # ╔═╡ 9e8ca0a8-3b36-4ef0-a3a8-4f15a61bcb7f
 begin
-	using AbstractTrees
 	using PlutoUI
-	AbstractTrees.children(x::Type) = subtypes(x)
+	using AbstractTrees
 	using Distributions
 	using Dates
 end
@@ -40,6 +39,11 @@ We talked about types already - it's now time to dig a bit deeper and introduce 
 Let's look a bit at the type tree for a start.
 """
 
+# ╔═╡ ce3f2d01-4c41-42fb-8136-5833caa76c7e
+md"""
+#
+"""
+
 # ╔═╡ a86a4033-82c8-43ba-892a-c0dd296cadbc
 subtypes(Float64)
 
@@ -67,6 +71,11 @@ Aha, a Real number. Makes sense. And a real number?
 # ╔═╡ 93f97e5a-1675-4987-8c58-d1ce4943982b
 supertypes(Real)
 
+# ╔═╡ 71a43e12-9f1e-4b4b-b141-f85516b9be9f
+md"""
+#
+"""
+
 # ╔═╡ d19385e0-678a-11eb-3156-c51cb20abe3e
 md"
 # Julia Base Type System
@@ -76,9 +85,12 @@ Here is the basics of the `Number` type in julia. This is just one part of the t
 At the very top of all types (not shown) is the `DataType` `Any`, from which all others are derived.
 "
 
+# ╔═╡ f6249141-8c42-4631-a487-c4a6afcd7b9d
+AbstractTrees.children(x::Type) = subtypes(x)
+
 # ╔═╡ c2b13386-256f-4df3-9ca4-64f6e551a91f
 with_terminal() do
-	print_tree(Number)
+	print_tree(stdout,Number)
 end
 
 # ╔═╡ aa5adfba-678e-11eb-02e4-210b8b753e21
@@ -310,6 +322,11 @@ The act of choosing which function to call based on the type of the arguments th
 
 For example, the following three calls to the `+` function each call *different* methods, defined in different locations. Click on the links to see the definition of each method in the Julia source code on GitHub!"
 
+# ╔═╡ 4204309d-65e7-40c5-8e7a-3b779814c1ef
+md"""
+#
+"""
+
 # ╔═╡ 814e328c-f6de-11ea-13c0-d1b97714c4f3
 cc = 3 + 4im
 
@@ -327,6 +344,11 @@ cc + cc
 
 # ╔═╡ 8cd9f438-f6de-11ea-2b58-93bbb860a005
 @which 3 + cc
+
+# ╔═╡ d6183261-d370-412f-95d1-7a066b5d03ec
+md"""
+#
+"""
 
 # ╔═╡ 549c63e4-670c-11eb-2574-55611c612e43
 md"
@@ -599,6 +621,7 @@ PlutoUI = "~0.7.17"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
+julia_version = "1.7.1"
 manifest_format = "2.0"
 
 [[deps.AbstractTrees]]
@@ -965,6 +988,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─91ba119e-670a-11eb-0bb2-15ac7192e7e7
 # ╟─92cef0a4-670a-11eb-2df2-5b31a1602299
 # ╟─3b265f7c-d500-4e34-8770-55c74ff8e306
+# ╟─ce3f2d01-4c41-42fb-8136-5833caa76c7e
 # ╠═a86a4033-82c8-43ba-892a-c0dd296cadbc
 # ╟─d3b34825-28a5-4f84-9b5f-daa7514a59bc
 # ╠═b98fae39-681e-42cf-a788-2052373b2f7e
@@ -972,8 +996,10 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═d26e157d-af55-4ee3-9a02-ff0bbb511113
 # ╟─c44d5856-4a43-403c-b71d-e96cdadf11d5
 # ╠═93f97e5a-1675-4987-8c58-d1ce4943982b
+# ╟─71a43e12-9f1e-4b4b-b141-f85516b9be9f
 # ╟─ae8ee93d-4956-46cc-86c5-7be8b74500ac
 # ╟─d19385e0-678a-11eb-3156-c51cb20abe3e
+# ╠═f6249141-8c42-4631-a487-c4a6afcd7b9d
 # ╠═c2b13386-256f-4df3-9ca4-64f6e551a91f
 # ╠═aa5adfba-678e-11eb-02e4-210b8b753e21
 # ╠═bff062f0-678e-11eb-131d-e11297e36d4b
@@ -1026,12 +1052,14 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─79fa562e-f6dd-11ea-2e97-df3c62c83685
 # ╟─a1d2ae6c-f6dd-11ea-0216-ef9db5d9e29b
 # ╟─41e21994-f6de-11ea-0e5c-0515a3a52f6f
+# ╟─4204309d-65e7-40c5-8e7a-3b779814c1ef
 # ╠═814e328c-f6de-11ea-13c0-d1b97714c4f3
 # ╠═cdd3e14e-f6f5-11ea-15e2-bd309e658823
 # ╠═e01e26f2-f6f5-11ea-13b0-95413a6f7290
 # ╠═84cae75c-f6de-11ea-3cd4-1b263e34771f
 # ╠═8ac4904a-f6de-11ea-105b-8925016ca6d5
 # ╠═8cd9f438-f6de-11ea-2b58-93bbb860a005
+# ╟─d6183261-d370-412f-95d1-7a066b5d03ec
 # ╟─b04f3eb1-9a24-42ab-8ff1-db69b0cd97ac
 # ╟─549c63e4-670c-11eb-2574-55611c612e43
 # ╟─1a5ca388-670e-11eb-0321-51c90fcbef35
@@ -1064,6 +1092,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─e2b3e500-6728-11eb-3b01-f769c8a4c799
 # ╠═fc2f870c-6728-11eb-06ff-ab6affcfaefe
 # ╠═5d72de64-672a-11eb-2b64-e73f79c72d9c
-# ╠═525ce1f7-c433-4aa8-b5b7-17c334d93ba1
+# ╟─525ce1f7-c433-4aa8-b5b7-17c334d93ba1
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -20,6 +20,9 @@ md"""
 Florian Oswald, 2022
 """
 
+# ╔═╡ a91e6f40-54e3-4ed9-af97-923068ab7ff1
+html"<button onclick='present()'>present</button>"
+
 # ╔═╡ 87f1838d-1630-4e38-928a-50e6c032eeb8
 md"""
 ## The Basics
@@ -37,6 +40,11 @@ md"""
 
 """
 
+# ╔═╡ a6dbe781-9db9-4804-8341-e5203ebfa5fe
+md"""
+#
+"""
+
 # ╔═╡ dc10db9a-d42e-4823-9a84-dfcae53cf2f9
 md"""
 ## Measure and Benchmark
@@ -49,6 +57,11 @@ md"""
 ### Avoid global variables
 
 If you have to, mark them with `const x` inside some namespace (like a package). Do not measure the compilation time (i.e. the first run of a function), but the run time (second run):
+"""
+
+# ╔═╡ b290c05d-e77f-486c-b32a-b8e366b98d9f
+md"""
+#
 """
 
 # ╔═╡ 16dd0736-6f1b-422f-93c2-10a96ba70177
@@ -72,6 +85,11 @@ end
 with_terminal() do
 	@time sum_global()
 end
+
+# ╔═╡ 4e6afdd5-2c8d-45d2-99ba-ee7ddfbac6f1
+md"""
+#
+"""
 
 # ╔═╡ 06924d26-8f65-4288-a437-29209a736411
 md"""
@@ -97,13 +115,15 @@ end
 
 # ╔═╡ 6869e39f-cf70-4762-963f-42a4eb2fa72b
 md"""
+#
+
 * No memory allocation at all!
 * So, it seems leaving `x` in global scope means that there will some *copying* from global scope into the function scope, which means unnecessary work and lost time. Passing the argument leaves the array in place where it is.
 """
 
 # ╔═╡ a9573443-1c99-4318-ad04-932698a1e519
 md"""
-### Avoid Type Instabilities
+## Avoid Type Instabilities
 
 * Avoid tricking the JIT compiler that he can rely on your type being stable throughout the function.
 * If halfway through you change data type, that's an issue:
@@ -130,15 +150,22 @@ let's first verify that:
 
 # ╔═╡ 241852b8-5d82-4666-936d-49520a0d24cd
 md"""
+#
+
 ok, run the benchmarks!
 """
 
 # ╔═╡ 222db2b2-de06-4283-ae16-4a32c8dc7f8c
 bu = @benchmark unstable()
 
+# ╔═╡ 57c5bce7-7a96-41a6-a8ed-79aba5fbf795
+md"""
+#
+"""
+
 # ╔═╡ d2feab8e-c56a-4ae6-bafd-560c82b7d52d
 function stable()
-    x = 1.0  # x is an Int
+    x = 1.0  # x is afloat now
 	y = 1.0
     for i = 1:10_000
         x /= rand()  # this converts x into a float
@@ -152,11 +179,18 @@ bs = @benchmark stable()
 
 # ╔═╡ 6a17e7b7-f6b5-4108-a655-c20351c3475c
 md"""
+#
+
 That looks like a tiny difference, but notice that with more complicated functions, this problem will get much worse. Also, the functions are *identical* up to the `.0` in the beginning, a very small change to have such an impact:
 """
 
 # ╔═╡ 61f80625-140d-4e4f-8a1e-8860b8d56da6
 j = judge(median(bu), median(bs))
+
+# ╔═╡ 4a6ece68-f74c-4309-94bb-991e1da83295
+md"""
+#
+"""
 
 # ╔═╡ 28672e20-a27c-4157-a61b-0e1f212a85b9
 with_terminal() do
@@ -165,13 +199,15 @@ end
 
 # ╔═╡ 53af6951-2a42-469a-abc0-f49bb6b5a969
 md"""
-### Avoid Working Global Space - Use Functions instead!
+## Avoid Working Global Space - Use Functions instead!
 
 * all performance cricitcal code to be placed inside functions.
 """
 
 # ╔═╡ 19afe93e-b1e5-44b4-af94-01ae97c64281
 md"""
+#
+
 Why is that? well, because we can do this in the terminal (can't do it in Pluto!! 😄)
 """
 
@@ -185,6 +221,8 @@ end
 
 # ╔═╡ eaa7520e-8291-490d-8c4d-6e405f49ce58
 md"""
+#
+
 in other words, the compiler can't rely on any type remaining the same. 😞 
 Let's try this out. 
 """
@@ -201,6 +239,11 @@ bbad = @benchmark for i in 1:length(x)
     global a += x1[i]^2 + y1[i]^2
 end
 
+# ╔═╡ cb466ff4-8d04-4dea-bfa4-971788594352
+md"""
+#
+"""
+
 # ╔═╡ f1438738-1a45-4724-8427-d0122ce7960a
 function localf(x, y)
     a = zero(eltype(x))
@@ -213,6 +256,11 @@ end
 # ╔═╡ e181d712-60ce-4bab-ada8-c8baa4686ff7
 bgood = @benchmark localf(x1,y1)
 
+# ╔═╡ 12feebe1-c7e6-433a-bda5-d3f6cb18eabf
+md"""
+#
+"""
+
 # ╔═╡ 9823cd75-de85-4e8d-bb4e-915eb3ed687a
 judge(median(bbad), median(bgood))
 
@@ -223,11 +271,16 @@ md"""
 
 # ╔═╡ d4ab1138-e8da-4111-8259-0d37c5fd5e22
 md"""
-### Pre-allocate Output
+## Pre-allocate Output
 
 * If you can, it may be a good idea to pre-allocate an output array.
 * Particularly, if you have to call a function many times over.
 * Let's look simple matrix multiplication. In a first function, we return a *new matrix* (the result) each time, in the second version, we prepared an output array *to write into*:
+"""
+
+# ╔═╡ 1d5fe023-6bd7-480e-99f1-b8b362e33f4c
+md"""
+#
 """
 
 # ╔═╡ 313f2ffb-440b-45f7-a5ef-f295db73c45e
@@ -247,8 +300,10 @@ begin
 end
 
 
-# ╔═╡ d2f0cc3c-2492-425e-8c2e-5aa1d66537d7
-
+# ╔═╡ 941d5692-ee65-423f-bd33-4683664e55ee
+md"""
+#
+"""
 
 # ╔═╡ d34cc463-127a-46eb-95a1-a0e250eeea8f
 begin
@@ -262,11 +317,26 @@ end
 # ╔═╡ 5388eb5d-ecc0-4e0b-90f8-0ca4d275f4fd
 abad = @benchmark randmul($n)
 
+# ╔═╡ a02f7f5e-4fad-4cea-8543-f997de8a21a3
+md"""
+#
+"""
+
 # ╔═╡ f72f2b7c-1932-49cc-8fb2-43ac0849e0d7
 agood = @benchmark randmul!($C, $A, $B)
 
+# ╔═╡ c304ea03-5e69-47ed-ba13-93f9c9494a41
+md"""
+#
+"""
+
 # ╔═╡ 26e581f4-6c89-4cd7-812e-ab28be0cf99c
 judge(median(abad), median(agood))
+
+# ╔═╡ 9320ee4a-3626-4d38-ab08-d267d28c9e95
+md"""
+#
+"""
 
 # ╔═╡ 1fdc3d69-3fb1-4e4f-9825-08945e06df7f
 begin
@@ -552,13 +622,17 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╔═╡ Cell order:
 # ╟─9deadd22-8766-11ec-3432-5f61ec091f16
 # ╠═0339da02-4ee2-40a6-b25f-0955f25aacd9
+# ╟─a91e6f40-54e3-4ed9-af97-923068ab7ff1
 # ╟─87f1838d-1630-4e38-928a-50e6c032eeb8
+# ╟─a6dbe781-9db9-4804-8341-e5203ebfa5fe
 # ╟─ea997773-7453-4227-bf94-7e89274ae15e
 # ╟─dc10db9a-d42e-4823-9a84-dfcae53cf2f9
+# ╟─b290c05d-e77f-486c-b32a-b8e366b98d9f
 # ╠═a7023bf2-91c8-40dc-ae4d-6baaafe92522
 # ╠═16dd0736-6f1b-422f-93c2-10a96ba70177
 # ╠═80ac3661-2b10-4194-aa95-27c86bad05ce
 # ╠═8aa13a67-812e-4440-bb5a-92ad6bae8ef9
+# ╟─4e6afdd5-2c8d-45d2-99ba-ee7ddfbac6f1
 # ╟─06924d26-8f65-4288-a437-29209a736411
 # ╠═f519847f-2fde-4c35-b6bf-b1306723e45c
 # ╠═1b73ff00-b46f-4315-b9ba-88a4ec5ccb30
@@ -569,11 +643,13 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═9fc6575d-fab6-4b51-8160-53a70a875ac5
 # ╟─241852b8-5d82-4666-936d-49520a0d24cd
 # ╠═222db2b2-de06-4283-ae16-4a32c8dc7f8c
+# ╟─57c5bce7-7a96-41a6-a8ed-79aba5fbf795
 # ╠═d2feab8e-c56a-4ae6-bafd-560c82b7d52d
 # ╠═ac9352d5-b6e3-4e84-b07c-316b18dc809d
 # ╟─6a17e7b7-f6b5-4108-a655-c20351c3475c
 # ╠═61f80625-140d-4e4f-8a1e-8860b8d56da6
 # ╟─1c26b7de-fc29-49e4-9a6e-fc25d08e3f76
+# ╟─4a6ece68-f74c-4309-94bb-991e1da83295
 # ╟─768f5bee-44fc-4f38-9e90-00713ec397f0
 # ╠═28672e20-a27c-4157-a61b-0e1f212a85b9
 # ╟─53af6951-2a42-469a-abc0-f49bb6b5a969
@@ -583,18 +659,24 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─eaa7520e-8291-490d-8c4d-6e405f49ce58
 # ╠═be553fa2-366f-4043-8fe1-20207e21643e
 # ╠═63bfd723-78d4-48b1-b2d3-c856a926ecc9
+# ╟─cb466ff4-8d04-4dea-bfa4-971788594352
 # ╠═f1438738-1a45-4724-8427-d0122ce7960a
 # ╠═e181d712-60ce-4bab-ada8-c8baa4686ff7
+# ╟─12feebe1-c7e6-433a-bda5-d3f6cb18eabf
 # ╠═9823cd75-de85-4e8d-bb4e-915eb3ed687a
 # ╟─ac59696f-8085-43d3-b348-05eb7a99a352
 # ╟─d4ab1138-e8da-4111-8259-0d37c5fd5e22
+# ╟─1d5fe023-6bd7-480e-99f1-b8b362e33f4c
 # ╠═313f2ffb-440b-45f7-a5ef-f295db73c45e
-# ╠═d2f0cc3c-2492-425e-8c2e-5aa1d66537d7
+# ╟─941d5692-ee65-423f-bd33-4683664e55ee
 # ╠═d34cc463-127a-46eb-95a1-a0e250eeea8f
 # ╠═5388eb5d-ecc0-4e0b-90f8-0ca4d275f4fd
+# ╟─a02f7f5e-4fad-4cea-8543-f997de8a21a3
 # ╠═f72f2b7c-1932-49cc-8fb2-43ac0849e0d7
+# ╟─c304ea03-5e69-47ed-ba13-93f9c9494a41
 # ╠═26e581f4-6c89-4cd7-812e-ab28be0cf99c
+# ╟─9320ee4a-3626-4d38-ab08-d267d28c9e95
 # ╟─c733ac51-adbe-4d79-8ddb-07417b6b19f9
-# ╠═1fdc3d69-3fb1-4e4f-9825-08945e06df7f
+# ╟─1fdc3d69-3fb1-4e4f-9825-08945e06df7f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

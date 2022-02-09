@@ -63,8 +63,8 @@ md"""
 For example, run this loop in your terminal (You don't have to worry about the `with_terminal() do ... end` stuff, that's just for me inside this Pluto notebook). You just copy this:
 
 ```julia
-for n ∈ 1:3
-	println(n)
+for i ∈ 1:3
+	println(i)
 end
 ```
 """
@@ -76,10 +76,13 @@ here is me inside Pluto (I have to *simulate* what the terminal looks like if I 
 
 # ╔═╡ 77cbaffd-9ded-4032-8670-bf0d64ff701c
 with_terminal() do
-	for n ∈ 1:3
-		println(n)
+	for i ∈ 1:3
+		println(i)
 	end
 end
+
+# ╔═╡ ac4917fe-446a-40b1-a6ca-ba00e4428e40
+i  # does not exist outside of the loop
 
 # ╔═╡ b88de86f-f510-4c5c-a52c-5e66fb27d517
 md"""
@@ -96,24 +99,41 @@ with_terminal() do  # again, you don't need this...
 	end
 end  # ...and that
 
+# ╔═╡ 8f5f7cc0-6122-45c0-bf3c-59ac878c2567
+md"""
+similarly, the `enumerate` function is quite handy
+"""
+
+# ╔═╡ 1db1fcf2-d8c2-4fd4-a84d-ec4ef48cb95d
+with_terminal() do  # again, you don't need this...
+	for (ix,v) in enumerate(rand(3))
+		println("index numer $ix has value $v")
+	end
+end  # ...and that
+
 # ╔═╡ 142d25a9-e122-4253-8736-cdb10b123fc9
 md"""
 similarly, we have a standard *while* loop:
 """
 
-# ╔═╡ 50ff9608-93b3-4181-b019-a20b587749dd
-n = 0
+# ╔═╡ 3825d343-6107-45ca-9b7a-7b654bd552e9
+md"""
+```julia
+julia> n = 0
 
-# ╔═╡ ac4917fe-446a-40b1-a6ca-ba00e4428e40
-n  # does not exist outside of the loop
+julia> while n < 4
+			n += 1
+            println(n)
+       end
+1
+2
+3
+4
 
-# ╔═╡ ff25ba08-617e-487b-aa17-471942818e12
-with_terminal() do
-	while n < 4
-		n += 1
-		println(n)
-	end
-end
+julia> n
+4
+```
+"""
 
 # ╔═╡ 6cdd5994-b881-47f4-add7-1b6ac7349c76
 m = 4
@@ -351,7 +371,7 @@ you will very quickly find the correct result of $\sqrt{y}$.
 
 1. in a `.jl` file, define function `mysqrt_step(a,x)`, which returns the next guess for `x` as in the above formula.
 2. Try out your function manually in the REPL to compute $\sqrt{4}$, by calling `mysqrt_step(4,6)`, and then repeatedly using the output of the function to replace the second argument (so, instead of the `6` you put what comes out of the function).
-3. define a second function, `mysqrt(a,x; tol = 1e-8)`, which *iterates* on `mysqrt_step(a,x)` for *as long as the absolute distance* between two successive guesses for `x` is larger the value set in keyword argument `tol`. Make the function return a tuple `(x,iters)`, where `iters` is the number of iterations the function needed to converge to the true value.
+3. define a second function, `mysqrt(a,x; tol = 1e-8)`, which *iterates* on `mysqrt_step(a,x)` for *as long as the absolute distance* between two successive guesses for `x` is larger than the value set in keyword argument `tol`. Make the function return a tuple `(x,iters)`, where `iters` is the number of iterations the function needed to converge to the true value.
 4. Finally, 😓, write a function `sqrt_table()` which takes values for `a = 2:10`, and uses initial guesses `x = a^2`, and prints the output of `mysqrt(a,x)` to the following table, and onto your terminal. You want to get this output:
 ```
 julia> sqrt_table()
@@ -628,13 +648,14 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─b88de86f-f510-4c5c-a52c-5e66fb27d517
 # ╠═cf992726-f7d9-42f8-a0db-108861ebae8f
 # ╠═a48694a3-7b90-4811-a860-0620b604bf77
-# ╠═142d25a9-e122-4253-8736-cdb10b123fc9
-# ╠═50ff9608-93b3-4181-b019-a20b587749dd
-# ╠═ff25ba08-617e-487b-aa17-471942818e12
+# ╠═8f5f7cc0-6122-45c0-bf3c-59ac878c2567
+# ╠═1db1fcf2-d8c2-4fd4-a84d-ec4ef48cb95d
+# ╟─142d25a9-e122-4253-8736-cdb10b123fc9
+# ╟─3825d343-6107-45ca-9b7a-7b654bd552e9
 # ╠═6cdd5994-b881-47f4-add7-1b6ac7349c76
 # ╟─b3b3b926-72ff-482a-900d-20a8a5595e6c
 # ╠═681733ec-046d-49fe-ae65-ec36e7b62509
-# ╠═b5274ca3-07d5-4340-ae5f-8609d0c190e0
+# ╟─b5274ca3-07d5-4340-ae5f-8609d0c190e0
 # ╠═4983b419-ca26-486a-a5ce-4af1901c625c
 # ╟─06101a96-097a-4cba-955a-a54ac48b24db
 # ╠═12024ae2-c9cd-45d9-9bda-305e69cd6054

@@ -13,6 +13,9 @@ begin
 	using LaTeXStrings
 end
 
+# ╔═╡ 72dcf814-56d6-4910-9b51-65a16771a604
+html"<button onclick='present()'>present</button>"
+
 # ╔═╡ bd096b98-88ff-11ec-1048-0d2065bec56e
 md"""
 
@@ -24,16 +27,14 @@ There are several great plotting packages for julia.
 2. Plots.jl
 3. Makie.jl
 
-All are under this [github organization](https://github.com/JuliaPlots). We will look at 
-
-## Plots.jl
+All are under this [github organization](https://github.com/JuliaPlots). We will look at Plots.jl.
  
 Plots.jl is a non-traditional plotting library
 
 - It does not implement a "plotting backend" itself, it's a plotting API
 - The API is easily extendable via recipes
 
-### Documentation
+## Documentation
 
 The rapidly growing documentation is at [http://docs.juliaplots.org/latest/](http://docs.juliaplots.org/latest/)
 
@@ -58,6 +59,8 @@ We will mostly rely on the default option, which is `GR`. More [about Backends](
 
 # ╔═╡ 97119fd0-2b5c-41d9-b81d-79d15408a6d3
 md"""
+#
+
 Let's start with an empty plot:
 """
 
@@ -66,6 +69,8 @@ plot()
 
 # ╔═╡ 7e4fa80e-a4bd-4ecc-b376-18990cf7f8cd
 md"""
+#
+
 The package works by giving arguments to `plot` which will produce a ... plot! We will work a lot with keyword arguments. Like, *title*:
 """
 
@@ -74,6 +79,7 @@ plot(title = "That's the title!")
 
 # ╔═╡ fec279e4-15e9-4bb0-bdfa-f42727fad927
 md"""
+#
 of course, we want to plot some data. in 2D, there is `x` and `y`. for a bar graph, for instance, there is just `x`. For 3D there is `x`,`y`, and `z`. You can give a vector for each, or you can give a matrix, in which case each row is an index on the x axis, and each column will be plotted on `y`.
 """
 
@@ -84,36 +90,61 @@ let
 	plot(x,y)  # by default, draws a line
 end
 
+# ╔═╡ 039628f1-c585-42be-a4be-f5a16a78e98d
+md"""
+#
+"""
+
 # ╔═╡ 2c17e126-7cb4-4a9a-80f7-1c55aff8de07
 fd = Plots.fakedata(10,2)
 
 # ╔═╡ bf74e7ce-92ac-4884-8266-3baa22bfd015
 plot(fd, title = "plotting a 10x2 matrix")
 
+# ╔═╡ 22518c42-1b58-412c-8ead-e4bee39b0e1b
+md"""
+#
+"""
+
 # ╔═╡ fafa835f-183d-4507-8525-ac688917195c
 plot(-5:1:4, fd, title = "plotting a 10x2 matrix\nwith a specific x axis")
 
 # ╔═╡ 7ee250a1-5cc4-45a2-bc12-452cff3b4502
 md"""
+#
 we can also supply a parametric function right away:
 """
 
 # ╔═╡ 9cc7d77c-fcd0-4806-9ebe-6f1f64f1d341
 plot(sin, 0, 2π, label = L"\sin(x)", xlabel = L"x")
 
+# ╔═╡ e23dbc9c-dd9d-4e97-895c-21c6aa3aec06
+md"""
+#
+"""
+
 # ╔═╡ fe626e2d-a066-45ff-9a4f-0d2ff19d37d6
 md"""
+## Step by Step
+
 What is very nice that we can build up a plot step by step:
 """
 
 # ╔═╡ 51371062-a5a2-487d-8de1-3ebde6f89f9a
 p = plot(sin, 0, 2π, label = L"\sin(x)", xlabel = L"x")  # same as above
 
+# ╔═╡ dd462c06-4538-41f1-9e5a-f6fb7c6b38a3
+md"""
+#
+"""
+
 # ╔═╡ 1722e4c4-b476-48e3-8a17-8acb63bbb7c8
 plot!(p, cos, 0, 2π, label = L"\cos(x)")  # plot into p
 
 # ╔═╡ f9bc5276-72ec-424e-8f62-2484f2264423
 md"""
+#
+
 can also to in one go, without a variable that holds the plot:
 """
 
@@ -126,12 +157,17 @@ end
 
 # ╔═╡ be68f03d-7408-4ff6-8c51-f53de932c25e
 md"""
-### Animations
+## Animations
 
 * That thing with plotting into an existing plot is very powerful
 * We can easily build *animations*
 * An animation is just a series of plots, one displayed after the other.
 
+"""
+
+# ╔═╡ 49da4bd0-e44b-4181-a0f2-e6411a85cfc1
+md"""
+#
 """
 
 # ╔═╡ af20ff2e-c470-4184-a3b1-3f379532c2e8
@@ -158,20 +194,32 @@ I find it easiest to use this page to find the right attributes: [https://docs.j
 
 # ╔═╡ db7c05af-5542-4e31-8332-5b884e0a923b
 md"""
+#
 for example, suppose we wanted to add *markers* to each data point our linesplot above:
 """
 
 # ╔═╡ 5b4b5cb9-031e-424f-8999-53abc950e659
 plot(fd, markershape = :circle)
 
+# ╔═╡ e073d8d2-d729-46ad-86b6-7847e2df7914
+md"""
+#
+"""
+
 # ╔═╡ 92463ff5-bcef-48dc-9f7e-ac8e0d354196
 plot(fd, markershape = [:circle :star])   # for each col of data, different attributes
+
+# ╔═╡ 387b58e8-8d9b-4aa0-9203-2d7bbc0ad61b
+md"""
+#
+"""
 
 # ╔═╡ e31c04ca-fc47-49a7-8921-4296b80570b6
 plot(fd, markershape = [:circle :star], markercolor = [:green :yellow]) 
 
 # ╔═╡ 64510403-eadb-4ae4-b20f-bd4b6231be26
 md"""
+#
 So-called *magic arguments* will figure out automatically what is what (color, size, linewidth etc if you give them as a tuple of arguments:
 """
 
@@ -179,14 +227,24 @@ So-called *magic arguments* will figure out automatically what is what (color, s
 plot(fd, marker = ([:circle :star], [:green :yellow], [5 4]), 
 	     line = ([:dash :dot], [:black :red], [2 3]))
 
+# ╔═╡ 79029e85-f246-404d-bca2-e585aaacfe6d
+md"""
+#
+"""
+
 # ╔═╡ 6dcc0aa4-7c53-45ee-a33c-a968bfc44c9e
 # even more adventurours: m for marker, l for line
 plot(fd, m = ([:circle :star], [:green :yellow], [5 4]), 
 	     l = ([:dash :dot], [:black :red], [2 3]))
 
+# ╔═╡ 10f1abfa-2a6d-4dc5-8b8f-fccf7530f845
+md"""
+#
+"""
+
 # ╔═╡ 633ed0d9-748f-4142-bbd7-762116f14e26
 md"""
-### `z_line` and `z_marker`
+## `z_line` and `z_marker`
 
 Of course, we can map data onto different elements of the plot other than x,y. we can add a `z` layer to a 2D plot with a color bar, for instance:
 """
@@ -201,6 +259,8 @@ plot(fd, m = ([:circle :star], [5 4]), marker_z = 10:-1:1,
 
 # ╔═╡ 018a3364-8e6a-452c-a553-6bd86d50cb3c
 md"""
+#
+
 or with `line_z` we can color the line with some data value:
 """
 
@@ -224,6 +284,11 @@ md"""
 We often want to present more plots together. The `@layout` macro is here to help. Look how we can split data over several subplots by just saying `layout = (1,5)` (for a 1 by 5 panel):
 """
 
+# ╔═╡ 0f492675-a9a6-4455-b185-66394e36b7c2
+md"""
+#
+"""
+
 # ╔═╡ 5b1f950c-06f4-4b77-8ab3-21b157f0168b
 plot(randn(100, 5),   # 5 columns of data
 	      seriestype = [:line :histogram :scatter :steppre :bar], # 5 types
@@ -234,6 +299,8 @@ plot(randn(100, 5),   # 5 columns of data
 
 # ╔═╡ 6a2f983d-6e59-4e9f-bed2-ec4ae324c4de
 md"""
+#
+
 we can be more more sophisticated than the 1,5 layout with the `@layout` macro. here `(a,b,c,d,e)` have no meaning other than distinguishing plots by some name. the `{0.1h}` means *occupies 0.1 of overall height*. You can see how we use array indexing to construct a *plot matrix*:
 """
 
@@ -250,6 +317,7 @@ plot(randn(100, 5),   # 5 columns of data
 
 # ╔═╡ e13f1e6d-b80b-4e97-b523-514d8bc4c3d9
 md"""
+#
 ok, let's add a title to each sub plot
 """
 
@@ -263,6 +331,7 @@ plot(randn(100, 5),   # 5 columns of data
 
 # ╔═╡ 8818ac46-8f1f-4013-9e97-dd372ed92f79
 md"""
+#
 ok, but suppose we want more fine-grained control. like plot (1) should not have y-axis ticks, but all the other should. we can build each plot separately, and then paste together.
 """
 
@@ -288,6 +357,8 @@ end
 
 # ╔═╡ 6aae93f7-9e9e-4b2b-b8fb-64b2379e3d92
 md"""
+#
+
 it's often useful to *link* axis in a subplot, such that they are comparable:
 """
 
@@ -301,6 +372,11 @@ let
                     sin(x)
 		 end)), layout = 2, link = :y)  # same y-axis
 end
+
+# ╔═╡ d2684844-2004-4a2e-8deb-42e90e675e30
+md"""
+#
+"""
 
 # ╔═╡ ac9940c8-6cf9-42ae-9ee9-f5f507700dd5
 md"""
@@ -322,6 +398,8 @@ end
 
 # ╔═╡ 20c6e826-5c04-4781-bd3a-113f43bf8e3d
 md"""
+#
+
 Let's look at this beauty from the Plots.jl homepage:
 """
 
@@ -1616,58 +1694,70 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
+# ╠═a5c79ca7-3d19-40a2-9d0d-68788af619dd
+# ╟─72dcf814-56d6-4910-9b51-65a16771a604
 # ╟─bd096b98-88ff-11ec-1048-0d2065bec56e
 # ╟─5d5aff20-b33b-477c-8e54-223153d9ef67
-# ╠═a5c79ca7-3d19-40a2-9d0d-68788af619dd
-# ╠═97119fd0-2b5c-41d9-b81d-79d15408a6d3
+# ╟─97119fd0-2b5c-41d9-b81d-79d15408a6d3
 # ╠═57937b23-4cbf-4b10-9671-f75b9f21b161
-# ╠═7e4fa80e-a4bd-4ecc-b376-18990cf7f8cd
+# ╟─7e4fa80e-a4bd-4ecc-b376-18990cf7f8cd
 # ╠═f4184057-60d0-4d68-8a16-193437722097
-# ╠═fec279e4-15e9-4bb0-bdfa-f42727fad927
+# ╟─fec279e4-15e9-4bb0-bdfa-f42727fad927
 # ╠═969bd23e-529a-4b7c-8c54-3680e04c7030
+# ╟─039628f1-c585-42be-a4be-f5a16a78e98d
 # ╠═2c17e126-7cb4-4a9a-80f7-1c55aff8de07
 # ╠═bf74e7ce-92ac-4884-8266-3baa22bfd015
+# ╟─22518c42-1b58-412c-8ead-e4bee39b0e1b
 # ╠═fafa835f-183d-4507-8525-ac688917195c
-# ╠═7ee250a1-5cc4-45a2-bc12-452cff3b4502
+# ╟─7ee250a1-5cc4-45a2-bc12-452cff3b4502
 # ╠═9cc7d77c-fcd0-4806-9ebe-6f1f64f1d341
-# ╠═a403d89b-1a38-464c-bde6-cf3fbc33c790
-# ╠═fe626e2d-a066-45ff-9a4f-0d2ff19d37d6
+# ╟─e23dbc9c-dd9d-4e97-895c-21c6aa3aec06
+# ╟─a403d89b-1a38-464c-bde6-cf3fbc33c790
+# ╟─fe626e2d-a066-45ff-9a4f-0d2ff19d37d6
 # ╠═51371062-a5a2-487d-8de1-3ebde6f89f9a
+# ╟─dd462c06-4538-41f1-9e5a-f6fb7c6b38a3
 # ╠═1722e4c4-b476-48e3-8a17-8acb63bbb7c8
-# ╠═f9bc5276-72ec-424e-8f62-2484f2264423
+# ╟─f9bc5276-72ec-424e-8f62-2484f2264423
 # ╠═eb0cc3fc-0aed-468d-846d-c6f1a63dad4e
 # ╟─be68f03d-7408-4ff6-8c51-f53de932c25e
+# ╟─49da4bd0-e44b-4181-a0f2-e6411a85cfc1
 # ╠═af20ff2e-c470-4184-a3b1-3f379532c2e8
 # ╟─16da01dd-77c9-47b6-a9cf-22e5d8bbe212
-# ╠═db7c05af-5542-4e31-8332-5b884e0a923b
+# ╟─db7c05af-5542-4e31-8332-5b884e0a923b
 # ╠═5b4b5cb9-031e-424f-8999-53abc950e659
+# ╟─e073d8d2-d729-46ad-86b6-7847e2df7914
 # ╠═92463ff5-bcef-48dc-9f7e-ac8e0d354196
+# ╟─387b58e8-8d9b-4aa0-9203-2d7bbc0ad61b
 # ╠═e31c04ca-fc47-49a7-8921-4296b80570b6
-# ╠═64510403-eadb-4ae4-b20f-bd4b6231be26
+# ╟─64510403-eadb-4ae4-b20f-bd4b6231be26
 # ╠═87878980-85cb-4ad9-bbe3-56f0a7230dd8
+# ╟─79029e85-f246-404d-bca2-e585aaacfe6d
 # ╠═6dcc0aa4-7c53-45ee-a33c-a968bfc44c9e
+# ╟─10f1abfa-2a6d-4dc5-8b8f-fccf7530f845
 # ╟─2140fd2e-418b-40f7-8ff6-b89b69dc82b9
-# ╠═633ed0d9-748f-4142-bbd7-762116f14e26
+# ╟─633ed0d9-748f-4142-bbd7-762116f14e26
 # ╠═927fd96f-7596-497c-872e-3da4295f86a3
-# ╠═018a3364-8e6a-452c-a553-6bd86d50cb3c
+# ╟─018a3364-8e6a-452c-a553-6bd86d50cb3c
 # ╠═e39417fe-53cf-4cdb-8f25-8d96112b1d46
 # ╟─2e87faf8-1ea4-41f2-b6b6-0a18ee211099
+# ╟─0f492675-a9a6-4455-b185-66394e36b7c2
 # ╠═5b1f950c-06f4-4b77-8ab3-21b157f0168b
-# ╠═6a2f983d-6e59-4e9f-bed2-ec4ae324c4de
+# ╟─6a2f983d-6e59-4e9f-bed2-ec4ae324c4de
 # ╠═2af33eb2-cce3-4e9a-a6a7-c5fc0b488c29
 # ╠═ca8eda7a-63a4-43cb-a967-3dff2cb0bf27
 # ╟─e13f1e6d-b80b-4e97-b523-514d8bc4c3d9
 # ╠═56211244-d2e5-461f-babf-245eee9fa386
 # ╟─8818ac46-8f1f-4013-9e97-dd372ed92f79
 # ╠═d3cc1664-f8e7-42e9-bc57-e06f322a175e
-# ╠═6aae93f7-9e9e-4b2b-b8fb-64b2379e3d92
+# ╟─6aae93f7-9e9e-4b2b-b8fb-64b2379e3d92
 # ╠═ca5fad34-5bf1-4cd3-9bf5-75af29b12f5a
+# ╟─d2684844-2004-4a2e-8deb-42e90e675e30
 # ╟─22ebc855-b9b9-4d59-9eff-38fd2e095882
-# ╠═ac9940c8-6cf9-42ae-9ee9-f5f507700dd5
+# ╟─ac9940c8-6cf9-42ae-9ee9-f5f507700dd5
 # ╠═67281658-c174-4b3c-9b21-b8f148bf2df3
 # ╟─20c6e826-5c04-4781-bd3a-113f43bf8e3d
 # ╠═85199bc1-ae5d-4178-804a-23ad8c1138d3
-# ╠═50a9ac7d-e250-4d44-9fc5-7e2434f3905d
-# ╠═eb947e46-4e64-49f2-87d4-6248ce0eef89
+# ╟─50a9ac7d-e250-4d44-9fc5-7e2434f3905d
+# ╟─eb947e46-4e64-49f2-87d4-6248ce0eef89
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -23,13 +23,21 @@ begin
 	using Interpolations
 end
 
+# ╔═╡ b58d8f96-ff99-48b4-8a7e-610fe2e697bb
+html"<button onclick='present()'>present</button>"
+
 # ╔═╡ af84faec-892b-11ec-3d91-6b0a56adf374
 md"""
-# Interactive Plotting
+# Julia Bootcamp - Interactive Plotting
 
 * Let's look a bit more at the Pluto.jl environment.
 * Let us start out with opening the sample notebook on `PlutoUI`!
-* There are *many* things I like about this, the best for me I think is the easiness with which you can create an interactive dashboard. Like, I call that easy:
+* There are *many* things I like about this, the best for me I think is the easiness with which you can create an interactive dashboard. 
+"""
+
+# ╔═╡ 59c3a032-18c2-4ddd-a638-886d822eab82
+md"""
+## Like, I call that easy
 """
 
 # ╔═╡ f5ec71b3-e364-4c52-8dea-cbb7b6af2771
@@ -60,6 +68,8 @@ Let's denote by $S_t$, $I_t$ and $R_t$ to be the number of susceptible, infectio
 
 On average, in each sweep each infectious individual has the chance to interact with one other individual. That individual is chosen uniformly at random from the total population of size $N$. But a new infection occurs *only if that chosen individual is susceptible*, which happens with probability $S_t / N$. Then, upon meeting a susceptible person, the infection is transmitted only with a certain probability, $b$, say.
 
+#
+
 Hence the change in the number of infectious people after that step is:
 
 
@@ -79,7 +89,14 @@ i_{t+1} &= i_t + b \, s_t \, i_t - g \, i_t\\
 r_{t+1} &= r_t + g \, i_t
 \end{align}$$
 
+"""
+
+# ╔═╡ 8b074244-b2c3-4c4a-8f6e-e188f63ff50d
+md"""
+#
+
 We can code this discrete version as follows:
+
 """
 
 # ╔═╡ c71ab949-3a59-49b6-8a1a-2242b9cdf809
@@ -94,6 +111,11 @@ begin
 	b = 0.1  # probability to pass infection on
 	g = 0.01 # probability to recover
 end
+
+# ╔═╡ 34dcd915-fb39-4c91-821b-692991438995
+md"""
+#
+"""
 
 # ╔═╡ 5c8016fb-1ec4-45c3-ba92-1ab8b51e14de
 function discrete_SIR(s0, i0, r0, T=1000)
@@ -119,6 +141,11 @@ function discrete_SIR(s0, i0, r0, T=1000)
 	return results
 end
 
+# ╔═╡ b6a83924-7ad9-4878-91b6-3798df28f483
+md"""
+#
+"""
+
 # ╔═╡ 0aa8199d-217a-4bd9-95db-7dcde0e916e2
 SIR = discrete_SIR(ss, ii, rr)
 
@@ -133,10 +160,15 @@ begin
 	xlims!(0, 500)
 end
 
+# ╔═╡ b4e88cf4-3799-43e1-ba33-b63ddb14f88a
+md"""
+#
+"""
+
 # ╔═╡ 9b1d140b-5f39-45f3-b618-7c2211f0dba9
 md"""
 
-### Continuous Time SIR 
+## Continuous Time SIR 
 
 ok, so that's quite cool. We can also allow the processes to occur in steps of length $\delta t$ and take the limit $\delta t \to 0$. With rates $\beta$ and $\gamma$ we obtain the standard (continuous-time) **SIR model**. Notice that we look for the *time derivatives* on the LHS of those equations, i.e. how does the number of susceptible change with small $t$?
 
@@ -147,6 +179,11 @@ $$\begin{align}
 \end{align}$$
 
 Note that no analytical solutions of these (simple) nonlinear ODEs are known as a function of time! Thankfully, julia has the *best Differential Equations infrastructure in the world*, so fear not. Here's the setup:
+"""
+
+# ╔═╡ 4759ee9b-0140-4476-ac37-e26e8ed01756
+md"""
+#
 """
 
 # ╔═╡ d20f9448-3864-48f8-88d9-3e65e2871098
@@ -167,11 +204,15 @@ end
 
 # ╔═╡ daaaf7cf-9425-4212-a013-0c16f7993d73
 md"""
+#
+
 we obtain the solution via [`DifferentialEquations.jl`](https://diffeq.sciml.ai/stable/):
 """
 
 # ╔═╡ 290b5261-4a06-4170-a421-4d62af9204be
 md"""
+#
+
 ...where we hooked up the inputs to a slider each. Then we plot the model for each configuration of the sliders!
 """
 
@@ -1774,22 +1815,29 @@ version = "0.9.1+5"
 
 # ╔═╡ Cell order:
 # ╠═03e3e2db-ca1a-436a-85c6-12e7f541dd78
+# ╟─b58d8f96-ff99-48b4-8a7e-610fe2e697bb
 # ╟─af84faec-892b-11ec-3d91-6b0a56adf374
+# ╟─59c3a032-18c2-4ddd-a638-886d822eab82
 # ╠═f5ec71b3-e364-4c52-8dea-cbb7b6af2771
 # ╠═b0f550ca-c04c-40da-9543-6cf40e202634
 # ╟─702e378e-42cc-487e-836f-03548abdfe5b
 # ╟─f6cf266b-bf42-439a-abd7-ecd890fe605d
+# ╟─8b074244-b2c3-4c4a-8f6e-e188f63ff50d
 # ╠═c71ab949-3a59-49b6-8a1a-2242b9cdf809
+# ╟─34dcd915-fb39-4c91-821b-692991438995
 # ╠═5c8016fb-1ec4-45c3-ba92-1ab8b51e14de
+# ╟─b6a83924-7ad9-4878-91b6-3798df28f483
 # ╠═0aa8199d-217a-4bd9-95db-7dcde0e916e2
-# ╠═16322c95-d013-4c03-81c3-39f89709fcda
+# ╟─16322c95-d013-4c03-81c3-39f89709fcda
+# ╟─b4e88cf4-3799-43e1-ba33-b63ddb14f88a
 # ╟─44a853a2-6bb8-404e-849f-047a87fbd81e
 # ╟─9b1d140b-5f39-45f3-b618-7c2211f0dba9
+# ╟─4759ee9b-0140-4476-ac37-e26e8ed01756
 # ╠═d20f9448-3864-48f8-88d9-3e65e2871098
 # ╟─daaaf7cf-9425-4212-a013-0c16f7993d73
 # ╠═dd98513d-4d9c-404f-b6a2-60ae07dfd3aa
 # ╟─290b5261-4a06-4170-a421-4d62af9204be
-# ╠═14e37615-aab7-4d08-896b-35d40928e53f
+# ╟─14e37615-aab7-4d08-896b-35d40928e53f
 # ╠═7d767bd7-5c36-4384-afa2-95ad35247d39
 # ╟─86c012db-35e8-4554-a3d8-2639909ecf8a
 # ╟─7a35a917-71ec-45a1-b8bd-207d1e41e6de
