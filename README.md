@@ -1,5 +1,8 @@
 # `Julia` Bootcamp (for Economists)     
 
+<p align="center"> <a href="https://floswald.github.io/julia-bootcamp/">:balloon: <b>Go to online notebooks</b> :balloon:</a></p>
+
+
 This is an 8-hours crash course to get going with the julia computing language. 
 
 > It says in the title *for Economists*, but that's mainly because I am one myself, and people in the profession asked me to teach this course; That said, you don't need any specific economics knowledge for this course.
@@ -14,6 +17,9 @@ We have 8 blocks of one hour each. Each block will be interrupted several times 
 The first session we will do freestyle, in terminal and VScode. then we will switch to notebooks. 
 
 > Notice that the notebooks are visible online at [https://floswald.github.io/julia-bootcamp/](https://floswald.github.io/julia-bootcamp/). You will need those during the questions in class!
+
+<p align="center"><a href="https://floswald.github.io/julia-bootcamp/">:balloon: <b>Go to online notebooks</b> :balloon:</a></p>
+
 
 * installing julia
 * installing vscode and julia extension
