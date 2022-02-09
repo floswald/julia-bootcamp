@@ -9,6 +9,8 @@ begin
 	using AbstractTrees
 	using PlutoUI
 	AbstractTrees.children(x::Type) = subtypes(x)
+	using BenchmarkTools
+	using LinearAlgebra
 end
 
 # ╔═╡ 9deadd22-8766-11ec-3432-5f61ec091f16
@@ -18,107 +20,253 @@ md"""
 Florian Oswald, 2022
 """
 
-# ╔═╡ becdcc2a-1c24-4512-a647-72ab124a793d
+# ╔═╡ 87f1838d-1630-4e38-928a-50e6c032eeb8
 md"""
-## Type System
+## The Basics
 
-We talked about types already - it's now time to dig a bit deeper and introduce the magnificent type system of julia.
+1. All performance critical code has to be inside a function
+2. Avoid global variables at all cost
+3. Pre-allocate arrays and/or avoid too much memory allocation in general
+4. Don't confuse the julia compiler by writing code with *type instability*
 
-1. We have seen that everything in julia has a certain *type*.
-2. We have also seen that functions can be made to behave differently, depending on which type they encounter. We called this *multiple dispatch*.
+### So. Why is julia fast anyway?
 
-Let's look a bit at the type tree for a start.
+* Julia runs as fast as C or fortran because the julia compiler (based on the [LLVM](https://llvm.org/) compiler) generates machine instructions which are very similar, if not identical to those low-level languages.
+* In cases where this is not true, something is wrong (usually with the code we wrote).
+* the key is how julia specializes instructions for the supplied input types: adding two `Int` is not the same LLVM instruction as is adding to `Float`s, for example.
+
 """
 
-# ╔═╡ 609ab407-3f3b-43c2-9a5d-2f714677ea40
-subtypes(Float64)
-
-# ╔═╡ c151b492-4057-4357-9139-689934703913
+# ╔═╡ dc10db9a-d42e-4823-9a84-dfcae53cf2f9
 md"""
-`Float64` does *not* have any subtypes, as it's a *leaf* of the tree - can't go any further. What is above `Float64`?
+## Measure and Benchmark
+
+* The first task is to accurately measure the time it takes to perform a certain task. 
+* `@time` is the base julia timing and memory usage macro.
+* `@btime` is from `BenchmarkTools.jl` and is more sophisticated. 
+* The built-in [code profiler](https://docs.julialang.org/en/v1/manual/profile/#Profiling) is very good. ProfileView.jl provides a GUI where you can click on the line that takes most time.
+
+### Avoid global variables
+
+If you have to, mark them with `const x` inside some namespace (like a package). Do not measure the compilation time (i.e. the first run of a function), but the run time (second run):
 """
 
-# ╔═╡ cde54e96-f76c-4eba-8ec3-114f611ce7d5
-supertype(Float64)
+# ╔═╡ 16dd0736-6f1b-422f-93c2-10a96ba70177
+x = rand(1000);
 
-# ╔═╡ 7f605c7e-8087-4657-bd1f-81b757b59448
-md"""
-ok, fine, but what is above an `AbstractFloat`?
-"""
+# ╔═╡ a7023bf2-91c8-40dc-ae4d-6baaafe92522
+function sum_global()
+    s = 0.0
+    for i in x
+		s += i
+    end
+    return s
+end
 
-# ╔═╡ c20c8570-e98c-4bd1-97af-e38ddcc6ea2b
-supertype(AbstractFloat)
-
-# ╔═╡ daa28017-0130-464e-a432-d67670d6042c
-md"""
-Aha, a Real number. Makes sense. And a real number?
-"""
-
-# ╔═╡ 8ba70638-a987-4ba2-8e92-85dfbcb47b43
-supertype(Real)
-
-# ╔═╡ 5326480a-cdab-4114-bd65-d6012520d387
-supertype(Number)
-
-# ╔═╡ 1b736303-b00e-4426-9e8f-436bb49d3a74
-supertype(Any)
-
-# ╔═╡ a21b6694-9bf0-4d9e-bad7-348cfd7bffd4
+# ╔═╡ 80ac3661-2b10-4194-aa95-27c86bad05ce
 with_terminal() do
-	print_tree(Number)
+	@time sum_global()
 end
 
-# ╔═╡ 4865adae-d945-48df-b598-da35cb10921f
-Float64 <: Number  # <: means "is subtype of"
-
-# ╔═╡ da34c2b8-4974-4774-9627-0aac3160caf9
-md"""
-## Abstract and Concrete Types
-
-* We saw the `AbstractFloat` type above. It used to organize the type system, and to define *methods* which are useful for all members of the `AbstractFloat` family.
-* The leaves of the tree are *concrete* types, which are the objects we actually work with.
-
-## Custom Types
-
-We can define our own data types as well. Those are called `struct`s. There is a key distinction between *mutable* (i.e. can be changed) and *immutable* ones:
-"""
-
-# ╔═╡ ca4de486-5abe-4325-b829-796f3237f3d8
-struct A   # that's immutable
-	x  # the contents of the struct
-	y
+# ╔═╡ 8aa13a67-812e-4440-bb5a-92ad6bae8ef9
+with_terminal() do
+	@time sum_global()
 end
 
-# ╔═╡ b603e489-4e52-4b72-b3b6-17f784135159
-mutable struct B  # thats...mutable!
-	x
-	y
+# ╔═╡ 06924d26-8f65-4288-a437-29209a736411
+md"""
+* In this example, we see a significant amount of memory allocation.
+* This is strange, as their should be nothing allocated: we just sum over a array `x` in global scope.
+* so there is a problem. This is a sign that we are allocating many small arrays or are otherwise messing up. 
+* Let's pass `x` as an arugement instead:
+"""
+
+# ╔═╡ f519847f-2fde-4c35-b6bf-b1306723e45c
+function sum_global_arg(x)
+    s = 0.0
+    for i in x
+		s += i
+    end
+    return s
 end
 
-# ╔═╡ a076c080-28a2-4850-844c-0a3132f3ad29
+# ╔═╡ 1b73ff00-b46f-4315-b9ba-88a4ec5ccb30
+with_terminal() do
+	@time sum_global_arg(x)
+end
+
+# ╔═╡ 6869e39f-cf70-4762-963f-42a4eb2fa72b
 md"""
-Once defined, we can *instantiate*, or *construct* an **instance** of our type like this, where we call `a` and `b` **instances** of their respective types:
+* No memory allocation at all!
+* So, it seems leaving `x` in global scope means that there will some *copying* from global scope into the function scope, which means unnecessary work and lost time. Passing the argument leaves the array in place where it is.
 """
 
-# ╔═╡ d59376c3-02d0-4b88-9f28-4fd6cc08c8b7
-a = A(1,2)
-
-# ╔═╡ f023598a-23e4-4343-89fa-7b485f3340df
-b = B(3,4)
-
-# ╔═╡ 8fb95048-e9af-474e-b3f3-5c42da90b23d
+# ╔═╡ a9573443-1c99-4318-ad04-932698a1e519
 md"""
-you can access the fields with the `.` operator:
+### Avoid Type Instabilities
+
+* Avoid tricking the JIT compiler that he can rely on your type being stable throughout the function.
+* If halfway through you change data type, that's an issue:
 """
 
-# ╔═╡ 1e78f842-bdb6-4af8-a770-7e13a132f5d0
-a.x
+# ╔═╡ 5a55126a-1193-4650-883d-5ee43df1b012
+function unstable()
+    x = 1  # x is an Int
+	y = 1
+    for i = 1:10_000
+        x /= rand()  # this converts x into a float
+		y += x
+    end
+    return x,y
+end
 
-# ╔═╡ 060524dd-6b86-43c4-9940-d07695c9ac32
-b.y
+# ╔═╡ 70d961ec-ef48-4da1-ada1-c4a480efab18
+md"""
+let's first verify that:
+"""
 
-# ╔═╡ 01321a99-ddae-4cf3-aa61-cd2782e4ef4a
+# ╔═╡ 9fc6575d-fab6-4b51-8160-53a70a875ac5
+(typeof(1),typeof(1.0), typeof(1/rand()))
 
+# ╔═╡ 241852b8-5d82-4666-936d-49520a0d24cd
+md"""
+ok, run the benchmarks!
+"""
+
+# ╔═╡ 222db2b2-de06-4283-ae16-4a32c8dc7f8c
+bu = @benchmark unstable()
+
+# ╔═╡ d2feab8e-c56a-4ae6-bafd-560c82b7d52d
+function stable()
+    x = 1.0  # x is an Int
+	y = 1.0
+    for i = 1:10_000
+        x /= rand()  # this converts x into a float
+		y += x
+    end
+    return x,y
+end
+
+# ╔═╡ ac9352d5-b6e3-4e84-b07c-316b18dc809d
+bs = @benchmark stable()
+
+# ╔═╡ 6a17e7b7-f6b5-4108-a655-c20351c3475c
+md"""
+That looks like a tiny difference, but notice that with more complicated functions, this problem will get much worse. Also, the functions are *identical* up to the `.0` in the beginning, a very small change to have such an impact:
+"""
+
+# ╔═╡ 61f80625-140d-4e4f-8a1e-8860b8d56da6
+j = judge(median(bu), median(bs))
+
+# ╔═╡ 28672e20-a27c-4157-a61b-0e1f212a85b9
+with_terminal() do
+	@code_warntype unstable()
+end
+
+# ╔═╡ 53af6951-2a42-469a-abc0-f49bb6b5a969
+md"""
+### Avoid Working Global Space - Use Functions instead!
+
+* all performance cricitcal code to be placed inside functions.
+"""
+
+# ╔═╡ 19afe93e-b1e5-44b4-af94-01ae97c64281
+md"""
+Why is that? well, because we can do this in the terminal (can't do it in Pluto!! 😄)
+"""
+
+# ╔═╡ fa3e04ea-f7f2-49ea-a1d0-a5b19baff3c3
+with_terminal() do
+	z = 1
+	println("now z is $z, of type $(typeof(z))")
+	z = "what?"
+	println("now z is $z, of type $(typeof(z))")
+end
+
+# ╔═╡ eaa7520e-8291-490d-8c4d-6e405f49ce58
+md"""
+in other words, the compiler can't rely on any type remaining the same. 😞 
+Let's try this out. 
+"""
+
+# ╔═╡ be553fa2-366f-4043-8fe1-20207e21643e
+begin
+	x1, y1 = rand(1000), rand(1000)
+	global a = 0.0  # need to declare a as `global`
+end
+
+
+# ╔═╡ 63bfd723-78d4-48b1-b2d3-c856a926ecc9
+bbad = @benchmark for i in 1:length(x)
+    global a += x1[i]^2 + y1[i]^2
+end
+
+# ╔═╡ f1438738-1a45-4724-8427-d0122ce7960a
+function localf(x, y)
+    a = zero(eltype(x))
+    for i in 1:length(x)
+        a += x[i]^2 + y[i]^2
+    end
+    return a
+end
+
+# ╔═╡ e181d712-60ce-4bab-ada8-c8baa4686ff7
+bgood = @benchmark localf(x1,y1)
+
+# ╔═╡ 9823cd75-de85-4e8d-bb4e-915eb3ed687a
+judge(median(bbad), median(bgood))
+
+# ╔═╡ ac59696f-8085-43d3-b348-05eb7a99a352
+md"""
+🤯
+"""
+
+# ╔═╡ d4ab1138-e8da-4111-8259-0d37c5fd5e22
+md"""
+### Pre-allocate Output
+
+* If you can, it may be a good idea to pre-allocate an output array.
+* Particularly, if you have to call a function many times over.
+* Let's look simple matrix multiplication. In a first function, we return a *new matrix* (the result) each time, in the second version, we prepared an output array *to write into*:
+"""
+
+# ╔═╡ 313f2ffb-440b-45f7-a5ef-f295db73c45e
+begin
+	# version 1: 
+	function randmul(n)
+	    A = fill(rand(), n, n); B = fill(rand(), n, n)
+	    return sum(A*B)  # first creates a new temp matrix, then sums over it
+	end
+	
+	# version 2: all matrices pre-allocated
+	function randmul!(C, A, B)
+	    fill!(A, rand()); fill!(B, rand())
+	    mul!(C, A, B)
+	    return sum(C)
+	end
+end
+
+
+# ╔═╡ d2f0cc3c-2492-425e-8c2e-5aa1d66537d7
+
+
+# ╔═╡ d34cc463-127a-46eb-95a1-a0e250eeea8f
+begin
+	n = 100;
+	A = fill(rand(), n, n)
+	B = copy(A); C = copy(A);
+
+	(randmul(n), randmul!(C, A, B)) # trigger compilation
+end
+
+# ╔═╡ 5388eb5d-ecc0-4e0b-90f8-0ca4d275f4fd
+abad = @benchmark randmul($n)
+
+# ╔═╡ f72f2b7c-1932-49cc-8fb2-43ac0849e0d7
+agood = @benchmark randmul!($C, $A, $B)
+
+# ╔═╡ 26e581f4-6c89-4cd7-812e-ab28be0cf99c
+judge(median(abad), median(agood))
 
 # ╔═╡ 1fdc3d69-3fb1-4e4f-9825-08945e06df7f
 begin
@@ -127,19 +275,56 @@ begin
 	danger(text) = Markdown.MD(Markdown.Admonition("danger", "Caution", [text]));
 end
 
-# ╔═╡ 478ddd4f-ab60-4d3d-8238-63f5061a2e11
-danger(md"""
-`Any` is the **mother of all types** in julia - it's the top of the type tree. Everything is a subtype of `Any`. In other words, if your data type is `Any`, it's the least specific data type possible, as *everything* can be `Any`. Picture?
+# ╔═╡ ea997773-7453-4227-bf94-7e89274ae15e
+info(md"""The manual section on [performance tips](https://docs.julialang.org/en/v1/manual/performance-tips/) is a great place to look for more on performance issues. Also, use [stackoverflow](https://stackoverflow.com/questions/tagged/julia) and the [julia discourse forum](https://discourse.julialang.org/) to post issues with your code not performing well. People are very helpful.
+"""
+)
+
+# ╔═╡ 1c26b7de-fc29-49e4-9a6e-fc25d08e3f76
+danger(md"That is $(round((j.ratio.time-1)*100,digits = 2))% slower!")
+
+# ╔═╡ 768f5bee-44fc-4f38-9e90-00713ec397f0
+info(md"""
+the `@code_warntype` macro is your friend!
+""")
+
+# ╔═╡ 83055867-8b4b-4054-9a23-2105c38341c3
+danger(md"**Evertying** in global scope is type instable!")
+
+# ╔═╡ c733ac51-adbe-4d79-8ddb-07417b6b19f9
+q(md"""
+* Use the `ProfileView.jl` package to profile this function:
+```julia
+function profile_test(n)
+    for i = 1:n
+        A = randn(100,100,20)
+        m = maximum(A)
+        Am = mapslices(sum, A; dims=2)
+        B = A[:,:,5]
+        Bsort = mapslices(sort, B; dims=1)
+        b = rand(100)
+        C = B.*b
+    end
+end
+```
+* Create a `.jl` file in VScode, and put `using Profile, using ProfileView` on top
+* install the `ProfileView` package
+* trigger compilation by calling `profile_test(1)` once.
+* look at the text output of `@profile profile_test(10)`
+* finally, call `ProfileView.@profview profile_test(10)` and look at the external window with the *flame graph* in it.
 """)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 AbstractTrees = "1520ce14-60c1-5f80-bbc7-55ef81b5835c"
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
 AbstractTrees = "~0.3.4"
+BenchmarkTools = "~1.3.0"
 PlutoUI = "~0.7.34"
 """
 
@@ -169,6 +354,12 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+
+[[deps.BenchmarkTools]]
+deps = ["JSON", "Logging", "Printf", "Profile", "Statistics", "UUIDs"]
+git-tree-sha1 = "be0cff14ad0059c1da5a017d66f763e6a637de6a"
+uuid = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+version = "1.3.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
@@ -288,6 +479,10 @@ version = "0.7.34"
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
+[[deps.Profile]]
+deps = ["Printf"]
+uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
+
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
@@ -357,29 +552,49 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╔═╡ Cell order:
 # ╟─9deadd22-8766-11ec-3432-5f61ec091f16
 # ╠═0339da02-4ee2-40a6-b25f-0955f25aacd9
-# ╠═becdcc2a-1c24-4512-a647-72ab124a793d
-# ╠═609ab407-3f3b-43c2-9a5d-2f714677ea40
-# ╠═c151b492-4057-4357-9139-689934703913
-# ╠═cde54e96-f76c-4eba-8ec3-114f611ce7d5
-# ╠═7f605c7e-8087-4657-bd1f-81b757b59448
-# ╠═c20c8570-e98c-4bd1-97af-e38ddcc6ea2b
-# ╠═daa28017-0130-464e-a432-d67670d6042c
-# ╠═8ba70638-a987-4ba2-8e92-85dfbcb47b43
-# ╠═5326480a-cdab-4114-bd65-d6012520d387
-# ╠═1b736303-b00e-4426-9e8f-436bb49d3a74
-# ╠═478ddd4f-ab60-4d3d-8238-63f5061a2e11
-# ╠═a21b6694-9bf0-4d9e-bad7-348cfd7bffd4
-# ╠═4865adae-d945-48df-b598-da35cb10921f
-# ╟─da34c2b8-4974-4774-9627-0aac3160caf9
-# ╠═ca4de486-5abe-4325-b829-796f3237f3d8
-# ╠═b603e489-4e52-4b72-b3b6-17f784135159
-# ╟─a076c080-28a2-4850-844c-0a3132f3ad29
-# ╠═d59376c3-02d0-4b88-9f28-4fd6cc08c8b7
-# ╠═f023598a-23e4-4343-89fa-7b485f3340df
-# ╠═8fb95048-e9af-474e-b3f3-5c42da90b23d
-# ╠═1e78f842-bdb6-4af8-a770-7e13a132f5d0
-# ╠═060524dd-6b86-43c4-9940-d07695c9ac32
-# ╠═01321a99-ddae-4cf3-aa61-cd2782e4ef4a
+# ╟─87f1838d-1630-4e38-928a-50e6c032eeb8
+# ╟─ea997773-7453-4227-bf94-7e89274ae15e
+# ╟─dc10db9a-d42e-4823-9a84-dfcae53cf2f9
+# ╠═a7023bf2-91c8-40dc-ae4d-6baaafe92522
+# ╠═16dd0736-6f1b-422f-93c2-10a96ba70177
+# ╠═80ac3661-2b10-4194-aa95-27c86bad05ce
+# ╠═8aa13a67-812e-4440-bb5a-92ad6bae8ef9
+# ╟─06924d26-8f65-4288-a437-29209a736411
+# ╠═f519847f-2fde-4c35-b6bf-b1306723e45c
+# ╠═1b73ff00-b46f-4315-b9ba-88a4ec5ccb30
+# ╟─6869e39f-cf70-4762-963f-42a4eb2fa72b
+# ╟─a9573443-1c99-4318-ad04-932698a1e519
+# ╠═5a55126a-1193-4650-883d-5ee43df1b012
+# ╟─70d961ec-ef48-4da1-ada1-c4a480efab18
+# ╠═9fc6575d-fab6-4b51-8160-53a70a875ac5
+# ╟─241852b8-5d82-4666-936d-49520a0d24cd
+# ╠═222db2b2-de06-4283-ae16-4a32c8dc7f8c
+# ╠═d2feab8e-c56a-4ae6-bafd-560c82b7d52d
+# ╠═ac9352d5-b6e3-4e84-b07c-316b18dc809d
+# ╟─6a17e7b7-f6b5-4108-a655-c20351c3475c
+# ╠═61f80625-140d-4e4f-8a1e-8860b8d56da6
+# ╟─1c26b7de-fc29-49e4-9a6e-fc25d08e3f76
+# ╟─768f5bee-44fc-4f38-9e90-00713ec397f0
+# ╠═28672e20-a27c-4157-a61b-0e1f212a85b9
+# ╟─53af6951-2a42-469a-abc0-f49bb6b5a969
+# ╟─83055867-8b4b-4054-9a23-2105c38341c3
+# ╟─19afe93e-b1e5-44b4-af94-01ae97c64281
+# ╠═fa3e04ea-f7f2-49ea-a1d0-a5b19baff3c3
+# ╟─eaa7520e-8291-490d-8c4d-6e405f49ce58
+# ╠═be553fa2-366f-4043-8fe1-20207e21643e
+# ╠═63bfd723-78d4-48b1-b2d3-c856a926ecc9
+# ╠═f1438738-1a45-4724-8427-d0122ce7960a
+# ╠═e181d712-60ce-4bab-ada8-c8baa4686ff7
+# ╠═9823cd75-de85-4e8d-bb4e-915eb3ed687a
+# ╟─ac59696f-8085-43d3-b348-05eb7a99a352
+# ╟─d4ab1138-e8da-4111-8259-0d37c5fd5e22
+# ╠═313f2ffb-440b-45f7-a5ef-f295db73c45e
+# ╠═d2f0cc3c-2492-425e-8c2e-5aa1d66537d7
+# ╠═d34cc463-127a-46eb-95a1-a0e250eeea8f
+# ╠═5388eb5d-ecc0-4e0b-90f8-0ca4d275f4fd
+# ╠═f72f2b7c-1932-49cc-8fb2-43ac0849e0d7
+# ╠═26e581f4-6c89-4cd7-812e-ab28be0cf99c
+# ╟─c733ac51-adbe-4d79-8ddb-07417b6b19f9
 # ╠═1fdc3d69-3fb1-4e4f-9825-08945e06df7f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
