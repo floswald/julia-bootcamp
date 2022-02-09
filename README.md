@@ -8,9 +8,12 @@ This is an 8-hours crash course to get going with the julia computing language.
 
 We have 8 blocks of one hour each. Each block will be interrupted several times along the way to check whether what I just said makes sense to you, and to allow you to formulate questions. 
 
-short topics
 
 ## session 1
+
+The first session we will do freestyle, in terminal and VScode. then we will switch to notebooks. 
+
+> Notice that the notebooks are visible online at [https://floswald.github.io/julia-bootcamp/](https://floswald.github.io/julia-bootcamp/). You will need those during the questions in class!
 
 * installing julia
 * installing vscode and julia extension
@@ -68,6 +71,18 @@ I will not give you any homeworks, however, you may want to practice a bit more.
 
 ## day 2
 * computing a value function in parallel: https://www.sas.upenn.edu/~jesusfv/Guide_Parallel.pdf and https://github.com/floswald/Parallel_Computing/tree/master
+
+## Other Cool Things I won't talk about
+
+There are too many. Let me try with a quick list:
+
+* https://fluxml.ai/
+* https://jump.dev/
+* https://makie.juliaplots.org/stable/ and https://lazarusa.github.io/BeautifulMakie/
+* https://turing.ml/stable/
+* https://julia.quantecon.org/intro.html
+* all free courses at https://juliaacademy.com/
+
 
 
 ## Where did I teach this course?
