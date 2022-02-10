@@ -172,10 +172,12 @@ md"""
 function f(x)   # `function` keyword, function name (f), args (if any) enclosed in ()
 	y = x ^ 2  # function body
 	# again, a local scope: y only visible in here
-	y  # by default, returns the last value
-	   # or explicity with
-	#    return(y)
+	# y  # by default, returns the last value
+
 end
+
+# ╔═╡ 2e40c3d9-c124-4fbb-892f-01a714018b93
+f(2)
 
 # ╔═╡ 4de3eb6d-c728-4d8d-aa79-38b06a3292c7
 f2(x) = x ^ 2  # same function, but shorter to define
@@ -236,10 +238,10 @@ We can return more than one values by returning a tuple (or any other container 
 """
 
 # ╔═╡ 2962bf2a-dbee-4ca7-b3e6-e9df1a2d0bb4
-g2(x) = (x,x^2,x^3)
+g₂(x) = (x,x^2,x^3)
 
 # ╔═╡ b1f4f5ef-5f56-4ee8-8def-5c87b71be658
-g2(2)
+g₂(2)
 
 # ╔═╡ 719682fd-9a6d-43e7-b8b4-ba6a27a6f500
 function g3(x)
@@ -299,7 +301,7 @@ md"""
 ### Argument Passing Behaviour
 
 * Julia passes arguments to functions *by reference*
-* In particular, if what we give is a **mutable** object (like an array, for example), then the function changes to supplied object *in the caller*!
+* In particular, if what we give is a **mutable** object (like an array, for example), then the function changes the supplied object *in the caller*!
 * This is quite cool, because we can modify objects *in-place* : think about a large array. It would be expensive to copy all the data from the caller into the function, do the job, then copy all the data back into the caller. Much better: leave the data where it is (in the caller), *modify it* as required in the function body, and copy nothing back and forth!
 """
 
@@ -342,7 +344,16 @@ in particular, `v` here occupies the same *memory address on your computer* as i
 v2 == v   # look at the help for == vs === !
 
 # ╔═╡ 2df8f30b-1798-49cd-957b-1aeb6f70fde3
-v2 === v
+v2 === v # egal 
+
+# ╔═╡ bfa6b7c7-d2f8-44f6-8f51-30cd73a58efc
+v3 = copy(v)
+
+# ╔═╡ 7a064adf-e9ba-42ba-b08a-343b7dd5054a
+y
+
+# ╔═╡ b7bc5672-bb76-43d3-a8ee-3caa7c0e7f4d
+y3 = y
 
 # ╔═╡ 04edb9d7-7ddd-4e04-aa97-7daafc5a01e4
 md"""
@@ -648,7 +659,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─b88de86f-f510-4c5c-a52c-5e66fb27d517
 # ╠═cf992726-f7d9-42f8-a0db-108861ebae8f
 # ╠═a48694a3-7b90-4811-a860-0620b604bf77
-# ╠═8f5f7cc0-6122-45c0-bf3c-59ac878c2567
+# ╟─8f5f7cc0-6122-45c0-bf3c-59ac878c2567
 # ╠═1db1fcf2-d8c2-4fd4-a84d-ec4ef48cb95d
 # ╟─142d25a9-e122-4253-8736-cdb10b123fc9
 # ╟─3825d343-6107-45ca-9b7a-7b654bd552e9
@@ -659,6 +670,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═4983b419-ca26-486a-a5ce-4af1901c625c
 # ╟─06101a96-097a-4cba-955a-a54ac48b24db
 # ╠═12024ae2-c9cd-45d9-9bda-305e69cd6054
+# ╠═2e40c3d9-c124-4fbb-892f-01a714018b93
 # ╠═4de3eb6d-c728-4d8d-aa79-38b06a3292c7
 # ╟─83ab78f0-6160-4f4d-aa5c-d1d7322461a9
 # ╠═c465539c-e923-480d-abc7-cc9206f8f49a
@@ -686,7 +698,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═b2faa599-d962-4479-97b9-98aacac6c209
 # ╠═be3f68c9-72ea-436b-9c28-47f8857d71ea
 # ╠═99f45b26-1d42-44d4-8107-58454ad80b37
-# ╠═276d64cb-e27f-4bdb-a964-bcf36c9a46d9
+# ╟─276d64cb-e27f-4bdb-a964-bcf36c9a46d9
 # ╠═fe561c2c-fb7f-4e67-9e49-546041112c50
 # ╟─4524cc39-4d8f-4496-b0d1-8302c5614f47
 # ╠═679a6875-44a4-4e7d-85cc-f5ea90ead8ff
@@ -702,6 +714,9 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─c4ab1742-9e0c-41f1-8a3a-762eb3757a93
 # ╠═971a0406-d84f-44ee-be02-9675328bd790
 # ╠═2df8f30b-1798-49cd-957b-1aeb6f70fde3
+# ╠═bfa6b7c7-d2f8-44f6-8f51-30cd73a58efc
+# ╠═7a064adf-e9ba-42ba-b08a-343b7dd5054a
+# ╠═b7bc5672-bb76-43d3-a8ee-3caa7c0e7f4d
 # ╟─04edb9d7-7ddd-4e04-aa97-7daafc5a01e4
 # ╟─b7960f1b-93ed-4bf5-85d5-3e37aa0297a4
 # ╠═982c1fee-5f3e-45bf-97b5-443d00a25e2b

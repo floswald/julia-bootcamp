@@ -254,6 +254,9 @@ md"""
 # ╔═╡ 39dd6e58-927e-4df8-9996-8d9de266e9f2
 [ones(2)..., zeros(2)...]   # the ... is the `splatting` operator
 
+# ╔═╡ e475a7a9-0c93-4270-b16c-ae702dfa9f8c
+vcat(ones(2) , zeros(2))
+
 # ╔═╡ c2106201-4492-433d-a98a-d2393921f93b
 md"""
 splatting is quite important in julia: it means to *unpack* a collection and insert the elements one by one into a function, one after the other. So, the above is equivalent to
@@ -1708,6 +1711,7 @@ version = "0.9.1+5"
 # ╟─42febc06-3feb-4f1e-ad82-ca5d8d8018b1
 # ╠═2c750c3d-3038-4279-9ffc-ac4258af0075
 # ╠═39dd6e58-927e-4df8-9996-8d9de266e9f2
+# ╠═e475a7a9-0c93-4270-b16c-ae702dfa9f8c
 # ╟─c2106201-4492-433d-a98a-d2393921f93b
 # ╠═0700da90-5ca9-4ccd-b7a7-fa178fdbe381
 # ╟─3528961f-54b3-40bf-9ad9-d29dbc1ce001

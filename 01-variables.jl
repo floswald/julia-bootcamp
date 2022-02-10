@@ -50,7 +50,7 @@ y = x ^ 2
 α + β == 1
 
 # ╔═╡ 4ca5b69a-545b-4713-88f0-592182ee439d
-😄, 💃, 🍕 = (1, 2, 3)  # \:pizza: and TAB
+😄, 💃, 🍕 = (1, 2, 5)  # \:pizza: and TAB
 
 # ╔═╡ 6bf1f569-c6f8-43d0-9ea6-e77f3db4c7c4
 ifelse(😄 + 💃 == 🍕, md"🎉 this is the correct, OMG", md"🤮 Oh no, totally wrong")
@@ -128,10 +128,10 @@ md"""
 1 == 1
 
 # ╔═╡ d7435925-5479-4ff7-9c0e-89759db7f58c
-true || false   # short circuit and
+true || false   # short circuit or
 
 # ╔═╡ df64ae39-7593-434a-87b8-54178af73f76
-true && false   # short circuit or
+true && false   # short circuit and
 
 # ╔═╡ 23771d6f-a197-49fd-b53f-9df398598017
 md"""
@@ -186,6 +186,9 @@ Bool(2) #error
 
 # ╔═╡ 63d4b74a-c51c-4876-af20-af35a61931a3
 zero(1.1)  # the additive identity element of typeof(1.1)
+
+# ╔═╡ 4abdd77f-7155-4fcd-b130-0c45c49dae81
+typeof(1+3im)
 
 # ╔═╡ 7a9e0bbe-5e5c-49d9-9f03-c4b75348007c
 one(1+3im)  # multiplicative identity element of imaginary numbers
@@ -437,6 +440,9 @@ ranges can be built on many data types, not just numbers.
 # ╔═╡ 8fe2d586-65ce-4df2-8b17-3406b95ab914
 letters = 'a':'z'
 
+# ╔═╡ df54be49-1936-4f93-a12f-717538146314
+letters[10]
+
 # ╔═╡ 1438bcde-9d01-4d5e-b273-f675a5383e67
 letters[4]
 
@@ -475,9 +481,6 @@ md"""
 # ╔═╡ 72229086-eedb-4bd0-8f0c-49bb5731e1f8
 phonebook[1]
 
-# ╔═╡ 1b1ef328-3a16-4a59-bf4a-a411401ad245
-
-
 # ╔═╡ cd456c1f-0b63-45f7-aea2-f9f2a205bbb0
 phonebook[:peter] = 43210  # notice once it's created, assign with '='
 
@@ -495,11 +498,17 @@ typeof(phonebook)
 # ╔═╡ 5d9eea1e-3f09-4634-9a8a-91000fe9bdde
 Dict( k => rand([true,false],rand(1:4)) for k in 1:2 )  # Dict constructor 
 
+# ╔═╡ 3473b870-4e8d-443f-b9eb-ece08da11790
+# OrderedDict preservers ordering. DataStructures.jl package. 
+
 # ╔═╡ 11efb440-cf18-4e8a-9751-f92a0a85f96e
 keys(phonebook)
 
 # ╔═╡ 87a56c3a-1e2e-489e-a790-783180e6cc21
 values(phonebook)
+
+# ╔═╡ ae65a5fd-c90f-4277-93eb-32dbdfff9273
+collect(values(phonebook))
 
 # ╔═╡ d488f5d3-149c-4ce5-892b-7d113b712dfe
 md"""
@@ -518,6 +527,9 @@ haskey(phonebook, :florian)
 
 # ╔═╡ 2046420f-ad09-4143-9072-0320d20b3ef3
 filter( p -> p.first == :peter, phonebook)  # x -> 2x is an anonymous function
+
+# ╔═╡ b0cace5c-1892-41ec-94b9-588ff27f61cc
+
 
 # ╔═╡ e125a1af-ce81-491b-b7a2-c3e7e0ee8216
 filter( p -> p.second > 12500, phonebook)
@@ -559,7 +571,7 @@ q(md"""
 q(md"""
 * Create a `Dict` with keys `1,3,5,7`
 * The set of numbers `1,3,5,7` should be represent by a `range`.
-* The value for for each key should be the value of the key raised to the third power.
+* The value for each key should be the value of the key raised to the third power.
 * Filter the elements with value greater than 21
 """)
 
@@ -830,6 +842,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═c4128a1b-1e1c-4808-9da7-895fc5b88e46
 # ╠═37e0b7f2-ecc2-40cc-8776-bf4abdb0e81f
 # ╠═63d4b74a-c51c-4876-af20-af35a61931a3
+# ╠═4abdd77f-7155-4fcd-b130-0c45c49dae81
 # ╠═7a9e0bbe-5e5c-49d9-9f03-c4b75348007c
 # ╠═2751b1b6-cc43-4331-a0ec-6a3b6ed34f1d
 # ╠═ba168312-dd09-446e-82c0-e59c888a5b42
@@ -894,6 +907,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═b1210e5b-2ba9-47f5-b965-360b5c0cda88
 # ╟─833a7d75-12ea-44c6-b946-da287566dee1
 # ╠═8fe2d586-65ce-4df2-8b17-3406b95ab914
+# ╠═df54be49-1936-4f93-a12f-717538146314
 # ╠═1438bcde-9d01-4d5e-b273-f675a5383e67
 # ╠═ac6f68fd-5c84-4650-98f1-b26f4a7bc547
 # ╠═70598515-4f53-4c0a-92a2-ff18ac36c3f5
@@ -903,18 +917,20 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═d02618a3-720d-42f1-89fb-ff80733e2339
 # ╟─7f873cab-e58e-4e3c-bf75-b60cf9628648
 # ╠═72229086-eedb-4bd0-8f0c-49bb5731e1f8
-# ╠═1b1ef328-3a16-4a59-bf4a-a411401ad245
 # ╠═cd456c1f-0b63-45f7-aea2-f9f2a205bbb0
 # ╠═51d37b9d-f630-4ed3-9ec4-699cd68470cd
 # ╟─a3397a22-3917-4782-a4b4-ea330293b7cf
 # ╠═666f5e87-5e14-4cd0-8c44-497d11562414
 # ╠═5d9eea1e-3f09-4634-9a8a-91000fe9bdde
+# ╠═3473b870-4e8d-443f-b9eb-ece08da11790
 # ╠═11efb440-cf18-4e8a-9751-f92a0a85f96e
 # ╠═87a56c3a-1e2e-489e-a790-783180e6cc21
+# ╠═ae65a5fd-c90f-4277-93eb-32dbdfff9273
 # ╟─d488f5d3-149c-4ce5-892b-7d113b712dfe
 # ╠═a42fcc5d-2998-48cd-a5c6-aa97be940af0
 # ╠═b8061445-404d-46c6-a811-4f4cb566fb25
 # ╠═2046420f-ad09-4143-9072-0320d20b3ef3
+# ╠═b0cace5c-1892-41ec-94b9-588ff27f61cc
 # ╠═e125a1af-ce81-491b-b7a2-c3e7e0ee8216
 # ╟─060bc6c4-cb85-4ee8-98f8-91656a478631
 # ╟─6caf7a73-7377-4e6f-9858-b9cdc141746d
