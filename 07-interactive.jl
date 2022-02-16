@@ -109,13 +109,21 @@ begin
 
 	ss, ii, rr = SS/NN, II/NN, RR/NN
 	b = 0.1  # probability to pass infection on
-	g = 0.01 # probability to recover
+	#g = 0.01 # probability to recover
 end
 
 # ╔═╡ 34dcd915-fb39-4c91-821b-692991438995
 md"""
 #
 """
+
+# ╔═╡ b6a83924-7ad9-4878-91b6-3798df28f483
+md"""
+#
+"""
+
+# ╔═╡ f3adace3-00ce-4bd1-b86a-5d3eaa993df4
+@bind g Slider(0.01:0.01:0.1, show_value = true, default = 0.01)
 
 # ╔═╡ 5c8016fb-1ec4-45c3-ba92-1ab8b51e14de
 function discrete_SIR(s0, i0, r0, T=1000)
@@ -140,11 +148,6 @@ function discrete_SIR(s0, i0, r0, T=1000)
 	
 	return results
 end
-
-# ╔═╡ b6a83924-7ad9-4878-91b6-3798df28f483
-md"""
-#
-"""
 
 # ╔═╡ 0aa8199d-217a-4bd9-95db-7dcde0e916e2
 SIR = discrete_SIR(ss, ii, rr)
@@ -1829,6 +1832,7 @@ version = "0.9.1+5"
 # ╟─b6a83924-7ad9-4878-91b6-3798df28f483
 # ╠═0aa8199d-217a-4bd9-95db-7dcde0e916e2
 # ╟─16322c95-d013-4c03-81c3-39f89709fcda
+# ╠═f3adace3-00ce-4bd1-b86a-5d3eaa993df4
 # ╟─b4e88cf4-3799-43e1-ba33-b63ddb14f88a
 # ╟─44a853a2-6bb8-404e-849f-047a87fbd81e
 # ╟─9b1d140b-5f39-45f3-b618-7c2211f0dba9

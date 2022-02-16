@@ -86,7 +86,7 @@ of course, we want to plot some data. in 2D, there is `x` and `y`. for a bar gra
 # ╔═╡ 969bd23e-529a-4b7c-8c54-3680e04c7030
 let
 	x = 1:10
-	y = x.^2
+	y = x.^2 
 	plot(x,y)  # by default, draws a line
 end
 

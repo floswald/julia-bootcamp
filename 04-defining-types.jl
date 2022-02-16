@@ -195,6 +195,9 @@ md"Once Julia has this template, we can create objects which have that type as f
 # ╔═╡ b0dac516-f6d8-11ea-1bdb-b59723107206
 r = Rectangle(1, 2.5)
 
+# ╔═╡ 3c1b4abd-0a7a-4c1b-b7fd-091d361c35ca
+
+
 # ╔═╡ af236602-5ffa-11eb-0bec-cd944a602c70
 md"the function `Rectangle` with identical name to our type is called a **constructor**."
 
@@ -228,6 +231,9 @@ We can create a new `Rectangle` with its own width and height:"
 
 # ╔═╡ f2ed18b4-f6d8-11ea-3bc7-0b82eb5e8dc0
 r2 = Rectangle(3.0, 4.0)
+
+# ╔═╡ ab5b20ee-4ba8-49cd-b747-f57c5738ac63
+r.width
 
 # ╔═╡ f9d192fe-f6d8-11ea-138d-3dcdff33c034
 md"You should check that this does *not* affect the `width` and `height` variables belonging to `r`."
@@ -597,7 +603,7 @@ q(md"""
 q(md"""
 Create a *method* for `+` which will add together two instances of your `MPoint` type created above. So, we want to be able to write `a + b` where both `a` and `b` are `MPoint`s. You have to decide yourself what the meaning of **adding two `MPoint`s actually is**. I would suggest to add the coordinates to each other, i.e. take the `x` from the `a` and add to the `x` of `b`. Here is how:
 1. You must `import` the existing `+` methods from the `Base` module. Type `import Base.:+` (we need the `:` because the `+` is called an *infix* function)
-2. Define `:x(a::MPoint, b::Mpoint) = ... ` . you have to fill in `...` what the function is supposed to do. Hint: you want to create a *new instance* of `MPoint`, made up of the contents of `a` and `b` 😉
+2. Define `+(a::MPoint, b::Mpoint) = ... ` . you have to fill in `...` what the function is supposed to do. Hint: you want to create a *new instance* of `MPoint`, made up of the contents of `a` and `b` 😉
 3. Then, try it out! Create `a = MPoint(1,2)` and `b = MPoint(3,5.5)` and show us `a + b`!
 
 	"""
@@ -1020,6 +1026,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─7571be3a-f6d8-11ea-174c-9d65d5185153
 # ╟─9f384ac2-f6d8-11ea-297e-4bf09acf9fe7
 # ╠═b0dac516-f6d8-11ea-1bdb-b59723107206
+# ╠═3c1b4abd-0a7a-4c1b-b7fd-091d361c35ca
 # ╟─af236602-5ffa-11eb-0bec-cd944a602c70
 # ╟─b98b9faa-f6d8-11ea-3610-bf8a84af2b5a
 # ╠═cf1c4aae-f6d8-11ea-3200-c5fb458c7c09
@@ -1029,6 +1036,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═e3e70064-f6d8-11ea-22fd-892bbc567ed4
 # ╟─e582eb02-f6d8-11ea-1fcc-89bbc9dfbb07
 # ╠═f2ed18b4-f6d8-11ea-3bc7-0b82eb5e8dc0
+# ╠═ab5b20ee-4ba8-49cd-b747-f57c5738ac63
 # ╟─f9d192fe-f6d8-11ea-138d-3dcdff33c034
 # ╟─6085144c-f6db-11ea-19fe-ed46dafb4562
 # ╟─1840898e-f6d9-11ea-3035-bb4dac496834

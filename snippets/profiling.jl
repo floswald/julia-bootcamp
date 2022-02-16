@@ -14,8 +14,8 @@ function profile_test(n)
     end
 end
 
-profile_test(1)   # precompile
+profile_test(10)   # precompile
 
-@profile profile_test(10)
+#@profile profile_test(10)
 
-ProfileView.@profview profile_test(10)  
+#ProfileView.@profview profile_test(10)  

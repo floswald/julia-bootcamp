@@ -199,7 +199,7 @@ end
 
 # ╔═╡ 53af6951-2a42-469a-abc0-f49bb6b5a969
 md"""
-## Avoid Working Global Space - Use Functions instead!
+## Avoid Working in Global Space - Use Functions instead!
 
 * all performance cricitcal code to be placed inside functions.
 """
@@ -235,7 +235,7 @@ end
 
 
 # ╔═╡ 63bfd723-78d4-48b1-b2d3-c856a926ecc9
-bbad = @benchmark for i in 1:length(x)
+bbad = @benchmark for i in 1:length(x1)
     global a += x1[i]^2 + y1[i]^2
 end
 

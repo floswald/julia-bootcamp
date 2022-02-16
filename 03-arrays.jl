@@ -447,6 +447,9 @@ We can use the square bracket operator `[ix]` to get element number `ix`. There 
 # ╔═╡ 2920a9e6-55a7-11eb-235a-d9f89dbdc86d
 x = [i + 3*(j-1) for i in 1:3, j in 1:4]
 
+# ╔═╡ 07aca9d4-4716-42ea-aecf-3d097d620bfd
+x[8]
+
 # ╔═╡ b65533cc-55a7-11eb-22ce-fb51e1d6a4c2
 x[1,1]
 
@@ -1762,6 +1765,7 @@ version = "0.9.1+5"
 # ╠═3ba19e1c-55a8-11eb-0268-d333107b4ccc
 # ╟─ee1f71a8-55a4-11eb-352b-396905c8b20e
 # ╠═2920a9e6-55a7-11eb-235a-d9f89dbdc86d
+# ╠═07aca9d4-4716-42ea-aecf-3d097d620bfd
 # ╠═b65533cc-55a7-11eb-22ce-fb51e1d6a4c2
 # ╠═c0efcdec-55a7-11eb-15a5-e700195132aa
 # ╠═c749dcbe-55a7-11eb-3b6e-4917aaff9e88
