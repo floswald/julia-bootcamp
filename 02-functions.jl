@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.17.7
+# v0.19.20
 
 using Markdown
 using InteractiveUtils
@@ -11,13 +11,18 @@ using PlutoUI
 md"""
 # Julia Bootcamp - Programming Constructs
 
-Florian Oswald 2021
+Florian Oswald 2023
 
-> Iteration, Loops, and Functions
+> Iteration, Loops, Functions, and Variable Scope
 """
+
+# ╔═╡ d84057df-f233-4630-bd84-8c2d6e91353e
+html"<button onclick='present()'>present</button>"
 
 # ╔═╡ 8424693a-4445-4309-ba54-549ba861838b
 md"""
+#
+
 We have seen how we can assign a variable already:
 """
 
@@ -26,7 +31,7 @@ y = 5
 
 # ╔═╡ 4fd7c57b-b579-49a6-84dc-06869cdf8b64
 md"""
-We can be more elaborate and assign multiple variables with a `begin...end` block:
+We can be more elaborate and assign multiple variables with a `begin...end` block. Notice that in this example, the result is bound to variable `n`, whereas both `b` and `a` *leak* out from the `begin...end` block.
 """
 
 # ╔═╡ a16ca545-83be-4ef3-8946-4e79012042f3
@@ -34,10 +39,10 @@ y2 = begin
 	b = 3
 	a = 2
 	a * b - 12
-end
+end;
 
 # ╔═╡ 05eda001-588f-49e0-b589-a22a6195994e
-b
+(a,b)
 
 # ╔═╡ b780b7ed-7b0c-4464-a8aa-23b3a4180f64
 y2
@@ -58,31 +63,18 @@ end
 ```
 """
 
-# ╔═╡ d25a2c47-04f1-482a-8e3e-0f1bbc1ac14e
-md"""
-For example, run this loop in your terminal (You don't have to worry about the `with_terminal() do ... end` stuff, that's just for me inside this Pluto notebook). You just copy this:
-
-```julia
+# ╔═╡ 312e4383-3c67-4ec0-9f5b-7fbee4c237e5
 for i ∈ 1:3
 	println(i)
-end
-```
-"""
-
-# ╔═╡ a07bbc3f-1c2d-47fe-a1b4-46929e963d72
-md"""
-here is me inside Pluto (I have to *simulate* what the terminal looks like if I want to print stuff to it - don't worry about this, Pluto is awesome.)
-"""
-
-# ╔═╡ 77cbaffd-9ded-4032-8670-bf0d64ff701c
-with_terminal() do
-	for i ∈ 1:3
-		println(i)
-	end
 end
 
 # ╔═╡ ac4917fe-446a-40b1-a6ca-ba00e4428e40
 i  # does not exist outside of the loop
+
+# ╔═╡ e281b82e-e99e-4f70-a6bd-b675f4944bc0
+md"""
+#
+"""
 
 # ╔═╡ b88de86f-f510-4c5c-a52c-5e66fb27d517
 md"""
@@ -93,11 +85,9 @@ What's quite cool with julia iteration is that you can iterate over multiple thi
 di = Dict(:a => 1.1, :b => 3.2)
 
 # ╔═╡ a48694a3-7b90-4811-a860-0620b604bf77
-with_terminal() do  # again, you don't need this...
-	for (k,v) in di
-		println("the key is $k, the value is $v")
-	end
-end  # ...and that
+for (k,v) in di
+	println("the key is $k, the value is $v")
+end
 
 # ╔═╡ 8f5f7cc0-6122-45c0-bf3c-59ac878c2567
 md"""
@@ -105,30 +95,25 @@ similarly, the `enumerate` function is quite handy
 """
 
 # ╔═╡ 1db1fcf2-d8c2-4fd4-a84d-ec4ef48cb95d
-with_terminal() do  # again, you don't need this...
-	for (ix,v) in enumerate(rand(3))
-		println("index numer $ix has value $v")
-	end
-end  # ...and that
+for (ix,v) in enumerate(rand(3))
+	println("index numer $ix has value $v")
+end
 
 # ╔═╡ 142d25a9-e122-4253-8736-cdb10b123fc9
 md"""
+#
+
 similarly, we have a standard *while* loop:
-"""
 
-# ╔═╡ 3825d343-6107-45ca-9b7a-7b654bd552e9
-md"""
 ```julia
-julia> n = 0
-
 julia> while n < 4
-			n += 1
-            println(n)
+		   n += 1
+		   println("n is currently = $n")
        end
-1
-2
-3
-4
+n is currently = 1
+n is currently = 2
+n is currently = 3
+n is currently = 4
 
 julia> n
 4
@@ -163,7 +148,8 @@ md"""
 ## Functions
 
 * Very important in julia: put all your work inside functions. 
-* The compiler will be able to properly optimize your code only if give it functions to analyse.
+* The compiler will be able to properly optimize your code only if you give it functions to analyse.
+* Always keep in mind the [performance tips](https://docs.julialang.org/en/v1/manual/performance-tips/) section!
 
 **Two ways** to define your own functions:
 """
@@ -176,14 +162,13 @@ function f(x)   # `function` keyword, function name (f), args (if any) enclosed
 
 end
 
-# ╔═╡ 2e40c3d9-c124-4fbb-892f-01a714018b93
-f(2)
-
 # ╔═╡ 4de3eb6d-c728-4d8d-aa79-38b06a3292c7
 f2(x) = x ^ 2  # same function, but shorter to define
 
 # ╔═╡ 83ab78f0-6160-4f4d-aa5c-d1d7322461a9
 md"""
+#
+
 We *execute* function (we *call* the function) by typing its name and supplying the required arguments (again, if any, otherwise empty `()`):
 """
 
@@ -195,6 +180,8 @@ f(2) == f2(2)
 
 # ╔═╡ 95261af6-ad68-4987-bbfc-0d0ed79adfe5
 md"""
+#
+
 ### Keyword and Positional Arguments
 
 1. You can have multiple arguments by position
@@ -206,6 +193,11 @@ md"""
 function g(x, y = 2; z = 3)
 	x * y * z
 end
+
+# ╔═╡ 07e96264-f3d3-44ce-a2a5-1547eb149af5
+md"""
+#
+"""
 
 # ╔═╡ bf892497-3d34-409f-a9ac-c6cba4874863
 g(1)
@@ -230,6 +222,137 @@ g(1,y = 4)
 # ╔═╡ 5a3802ff-85d9-4251-97f4-cca2cd00d332
 g(1,3,10)
 
+# ╔═╡ 84aedecf-03bd-4b8a-b01c-57ae5af4faa6
+md"""
+## Variable Scope
+
+* Which variable is visible to the program where? 
+* This is difficult and depends on many things. All languages are slightly different here, so it's important to know some general rules.
+* The full set of rules are part of the [manual](https://docs.julialang.org/en/v1/manual/variables-and-scoping/#scope-of-variables), here we show a simple overview.
+
+### Local vs Global Variables
+
+* A variable you define in the REPL is global. That's convenient for exploration. Try this out, for example
+
+```julia
+julia> myf() = println(x)  # a function which prints object `x`
+julia> x = 1  # an Int in global scope
+
+julia> myf()
+1
+
+julia> x = :yea  
+julia> myf()
+yea
+```
+
+##
+
+* it's great that we can switch the type of `x` so easily. That's what we mean with *dynamically typed* language - types of variables can change.
+* However, for performance, that's a difficult problem: the compiler can't be sure of the data type of `x`, has to generate code that will work for all possible types for `x`, which means slow code. More on that later.
+* 
+
+"""
+
+# ╔═╡ 5a03f9bd-de7d-4ff7-bd50-bc5d3f422f60
+md"""
+#
+"""
+
+# ╔═╡ 41575200-6e77-4541-9aba-37b496175e93
+md"""
+#
+"""
+
+# ╔═╡ ec1d547b-6e89-40fc-a277-7fe2665d0533
+# some scoping examples
+function sfun1()
+	x = 1  # define local variable x
+	return x + 1  # can read x here and add 1
+end
+
+# ╔═╡ f979bb46-5de5-4a11-a0ca-10698740e4d6
+x  # x is not visible outside the function
+
+# ╔═╡ c52f8754-0560-44a3-999a-099d22dd967d
+md"""
+#
+"""
+
+# ╔═╡ 2963d95e-9834-4ed8-9421-d82b3c7e05a5
+function sfun2()
+	if true
+		x = 19
+	end
+	# if block does *not* add a local scope. `x` leaks and is visible...
+	return x + 2 # here...
+end
+
+# ╔═╡ c91c31d0-9659-4b17-ae80-a8a214070904
+sfun2()
+
+# ╔═╡ 7106827a-62ce-4177-aedc-933ae4b7efa4
+md"""
+#
+"""
+
+# ╔═╡ b3924371-89cb-486e-a90d-311f2957bca1
+function sfun3()
+	x = 0  # create local var x
+	for i in 1:3
+		# local scope!
+		if i == 3
+			x = i   # but knows about x in the enclosing scope and modifies that!
+		end
+	end
+	return x # visible here
+end
+
+# ╔═╡ 51748430-ec8c-4daf-abb6-766cd20a362c
+sfun3()
+
+# ╔═╡ fc58b09d-c169-41ad-9cae-b317968765ca
+md"""
+#
+"""
+
+# ╔═╡ 5c04114e-4bf0-46a9-80ee-a3b5216db8d6
+function sfun4()
+	for i in 1:3
+		# local scope!
+		if i == 3
+			x = i   # but knows about x in the enclosing scope and modifies that!
+		end
+	end
+	return x # error here
+end
+
+# ╔═╡ b7072f99-fd39-428b-9ec9-5fe52532fb8d
+sfun4()
+
+# ╔═╡ 8792f536-6265-4943-b0b1-671ee763f149
+md"""
+#
+"""
+
+# ╔═╡ 0c54578e-2462-4ade-abb5-6f320ba83d5e
+function sfun5()
+	for i in 1:3
+		# local scope!
+		x = i
+		println("current x is $x")  #x exists here!
+	end
+	return x # but not  here
+end
+
+# ╔═╡ cfe0fac1-20ed-4fde-89c1-1752c30de477
+sfun5()
+
+# ╔═╡ 2306607b-0090-4764-9bcd-a65dadc2779a
+md"""
+#
+"""
+
 # ╔═╡ fb61fd7f-aabf-442b-a6c8-3077cb2e8207
 md"""
 ---
@@ -251,9 +374,14 @@ end
 # ╔═╡ 3ab95641-080a-4d5d-84b6-4654e4900019
 g3(2)
 
+# ╔═╡ 871fec18-0ed4-4717-ad85-ac477e918886
+md"""
+#
+"""
+
 # ╔═╡ 6e4d8075-3303-4967-9a81-9d497bfd3068
 md"""
-### Duck-Typing
+## Duck-Typing
 
 Julia will always use the most appropriate version (*method*) of a function. Notice that we didn't specify any particular input type for function `g` above. Let's try to give it a matrix:
 """
@@ -364,7 +492,7 @@ md"""
 tip(text) = Markdown.MD(Markdown.Admonition("tip", "Question", [text]));
 
 # ╔═╡ 5d44a00b-8cb2-432b-a58b-01dd9bf72882
-tip(md"Notice that julia says it defined *two* methods here! A *method* is a specific *version of a function*. Can you think of a reason for this here?")
+tip(md"Notice that julia says it defined *two* methods here! A *method* is a specific *version of a function*. Can you think of a reason for this here? Try calling `methods(g)` to see what was defined!")
 
 # ╔═╡ 982c1fee-5f3e-45bf-97b5-443d00a25e2b
 info(text) = Markdown.MD(Markdown.Admonition("info", "Info", [text]));
@@ -424,6 +552,21 @@ info("Summary",md"""
 4. You can have as many (keyword) arguments as you want.
 """)
 
+# ╔═╡ c0c37eff-7e3c-40db-ad91-37a296161bd6
+info(md"**Local Variables**, are visible only *locally*, i.e. inside a *scope*. As a general rule, all of your code should be inside functions to help the compiler generate fast code.")
+
+# ╔═╡ 72e8e018-dd16-4d4c-a763-54c93509628f
+info(md"""
+Local scopes are introduced by the following:
+1. Functions and anonymous functions and `do...end` blocks
+1. `for` and `while` loops
+1. `try...catch` blocks
+1. Comprehensions
+
+It's important to know that `if...end` blocks as well as `begin...end` blocks do **not** introduce a local scope, hence variables will *leak* outside of that construct. Of course, having an `if...end` block *inside* a function does no harm at all.
+
+""")
+
 # ╔═╡ c48f1189-ee68-42bb-85cb-0c759f8ff098
 danger(text) = Markdown.MD(Markdown.Admonition("danger", "Caution", [text]));
 
@@ -440,8 +583,9 @@ PlutoUI = "~0.7.34"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.7.1"
+julia_version = "1.8.5"
 manifest_format = "2.0"
+project_hash = "e766545f1b4ef968b5991d6a702e32de0b70adeb"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -451,6 +595,7 @@ version = "1.1.4"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
+version = "1.1.1"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
@@ -467,14 +612,19 @@ version = "0.11.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
+version = "1.0.1+0"
 
 [[deps.Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
 [[deps.Downloads]]
-deps = ["ArgTools", "LibCURL", "NetworkOptions"]
+deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
+version = "1.6.0"
+
+[[deps.FileWatching]]
+uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 
 [[deps.FixedPointNumbers]]
 deps = ["Statistics"]
@@ -512,10 +662,12 @@ version = "0.21.2"
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
 uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
+version = "0.6.3"
 
 [[deps.LibCURL_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
 uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+version = "7.84.0+0"
 
 [[deps.LibGit2]]
 deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
@@ -524,6 +676,7 @@ uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
 [[deps.LibSSH2_jll]]
 deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
 uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
+version = "1.10.2+0"
 
 [[deps.Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
@@ -542,19 +695,23 @@ uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+version = "2.28.0+0"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
+version = "2022.2.1"
 
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
+version = "1.2.0"
 
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
+version = "0.3.20+0"
 
 [[deps.Parsers]]
 deps = ["Dates"]
@@ -565,6 +722,7 @@ version = "2.2.1"
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+version = "1.8.0"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
@@ -591,6 +749,7 @@ version = "1.2.2"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
+version = "0.7.0"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -609,10 +768,12 @@ uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 [[deps.TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+version = "1.0.0"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
+version = "1.10.1"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
@@ -628,23 +789,28 @@ uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 [[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
+version = "1.2.12+3"
 
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+version = "5.1.1+0"
 
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+version = "1.48.0+0"
 
 [[deps.p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
+version = "17.4.0+0"
 """
 
 # ╔═╡ Cell order:
 # ╟─91562a82-8741-11ec-1332-7db3016c8b30
-# ╠═88b27144-068b-42ed-b4b0-d12f5ca8c53c
+# ╟─d84057df-f233-4630-bd84-8c2d6e91353e
+# ╟─88b27144-068b-42ed-b4b0-d12f5ca8c53c
 # ╟─8424693a-4445-4309-ba54-549ba861838b
 # ╠═a28fea67-89e7-452d-96b5-ee94efd14217
 # ╟─4fd7c57b-b579-49a6-84dc-06869cdf8b64
@@ -652,17 +818,15 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═05eda001-588f-49e0-b589-a22a6195994e
 # ╠═b780b7ed-7b0c-4464-a8aa-23b3a4180f64
 # ╟─bb502134-a506-4c86-898b-f84a74f0c1a5
-# ╟─d25a2c47-04f1-482a-8e3e-0f1bbc1ac14e
-# ╟─a07bbc3f-1c2d-47fe-a1b4-46929e963d72
-# ╠═77cbaffd-9ded-4032-8670-bf0d64ff701c
+# ╠═312e4383-3c67-4ec0-9f5b-7fbee4c237e5
 # ╠═ac4917fe-446a-40b1-a6ca-ba00e4428e40
+# ╟─e281b82e-e99e-4f70-a6bd-b675f4944bc0
 # ╟─b88de86f-f510-4c5c-a52c-5e66fb27d517
 # ╠═cf992726-f7d9-42f8-a0db-108861ebae8f
 # ╠═a48694a3-7b90-4811-a860-0620b604bf77
 # ╟─8f5f7cc0-6122-45c0-bf3c-59ac878c2567
 # ╠═1db1fcf2-d8c2-4fd4-a84d-ec4ef48cb95d
 # ╟─142d25a9-e122-4253-8736-cdb10b123fc9
-# ╟─3825d343-6107-45ca-9b7a-7b654bd552e9
 # ╠═6cdd5994-b881-47f4-add7-1b6ac7349c76
 # ╟─b3b3b926-72ff-482a-900d-20a8a5595e6c
 # ╠═681733ec-046d-49fe-ae65-ec36e7b62509
@@ -670,7 +834,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═4983b419-ca26-486a-a5ce-4af1901c625c
 # ╟─06101a96-097a-4cba-955a-a54ac48b24db
 # ╠═12024ae2-c9cd-45d9-9bda-305e69cd6054
-# ╠═2e40c3d9-c124-4fbb-892f-01a714018b93
 # ╠═4de3eb6d-c728-4d8d-aa79-38b06a3292c7
 # ╟─83ab78f0-6160-4f4d-aa5c-d1d7322461a9
 # ╠═c465539c-e923-480d-abc7-cc9206f8f49a
@@ -678,6 +841,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─95261af6-ad68-4987-bbfc-0d0ed79adfe5
 # ╠═7e63209b-1574-4439-b943-f18a5889ceb0
 # ╟─5d44a00b-8cb2-432b-a58b-01dd9bf72882
+# ╟─07e96264-f3d3-44ce-a2a5-1547eb149af5
 # ╠═bf892497-3d34-409f-a9ac-c6cba4874863
 # ╠═50976b94-ac8d-4c90-8f59-52c210ff96a1
 # ╠═873ea764-5c10-4612-abe5-d5df3d4b9c85
@@ -686,11 +850,32 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═ef29f3b5-0bef-4684-92c4-67e9a8f0f33d
 # ╠═5a3802ff-85d9-4251-97f4-cca2cd00d332
 # ╟─49ad6a05-78a4-44f4-a57d-71a75543d497
+# ╟─84aedecf-03bd-4b8a-b01c-57ae5af4faa6
+# ╟─c0c37eff-7e3c-40db-ad91-37a296161bd6
+# ╟─5a03f9bd-de7d-4ff7-bd50-bc5d3f422f60
+# ╟─72e8e018-dd16-4d4c-a763-54c93509628f
+# ╟─41575200-6e77-4541-9aba-37b496175e93
+# ╠═ec1d547b-6e89-40fc-a277-7fe2665d0533
+# ╠═f979bb46-5de5-4a11-a0ca-10698740e4d6
+# ╟─c52f8754-0560-44a3-999a-099d22dd967d
+# ╠═2963d95e-9834-4ed8-9421-d82b3c7e05a5
+# ╠═c91c31d0-9659-4b17-ae80-a8a214070904
+# ╟─7106827a-62ce-4177-aedc-933ae4b7efa4
+# ╠═b3924371-89cb-486e-a90d-311f2957bca1
+# ╠═51748430-ec8c-4daf-abb6-766cd20a362c
+# ╟─fc58b09d-c169-41ad-9cae-b317968765ca
+# ╠═5c04114e-4bf0-46a9-80ee-a3b5216db8d6
+# ╠═b7072f99-fd39-428b-9ec9-5fe52532fb8d
+# ╟─8792f536-6265-4943-b0b1-671ee763f149
+# ╠═0c54578e-2462-4ade-abb5-6f320ba83d5e
+# ╠═cfe0fac1-20ed-4fde-89c1-1752c30de477
+# ╟─2306607b-0090-4764-9bcd-a65dadc2779a
 # ╟─fb61fd7f-aabf-442b-a6c8-3077cb2e8207
 # ╠═2962bf2a-dbee-4ca7-b3e6-e9df1a2d0bb4
 # ╠═b1f4f5ef-5f56-4ee8-8def-5c87b71be658
 # ╠═719682fd-9a6d-43e7-b8b4-ba6a27a6f500
 # ╠═3ab95641-080a-4d5d-84b6-4654e4900019
+# ╟─871fec18-0ed4-4717-ad85-ac477e918886
 # ╟─bfdf1dfb-7f42-451c-8de3-36b1625398c6
 # ╟─6e4d8075-3303-4967-9a81-9d497bfd3068
 # ╠═9bfe0644-de15-4322-8bb0-31636e26afc1
