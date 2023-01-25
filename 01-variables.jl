@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.17.7
+# v0.19.20
 
 using Markdown
 using InteractiveUtils
@@ -455,6 +455,36 @@ dr = Date(2014,1,29):Day(1):Date(2014,2,3)
 # ╔═╡ dc8722ce-2a0e-4a87-8cb9-5704c74ed7fd
 dr[2]
 
+# ╔═╡ 3a801d9e-bbbf-4d72-9dc5-05e10babe43e
+typeof(:a => 1)
+
+# ╔═╡ 51988aba-83b8-4757-be99-5152c628abdc
+md"""
+## Pairs
+
+* We have an important building block for `key => value` assignments called `Pair`.
+* `key` and `value` can have any datatype.
+* Pairs are the building blocks of `Dict`s (below)
+"""
+
+# ╔═╡ 08fb3ea6-06f3-462d-8bdf-8359b6ed085b
+md"""
+#
+"""
+
+# ╔═╡ 681eaddd-5fe2-4abe-8fdc-1ae77eb4ef9e
+my_pair = Pair("key1",3.3)
+
+# ╔═╡ 8704f468-45b8-40f8-b9b7-e2bf66005cd2
+my_pair.first
+
+# ╔═╡ 3e48da15-eedf-4472-b182-07aa4cac9418
+my_pair.second
+
+# ╔═╡ 56b39540-cbde-47b7-9b12-f6e285066e54
+# also directly with the arrow
+my_pair2 = "key2" => 1.12
+
 # ╔═╡ 6768aba8-5135-4b11-a9a8-81a84c130c61
 md"""
 ## Dictionaries
@@ -469,6 +499,9 @@ We have a `key => value` structure. the `key` can be any type, as can of course 
 
 # ╔═╡ b48a6589-22a1-4dec-9bd5-96d6fb33d8b8
 phonebook = Dict(:john => 34221, :mary => 12344)
+
+# ╔═╡ a858c992-d9f0-47c0-9a74-e42ef9f543fe
+typeof(phonebook)
 
 # ╔═╡ d02618a3-720d-42f1-89fb-ff80733e2339
 phonebook[:john]
@@ -516,25 +549,25 @@ md"""
 """
 
 # ╔═╡ a42fcc5d-2998-48cd-a5c6-aa97be940af0
-with_terminal() do  # i have to use the `with_terminal` function in Pluto
-	for (k,v) in phonebook
-		println("The number of $k is $v")
-	end
+for (k,v) in phonebook
+	println("The number of $k is $v")
 end
 
 # ╔═╡ b8061445-404d-46c6-a811-4f4cb566fb25
 haskey(phonebook, :florian)
 
 # ╔═╡ 2046420f-ad09-4143-9072-0320d20b3ef3
-filter( p -> p.first == :peter, phonebook)  # x -> 2x is an anonymous function
-
-# ╔═╡ b0cace5c-1892-41ec-94b9-588ff27f61cc
-
+filter( p -> p.first == :peter, phonebook)  # x -> 2x is an anonymous function. later.
 
 # ╔═╡ e125a1af-ce81-491b-b7a2-c3e7e0ee8216
 filter( p -> p.second > 12500, phonebook)
 
 # ╔═╡ 060bc6c4-cb85-4ee8-98f8-91656a478631
+md"""
+#
+"""
+
+# ╔═╡ fe9a68ee-d59b-4b33-a720-c426f3577d37
 md"""
 #
 """
@@ -545,6 +578,9 @@ begin
 	info(text) = Markdown.MD(Markdown.Admonition("info", "Info", [text]));
 	danger(text) = Markdown.MD(Markdown.Admonition("danger", "Caution", [text]));
 end
+
+# ╔═╡ ca104c99-5ee6-4647-8a3d-b27ddc8de067
+danger(md"*Assigning a value to a variable* in julia means to **bind** a value to a name. Particularly for collections of more than one value (like an array), one has to be careful with assigning arrays like `x = y`, since both `x` and `y` will refer to the same values.")
 
 # ╔═╡ 066a7ddd-7203-44aa-9029-0566f91a0348
 q(md"""
@@ -591,8 +627,9 @@ PlutoUI = "~0.7.34"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.7.1"
+julia_version = "1.8.5"
 manifest_format = "2.0"
+project_hash = "08f43f32264ab90ef9fa60e537bc800dadd0a537"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -602,6 +639,7 @@ version = "1.1.4"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
+version = "1.1.1"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
@@ -624,14 +662,19 @@ version = "0.12.8"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
+version = "1.0.1+0"
 
 [[deps.Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
 [[deps.Downloads]]
-deps = ["ArgTools", "LibCURL", "NetworkOptions"]
+deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
+version = "1.6.0"
+
+[[deps.FileWatching]]
+uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 
 [[deps.FixedPointNumbers]]
 deps = ["Statistics"]
@@ -669,10 +712,12 @@ version = "0.21.2"
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
 uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
+version = "0.6.3"
 
 [[deps.LibCURL_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
 uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+version = "7.84.0+0"
 
 [[deps.LibGit2]]
 deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
@@ -681,6 +726,7 @@ uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
 [[deps.LibSSH2_jll]]
 deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
 uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
+version = "1.10.2+0"
 
 [[deps.Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
@@ -699,19 +745,23 @@ uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+version = "2.28.0+0"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
+version = "2022.2.1"
 
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
+version = "1.2.0"
 
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
+version = "0.3.20+0"
 
 [[deps.Parsers]]
 deps = ["Dates"]
@@ -722,6 +772,7 @@ version = "2.2.1"
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+version = "1.8.0"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
@@ -748,6 +799,7 @@ version = "1.2.2"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
+version = "0.7.0"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -766,10 +818,12 @@ uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 [[deps.TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+version = "1.0.0"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
+version = "1.10.1"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
@@ -785,18 +839,22 @@ uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 [[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
+version = "1.2.12+3"
 
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+version = "5.1.1+0"
 
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+version = "1.48.0+0"
 
 [[deps.p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
+version = "17.4.0+0"
 """
 
 # ╔═╡ Cell order:
@@ -804,6 +862,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─505963ac-853c-11ec-028c-b34d1d0e028f
 # ╟─43077757-7064-4fa9-9ab2-ab8875a425ac
 # ╟─b182aaf9-6b81-4697-8a37-83ff03fba00e
+# ╟─ca104c99-5ee6-4647-8a3d-b27ddc8de067
 # ╟─b6f354d2-ace2-4605-bf6a-10acc1b9170a
 # ╠═0f882cf2-a25f-4481-b8c7-15e7aa780a10
 # ╠═883d1dae-d6aa-4c42-8676-50dbcd3ab5c9
@@ -912,8 +971,16 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═ac6f68fd-5c84-4650-98f1-b26f4a7bc547
 # ╠═70598515-4f53-4c0a-92a2-ff18ac36c3f5
 # ╠═dc8722ce-2a0e-4a87-8cb9-5704c74ed7fd
+# ╠═3a801d9e-bbbf-4d72-9dc5-05e10babe43e
+# ╟─51988aba-83b8-4757-be99-5152c628abdc
+# ╟─08fb3ea6-06f3-462d-8bdf-8359b6ed085b
+# ╠═681eaddd-5fe2-4abe-8fdc-1ae77eb4ef9e
+# ╠═8704f468-45b8-40f8-b9b7-e2bf66005cd2
+# ╠═3e48da15-eedf-4472-b182-07aa4cac9418
+# ╠═56b39540-cbde-47b7-9b12-f6e285066e54
 # ╟─6768aba8-5135-4b11-a9a8-81a84c130c61
 # ╠═b48a6589-22a1-4dec-9bd5-96d6fb33d8b8
+# ╠═a858c992-d9f0-47c0-9a74-e42ef9f543fe
 # ╠═d02618a3-720d-42f1-89fb-ff80733e2339
 # ╟─7f873cab-e58e-4e3c-bf75-b60cf9628648
 # ╠═72229086-eedb-4bd0-8f0c-49bb5731e1f8
@@ -930,10 +997,10 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═a42fcc5d-2998-48cd-a5c6-aa97be940af0
 # ╠═b8061445-404d-46c6-a811-4f4cb566fb25
 # ╠═2046420f-ad09-4143-9072-0320d20b3ef3
-# ╠═b0cace5c-1892-41ec-94b9-588ff27f61cc
 # ╠═e125a1af-ce81-491b-b7a2-c3e7e0ee8216
 # ╟─060bc6c4-cb85-4ee8-98f8-91656a478631
 # ╟─6caf7a73-7377-4e6f-9858-b9cdc141746d
+# ╟─fe9a68ee-d59b-4b33-a720-c426f3577d37
 # ╟─d64bdfdb-50d5-476d-81ae-2543e0e246da
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
