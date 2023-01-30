@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.20
+# v0.19.22
 
 using Markdown
 using InteractiveUtils
@@ -788,7 +788,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "1c8452f6f0fc7e7cd1ef401982a93395e04d0870"
+project_hash = "9f87732ca83fe86dc7c22bd37a95ad50a75350a6"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -1744,7 +1744,7 @@ version = "1.4.1+0"
 # ╔═╡ Cell order:
 # ╟─42ecaf0c-5585-11eb-07bf-05f964ffc325
 # ╟─7cf6ef84-6700-11eb-3cb3-6531e82cbb52
-# ╟─7f1e114b-d11f-40a5-929e-629c3b088d19
+# ╠═7f1e114b-d11f-40a5-929e-629c3b088d19
 # ╟─6930bc28-6700-11eb-0505-f7c546f1acea
 # ╟─8140a376-5587-11eb-1372-cbf4cb8db60d
 # ╟─2b1ab8e6-5588-11eb-03bc-0f1b03719f35

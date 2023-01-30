@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.20
+# v0.19.22
 
 using Markdown
 using InteractiveUtils
@@ -14,6 +14,8 @@ end
 # ╔═╡ 505963ac-853c-11ec-028c-b34d1d0e028f
 md"""
 # Julia Bootcamp
+
+Florian Oswald, 2023
 """
 
 # ╔═╡ 43077757-7064-4fa9-9ab2-ab8875a425ac
