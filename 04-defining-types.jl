@@ -89,9 +89,7 @@ At the very top of all types (not shown) is the `DataType` `Any`, from which all
 AbstractTrees.children(x::Type) = subtypes(x)
 
 # ╔═╡ c2b13386-256f-4df3-9ca4-64f6e551a91f
-with_terminal() do
-	print_tree(stdout,Number)
-end
+print_tree(stdout,Number)
 
 # ╔═╡ aa5adfba-678e-11eb-02e4-210b8b753e21
 subtypes(Integer)
@@ -194,9 +192,6 @@ md"Once Julia has this template, we can create objects which have that type as f
 
 # ╔═╡ b0dac516-f6d8-11ea-1bdb-b59723107206
 r = Rectangle(1, 2.5)
-
-# ╔═╡ 3c1b4abd-0a7a-4c1b-b7fd-091d361c35ca
-
 
 # ╔═╡ af236602-5ffa-11eb-0bec-cd944a602c70
 md"the function `Rectangle` with identical name to our type is called a **constructor**."
@@ -1029,7 +1024,7 @@ version = "17.4.0+0"
 # ╟─ae8ee93d-4956-46cc-86c5-7be8b74500ac
 # ╟─d19385e0-678a-11eb-3156-c51cb20abe3e
 # ╠═f6249141-8c42-4631-a487-c4a6afcd7b9d
-# ╠═c2b13386-256f-4df3-9ca4-64f6e551a91f
+# ╟─c2b13386-256f-4df3-9ca4-64f6e551a91f
 # ╠═aa5adfba-678e-11eb-02e4-210b8b753e21
 # ╠═bff062f0-678e-11eb-131d-e11297e36d4b
 # ╟─0dce8005-3001-4dab-b2e8-71e113464621
@@ -1049,7 +1044,6 @@ version = "17.4.0+0"
 # ╟─7571be3a-f6d8-11ea-174c-9d65d5185153
 # ╟─9f384ac2-f6d8-11ea-297e-4bf09acf9fe7
 # ╠═b0dac516-f6d8-11ea-1bdb-b59723107206
-# ╠═3c1b4abd-0a7a-4c1b-b7fd-091d361c35ca
 # ╟─af236602-5ffa-11eb-0bec-cd944a602c70
 # ╟─b98b9faa-f6d8-11ea-3610-bf8a84af2b5a
 # ╠═cf1c4aae-f6d8-11ea-3200-c5fb458c7c09
