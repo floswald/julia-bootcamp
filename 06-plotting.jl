@@ -26,7 +26,7 @@ There are several great plotting packages for julia.
 2. Plots.jl
 3. Makie.jl
 
-All are under this [github organization](https://github.com/JuliaPlots). We will look at Plots.jl.
+All are under this [github organization](https://github.com/JuliaPlots). We will look at Plots.jl - however I highly recommend to learn [Makie.jl](https://docs.makie.org/stable/), which looks like the *future*.
  
 Plots.jl is a non-traditional plotting library
 
@@ -507,7 +507,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "a035b3fc88ad61d7b404bad6b0e6227b8361ba39"
+project_hash = "c0c578ee9f986636bb53613e67aac1fa4fdd51aa"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra"]
