@@ -139,7 +139,7 @@ size(svec)  # a row-vector!
 ndims(svec) #  (two dimensions)
 
 # ╔═╡ 30db8bc4-5589-11eb-25cb-39afacd9bada
-ones(2,3)
+ones(Int,2,3)
 
 # ╔═╡ 35694d0c-5589-11eb-01a7-1d710daa7c08
 zeros(Int,2,4)
@@ -174,7 +174,7 @@ The function `similar` is a *similar* idea: you create an array of same shape an
 "
 
 # ╔═╡ 40472640-5589-11eb-19eb-838837e9fdc0
-Array{Float64}(undef, 3,3)
+Array{Float64}(undef, 3,3,2)
 
 # ╔═╡ f5109d62-5588-11eb-0abc-2d21b95a3477
 similar(ra)
@@ -198,6 +198,9 @@ a2'
 
 # ╔═╡ 09e97578-55a5-11eb-1042-0d7ea64aa830
 vcat(ones(3),1.1)
+
+# ╔═╡ a3211b38-1e4c-4201-bc08-83b0ac625cdd
+typeof([[1,2,3], [5] ])
 
 # ╔═╡ 6f434e7b-3f6d-4e51-b566-9d6e212cb2b3
 md"""
@@ -305,6 +308,12 @@ z
 # ╔═╡ 7c1e52b4-678a-11eb-1a97-3d56ba213b3b
 append!(z, 14)
 
+# ╔═╡ 46695ecc-f3fe-4611-bb56-8bd04bd0bc53
+deleteat!(z, 1)
+
+# ╔═╡ 1df551d8-e5bb-4621-895b-545ec7cf9362
+z
+
 # ╔═╡ f53088a2-55a5-11eb-3b9b-8b91844c5384
 md"
 
@@ -330,6 +339,15 @@ md"""
 
 """
 
+# ╔═╡ 95a0b4ba-ed7b-4b42-9375-29423f592d45
+begin 
+avals = 0:2
+cons = [y + a - (1/1.02) * aplus for a in avals, y in 1:2, aplus in avals]
+end
+
+# ╔═╡ 73893134-1701-4e12-9567-176a4cf4c279
+
+
 # ╔═╡ 626879e4-6603-4606-83bd-9388071a46b9
 md"""
 #
@@ -342,7 +360,7 @@ Inside *comprehensions*, we can also have *interdependent indices*, like here, w
 
 # ╔═╡ b5182a08-679c-11eb-01c4-21be55d14ac0
 md"
-$$\sum_{i=1}^3 \sum_{j=i}^{16} i^2 + y^3$$
+$$\sum_{i=1}^3 \sum_{j=i}^{16} i^2 + j^3$$
 "
 
 # ╔═╡ 04af7e0d-9bf0-4552-b949-81081e942fe8
@@ -370,6 +388,9 @@ sum( i^2 + j^3 for i in 1:3 for j in i:16 ) # no square brackets
 md"""
 Time to start talking a bit about performance now. Will do much more of it, for now lets just do a simple benchmark on 2 ways of running that summation (for larger indices to see a real difference).
 """
+
+# ╔═╡ ed724a1a-dd0e-4817-be93-0c4e1fc3ec38
+1_000_000_000
 
 # ╔═╡ cdae4a9c-ee2f-48a5-800e-963213301e30
 begin
@@ -481,6 +502,9 @@ which_ones = rand([true false], 12)
 # ╔═╡ 430925e6-55b0-11eb-1637-6fe56713e397
 x[ which_ones ]
 
+# ╔═╡ 51523a08-c8e6-4a91-9054-0190f3dffa2d
+cons[2,1,:]
+
 # ╔═╡ 59708954-55b1-11eb-0e62-b72b3f3f65f0
 md"
 # Broadcasting and *setting* values
@@ -501,12 +525,6 @@ md"
 Ok. But now consider this vector here and a range of indices:
 "
 
-# ╔═╡ d8a704bc-6701-11eb-2b46-090ac1815774
-v = ones(Int, 10)
-
-# ╔═╡ fe354836-6701-11eb-191c-2de25e7daacf
-v[2:3] = 2
-
 # ╔═╡ 074dccd8-6702-11eb-038c-0b8c14b62647
 md"
 ## Broadcasting
@@ -517,12 +535,6 @@ md"
 * **element-by-element** means to *broadcast* over a colleciton in julia.
 * We use the dot `.` to mark broadcasting:
 "
-
-# ╔═╡ 58d5e0ce-6702-11eb-2130-b1e9f84e5a65
-v[2:3] .= 2
-
-# ╔═╡ 64be4458-6702-11eb-02f9-37de11e2b41f
-v
 
 # ╔═╡ e71d752c-34a9-401b-9e0f-abf0c0bfde81
 md"""
@@ -556,12 +568,6 @@ md"""
 ##
 """
 
-# ╔═╡ 9aad3dec-6702-11eb-15c9-75d6b2d3713e
-v[4:7] = [0, 0, 0, 0]
-
-# ╔═╡ 9e35cf88-6702-11eb-2a92-0f9271383c8f
-v
-
 # ╔═╡ ad8175b6-6702-11eb-2edf-c9b3304a5ddd
 md"
 That worked because the right and left of `=` had the same type!
@@ -574,8 +580,32 @@ md"
 * Let's give a name to that slice now
 "
 
+# ╔═╡ fe354836-6701-11eb-191c-2de25e7daacf
+v[2:3] = 2
+
+# ╔═╡ 58d5e0ce-6702-11eb-2130-b1e9f84e5a65
+v[2:3] .= 2
+
+# ╔═╡ 64be4458-6702-11eb-02f9-37de11e2b41f
+v
+
+# ╔═╡ 9aad3dec-6702-11eb-15c9-75d6b2d3713e
+v[4:7] = [0, 0, 0, 0]
+
+# ╔═╡ 9e35cf88-6702-11eb-2a92-0f9271383c8f
+v
+
 # ╔═╡ d91a964c-6702-11eb-12ad-f7d5398c1591
 s = v[4:7]
+
+# ╔═╡ 7e8ed468-df06-497f-bd84-1d543e11464b
+s[1] = 99
+
+# ╔═╡ 00afe52e-a9a6-435d-984c-23810ed36560
+s
+
+# ╔═╡ 9ece5cc3-e341-4e92-a676-05320b465c5d
+v
 
 # ╔═╡ 578f31c2-6703-11eb-05a7-11f472bc9ee5
 md"
@@ -605,6 +635,9 @@ md"So far so good. But what happend to the original array `v`?
 
 # ╔═╡ a37e8fd0-6703-11eb-3d69-85511daf9720
 v
+
+# ╔═╡ 1b7cd4bb-5d4a-43ea-b948-48212be59d1f
+v[1:4] == s
 
 # ╔═╡ a6732366-6703-11eb-36da-110356d80106
 md"Nothing!
@@ -768,6 +801,15 @@ begin
 		write(io, """</div></div>""")
 	end
 end
+
+# ╔═╡ 81e2dc73-ba5d-4e1f-9bcd-1c98dcdfd798
+v = ones(12)
+
+# ╔═╡ d8a704bc-6701-11eb-2b46-090ac1815774
+# ╠═╡ disabled = true
+#=╠═╡
+v = ones(Int, 10)
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1786,6 +1828,7 @@ version = "1.4.1+0"
 # ╠═d97da51c-55a4-11eb-305c-1bb0e1634cb0
 # ╠═e27215b8-55a4-11eb-21c5-2738c0897729
 # ╠═09e97578-55a5-11eb-1042-0d7ea64aa830
+# ╠═a3211b38-1e4c-4201-bc08-83b0ac625cdd
 # ╟─6f434e7b-3f6d-4e51-b566-9d6e212cb2b3
 # ╠═516b88a0-55a5-11eb-105e-17c75539d751
 # ╠═2835338a-679a-11eb-1557-a75b2d2d657a
@@ -1815,12 +1858,16 @@ version = "1.4.1+0"
 # ╠═686337f0-678a-11eb-09bd-2badaadba117
 # ╠═6dd1411e-678a-11eb-047a-a1bc3fdea332
 # ╠═7c1e52b4-678a-11eb-1a97-3d56ba213b3b
+# ╠═46695ecc-f3fe-4611-bb56-8bd04bd0bc53
+# ╠═1df551d8-e5bb-4621-895b-545ec7cf9362
 # ╟─f53088a2-55a5-11eb-3b9b-8b91844c5384
 # ╠═17ef63ac-55a6-11eb-3713-77dfe04fa601
 # ╟─2cfde6f6-55a6-11eb-0a12-6b336a02c015
 # ╠═3c4111cc-55a6-11eb-198b-458475b9b85f
 # ╟─75640521-a952-4c86-81cd-397df0280d64
 # ╟─899051a8-d1c4-4763-b372-3d7b3b499bd3
+# ╠═95a0b4ba-ed7b-4b42-9375-29423f592d45
+# ╠═73893134-1701-4e12-9567-176a4cf4c279
 # ╟─626879e4-6603-4606-83bd-9388071a46b9
 # ╟─85cda2a3-9a2e-45ea-b0a6-f982660660c9
 # ╟─b5182a08-679c-11eb-01c4-21be55d14ac0
@@ -1830,6 +1877,7 @@ version = "1.4.1+0"
 # ╟─3734e433-42cd-4573-8ac7-0013c767e28e
 # ╠═23f7fa4a-f5dd-4bf7-b6bc-9e0bbd4bf2d0
 # ╟─33a6f0c5-6f3e-4ec4-9a82-5c9134ae2d95
+# ╠═ed724a1a-dd0e-4817-be93-0c4e1fc3ec38
 # ╠═cdae4a9c-ee2f-48a5-800e-963213301e30
 # ╟─8934a18d-1b61-4054-979a-d180fa77ffa2
 # ╠═8cc15db6-0869-4037-928e-9ae9ba4957ed
@@ -1859,6 +1907,7 @@ version = "1.4.1+0"
 # ╠═2fae8126-55b0-11eb-17ac-c54318e62c5e
 # ╠═430925e6-55b0-11eb-1637-6fe56713e397
 # ╟─62656d47-64b9-4a59-870b-cab53e869315
+# ╠═51523a08-c8e6-4a91-9054-0190f3dffa2d
 # ╟─59708954-55b1-11eb-0e62-b72b3f3f65f0
 # ╠═7295c79e-6701-11eb-3ec4-2ba3c1f45bfe
 # ╠═85456dc2-6701-11eb-3348-379f534568c8
@@ -1879,8 +1928,12 @@ version = "1.4.1+0"
 # ╠═9e35cf88-6702-11eb-2a92-0f9271383c8f
 # ╟─ad8175b6-6702-11eb-2edf-c9b3304a5ddd
 # ╟─c8319ed4-6702-11eb-1651-5bb3675f8aa2
+# ╠═81e2dc73-ba5d-4e1f-9bcd-1c98dcdfd798
 # ╠═d91a964c-6702-11eb-12ad-f7d5398c1591
 # ╟─e48c1410-6702-11eb-06c4-8300fc6614af
+# ╠═7e8ed468-df06-497f-bd84-1d543e11464b
+# ╠═00afe52e-a9a6-435d-984c-23810ed36560
+# ╠═9ece5cc3-e341-4e92-a676-05320b465c5d
 # ╟─578f31c2-6703-11eb-05a7-11f472bc9ee5
 # ╠═64ebb606-6703-11eb-332b-2d933e7bddec
 # ╟─6696f222-6703-11eb-3862-8938b0a92edb
@@ -1888,6 +1941,7 @@ version = "1.4.1+0"
 # ╠═7929685c-6703-11eb-3f14-61ebf493ecde
 # ╟─7dc0ec32-6703-11eb-2cd7-27b1f1dcca3a
 # ╠═a37e8fd0-6703-11eb-3d69-85511daf9720
+# ╠═1b7cd4bb-5d4a-43ea-b948-48212be59d1f
 # ╟─a6732366-6703-11eb-36da-110356d80106
 # ╠═c810b5ec-6703-11eb-293c-69fc0a8e573f
 # ╠═35ae4a94-6704-11eb-3ebd-a75cbd2ca619
