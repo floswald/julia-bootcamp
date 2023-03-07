@@ -17,6 +17,13 @@ md"""
 **Macros** change the syntax of parts of a program.
 
 While functions work on values, a macro works on a **piece of Julia code**, which is represented as a data structure in Julia itself, and **rewrites it to a different piece of code**! This can be a very powerful thing to do.
+
+We should notice that macros operate at the [Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) level. That means
+
+* Before code is actually *executed*, but
+* After code is *parsed* (i.e. **read from user-provided text**)
+
+
 """
 
 # ╔═╡ 7acec72a-f1fa-11ea-2753-efcf2cee8335
@@ -76,6 +83,25 @@ Julia *replaces* the original code by the new code; this new code is what will a
 # ╔═╡ a5816132-f1ee-11ea-268b-05086212324b
 md"""
 Here, the `remove_linenums!` function actually receives a Julia **expression** as its argument.
+"""
+
+# ╔═╡ db54c43a-d821-4614-b649-5549a62a749e
+md"""
+## Why Macros and not Functions?
+
+* another important macro is the `@time` macro - similar in spirit to the above example.
+* We would do `time 1+2`
+
+You may want to ask
+
+> But why don't we just write a function `time(1 + 2)` instead?
+
+👉 The problem here is that we would have to evaluate the expression `1 + 2` *before* we call the `time()` function, so this would not be a great way to measure the time it took to evaluate `1 + 2` - which is what we actually wanted.
+
+👉 Macro use cases are all of this kind: you want to do something *with* a piece of code before its being executed - transform it in some kind of way. Very important in data processing pipelines, for instance with
+
+1. [Tidier.jl](https://github.com/kdpsingh/Tidier.jl) or
+2. [DataFramesMeta.jl](https://juliadata.github.io/DataFramesMeta.jl/stable/)
 """
 
 # ╔═╡ e3bd8fbc-f1fa-11ea-331f-bbe8f038f46a
@@ -224,6 +250,7 @@ md"## Function library"
 # ╠═9639e822-f1ee-11ea-19b6-5f377bb4b809
 # ╟─ea65d68c-f1fa-11ea-1cde-ebf4b7958b8a
 # ╟─a5816132-f1ee-11ea-268b-05086212324b
+# ╟─db54c43a-d821-4614-b649-5549a62a749e
 # ╟─e3bd8fbc-f1fa-11ea-331f-bbe8f038f46a
 # ╟─cb5e6a8a-f1fb-11ea-2f15-e7486afdfa4a
 # ╟─faa18946-f1fb-11ea-0f5b-290683f29ebf
