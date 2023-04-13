@@ -52,7 +52,7 @@ y = x ^ 2
 α + β == 1
 
 # ╔═╡ 4ca5b69a-545b-4713-88f0-592182ee439d
-😄, 💃, 🍕 = (1, 2, 5)  # \:pizza: and TAB
+😄, 💃, 🍕 = (3, 1, 5)  # \:pizza: and TAB
 
 # ╔═╡ 6bf1f569-c6f8-43d0-9ea6-e77f3db4c7c4
 ifelse(😄 + 💃 == 🍕, md"🎉 this is the correct, OMG", md"🤮 Oh no, totally wrong")
@@ -279,7 +279,7 @@ you can refer to the location of the current file
 @__FILE__
 
 # ╔═╡ 6a126422-62cc-4b8e-998b-5fa11520049b
-@__DIR__  # current directory. useful for scripts andprograms
+@__DIR__  # current directory. useful for scripts and programs
 
 # ╔═╡ 9cbb941a-bbf6-49a1-892c-962f16bbab90
 pwd()  # useful in an interactive session
@@ -513,9 +513,6 @@ md"""
 #
 """
 
-# ╔═╡ 72229086-eedb-4bd0-8f0c-49bb5731e1f8
-phonebook[1]
-
 # ╔═╡ cd456c1f-0b63-45f7-aea2-f9f2a205bbb0
 phonebook[:peter] = 43210  # notice once it's created, assign with '='
 
@@ -629,7 +626,7 @@ PlutoUI = "~0.7.34"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.5"
+julia_version = "1.9.0-rc2"
 manifest_format = "2.0"
 project_hash = "08f43f32264ab90ef9fa60e537bc800dadd0a537"
 
@@ -664,7 +661,7 @@ version = "0.12.8"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.1+0"
+version = "1.0.2+0"
 
 [[deps.Dates]]
 deps = ["Printf"]
@@ -734,7 +731,7 @@ version = "1.10.2+0"
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 
 [[deps.LinearAlgebra]]
-deps = ["Libdl", "libblastrampoline_jll"]
+deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.Logging]]
@@ -747,14 +744,14 @@ uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.28.0+0"
+version = "2.28.2+0"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
-version = "2022.2.1"
+version = "2022.10.11"
 
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
@@ -763,7 +760,7 @@ version = "1.2.0"
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
-version = "0.3.20+0"
+version = "0.3.21+4"
 
 [[deps.Parsers]]
 deps = ["Dates"]
@@ -772,9 +769,9 @@ uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
 version = "2.2.1"
 
 [[deps.Pkg]]
-deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-version = "1.8.0"
+version = "1.9.0"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
@@ -810,22 +807,28 @@ uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 
 [[deps.SparseArrays]]
-deps = ["LinearAlgebra", "Random"]
+deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+version = "1.9.0"
+
+[[deps.SuiteSparse_jll]]
+deps = ["Artifacts", "Libdl", "Pkg", "libblastrampoline_jll"]
+uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
+version = "5.10.1+6"
 
 [[deps.TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
-version = "1.0.0"
+version = "1.0.3"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.1"
+version = "1.10.0"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
@@ -841,12 +844,12 @@ uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 [[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
-version = "1.2.12+3"
+version = "1.2.13+0"
 
 [[deps.libblastrampoline_jll]]
-deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
+deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.1.1+0"
+version = "5.4.0+0"
 
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -925,7 +928,7 @@ version = "17.4.0+0"
 # ╟─856b1263-61d0-4d60-bf41-292d2cfcf012
 # ╟─e2471749-1374-47e7-8013-d0071b1d5ee0
 # ╠═64f9e174-0855-49fb-8dfa-d90adae7c268
-# ╠═e2ba69c5-94f4-4ec9-8acb-85bb8311f893
+# ╟─e2ba69c5-94f4-4ec9-8acb-85bb8311f893
 # ╠═872590dc-9756-48b6-9bf0-f7e1d8d01501
 # ╠═6a126422-62cc-4b8e-998b-5fa11520049b
 # ╠═9cbb941a-bbf6-49a1-892c-962f16bbab90
@@ -985,7 +988,6 @@ version = "17.4.0+0"
 # ╠═a858c992-d9f0-47c0-9a74-e42ef9f543fe
 # ╠═d02618a3-720d-42f1-89fb-ff80733e2339
 # ╟─7f873cab-e58e-4e3c-bf75-b60cf9628648
-# ╠═72229086-eedb-4bd0-8f0c-49bb5731e1f8
 # ╠═cd456c1f-0b63-45f7-aea2-f9f2a205bbb0
 # ╠═51d37b9d-f630-4ed3-9ec4-699cd68470cd
 # ╟─a3397a22-3917-4782-a4b4-ea330293b7cf

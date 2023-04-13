@@ -140,15 +140,6 @@ end
 # ╔═╡ d7f24700-2c26-4d22-bd8b-612484117031
 chad1(1000)
 
-# ╔═╡ 2c6c2cde-a8ee-4b68-8141-966a70aab453
-md"""
-## Model with Endogenous Fertility
-
-* Lets people now choose the amount of time to dedicate to children vs work: $l_t$
-* the birth rate function is $b(l) = \overline{b} l$ 
-* The steady state population growth rate can be described like this:
-"""
-
 # ╔═╡ f39280e6-f807-42ab-9fd5-45b069aac28d
 md"""
 ## Population Density Dependent Growth Rate
@@ -266,7 +257,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "9cdfb37358a1b4c37d4f95b042311331f13627d7"
+project_hash = "0547b64973904f08b3d1c75d2c814981668a5ea3"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -1958,15 +1949,14 @@ version = "1.4.1+0"
 # ╔═╡ Cell order:
 # ╠═a734f87e-a0ba-11ed-0de1-0dda2855f05a
 # ╟─8b78fc5d-1520-4f0e-81b3-914e4b985624
-# ╟─54579982-becf-4e5d-8b1e-e0ba8abe2e2f
 # ╟─5a13d5af-510e-43ff-b1ce-ecb1f5818061
+# ╟─54579982-becf-4e5d-8b1e-e0ba8abe2e2f
 # ╟─ea536c00-b0ac-48a3-913d-10df15b4e84c
 # ╟─93a1fd7d-5b63-419f-adf0-cc71c52a7eb6
 # ╟─73c6a49f-05e9-4942-8c7a-88f30ef4144a
 # ╟─b01cad24-df1e-4c1f-8a8e-62b139ac697f
 # ╟─53b32589-454a-4f39-b9d8-0f75c19da3de
 # ╠═d7f24700-2c26-4d22-bd8b-612484117031
-# ╟─2c6c2cde-a8ee-4b68-8141-966a70aab453
 # ╟─f39280e6-f807-42ab-9fd5-45b069aac28d
 # ╠═ce3d5212-21ec-4640-bf00-efee65a1ed60
 # ╠═359b6832-3d95-4342-b8c5-f31d1214e1f6
