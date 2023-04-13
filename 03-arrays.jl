@@ -339,12 +339,6 @@ md"""
 
 """
 
-# ╔═╡ 95a0b4ba-ed7b-4b42-9375-29423f592d45
-begin 
-avals = 0:2
-cons = [y + a - (1/1.02) * aplus for a in avals, y in 1:2, aplus in avals]
-end
-
 # ╔═╡ 73893134-1701-4e12-9567-176a4cf4c279
 
 
@@ -502,9 +496,6 @@ which_ones = rand([true false], 12)
 # ╔═╡ 430925e6-55b0-11eb-1637-6fe56713e397
 x[ which_ones ]
 
-# ╔═╡ 51523a08-c8e6-4a91-9054-0190f3dffa2d
-cons[2,1,:]
-
 # ╔═╡ 59708954-55b1-11eb-0e62-b72b3f3f65f0
 md"
 # Broadcasting and *setting* values
@@ -512,11 +503,14 @@ md"
 * How can we modify the value of an array?
 "
 
+# ╔═╡ 25386099-4cfd-4162-b7a3-c544ffb0e646
+v0 = ones(3)
+
 # ╔═╡ 7295c79e-6701-11eb-3ec4-2ba3c1f45bfe
-x[1,2] = -9
+v0[2] = -9
 
 # ╔═╡ 85456dc2-6701-11eb-3348-379f534568c8
-x
+v0
 
 # ╔═╡ a21d3740-6701-11eb-3009-4da56916e76c
 md"
@@ -524,6 +518,9 @@ md"
 
 Ok. But now consider this vector here and a range of indices:
 "
+
+# ╔═╡ fe354836-6701-11eb-191c-2de25e7daacf
+v0[2:3] = 2
 
 # ╔═╡ 074dccd8-6702-11eb-038c-0b8c14b62647
 md"
@@ -535,6 +532,18 @@ md"
 * **element-by-element** means to *broadcast* over a colleciton in julia.
 * We use the dot `.` to mark broadcasting:
 "
+
+# ╔═╡ c2c94874-9858-41eb-b9e9-a7f38e2e4514
+v1 = copy(v0)
+
+# ╔═╡ 58d5e0ce-6702-11eb-2130-b1e9f84e5a65
+v1[2:3] .= 2
+
+# ╔═╡ 64be4458-6702-11eb-02f9-37de11e2b41f
+v1
+
+# ╔═╡ aec57e7c-de48-4da3-9149-b152a1b83b15
+v0
 
 # ╔═╡ e71d752c-34a9-401b-9e0f-abf0c0bfde81
 md"""
@@ -568,6 +577,15 @@ md"""
 ##
 """
 
+# ╔═╡ 51386cdc-8641-42c8-885f-75ff4e5bf0e0
+v3 = ones(3)
+
+# ╔═╡ 9aad3dec-6702-11eb-15c9-75d6b2d3713e
+v3[1:2] = [0, 0]
+
+# ╔═╡ 9e35cf88-6702-11eb-2a92-0f9271383c8f
+v3
+
 # ╔═╡ ad8175b6-6702-11eb-2edf-c9b3304a5ddd
 md"
 That worked because the right and left of `=` had the same type!
@@ -580,32 +598,11 @@ md"
 * Let's give a name to that slice now
 "
 
-# ╔═╡ fe354836-6701-11eb-191c-2de25e7daacf
-v[2:3] = 2
-
-# ╔═╡ 58d5e0ce-6702-11eb-2130-b1e9f84e5a65
-v[2:3] .= 2
-
-# ╔═╡ 64be4458-6702-11eb-02f9-37de11e2b41f
-v
-
-# ╔═╡ 9aad3dec-6702-11eb-15c9-75d6b2d3713e
-v[4:7] = [0, 0, 0, 0]
-
-# ╔═╡ 9e35cf88-6702-11eb-2a92-0f9271383c8f
-v
+# ╔═╡ 81e2dc73-ba5d-4e1f-9bcd-1c98dcdfd798
+v = ones(12)
 
 # ╔═╡ d91a964c-6702-11eb-12ad-f7d5398c1591
 s = v[4:7]
-
-# ╔═╡ 7e8ed468-df06-497f-bd84-1d543e11464b
-s[1] = 99
-
-# ╔═╡ 00afe52e-a9a6-435d-984c-23810ed36560
-s
-
-# ╔═╡ 9ece5cc3-e341-4e92-a676-05320b465c5d
-v
 
 # ╔═╡ 578f31c2-6703-11eb-05a7-11f472bc9ee5
 md"
@@ -614,16 +611,10 @@ md"
 Well let's try of course. We are here currently:
 "
 
-# ╔═╡ 64ebb606-6703-11eb-332b-2d933e7bddec
-s
+# ╔═╡ 7e8ed468-df06-497f-bd84-1d543e11464b
+s[1] = 99
 
-# ╔═╡ 6696f222-6703-11eb-3862-8938b0a92edb
-md"Now let's set one of those values:"
-
-# ╔═╡ 6f9b3284-6703-11eb-1d85-9366ffbb66f0
-s[2] = 3333
-
-# ╔═╡ 7929685c-6703-11eb-3f14-61ebf493ecde
+# ╔═╡ 00afe52e-a9a6-435d-984c-23810ed36560
 s
 
 # ╔═╡ 7dc0ec32-6703-11eb-2cd7-27b1f1dcca3a
@@ -653,8 +644,11 @@ Here is an alternative:
 Sometimes we don't want to take a copy, but just operate on some subset of array. Literally *on the same memory* in RAM. a `view` creates a *window* into the original array:
 "
 
+# ╔═╡ 1332b796-0a02-4868-9dc1-5df237f9a05f
+v4 = ones(10)
+
 # ╔═╡ c810b5ec-6703-11eb-293c-69fc0a8e573f
-w = view(v, 4:7)
+w = view(v4, 4:7)
 
 # ╔═╡ 35ae4a94-6704-11eb-3ebd-a75cbd2ca619
 typeof(w)
@@ -671,11 +665,11 @@ Ok let's try to modify that again:
 w[3:4] .= -999
 
 # ╔═╡ a1ca494c-6704-11eb-3bfd-b520e12ac37a
-v
+v4
 
 # ╔═╡ a7e0ee82-6704-11eb-258e-e77dee71e929
 md"
-It did modify the original array! ✅
+It did modify the original array `v4`! ✅
 
 # `@view` macro
 
@@ -683,11 +677,11 @@ It did modify the original array! ✅
 "
 
 # ╔═╡ 729bda00-6704-11eb-126a-439d41284c1c
-w2 = @view v[3:5]
+w2 = @view v4[3:5]
 
 # ╔═╡ 9b2565fa-6703-11eb-26d0-d5a4c520bfef
 md"
-What's this trickery? The macro @view literally takes the piece of Julia code v[3:5] and replaces it with the new piece of code view(v, 3:5)
+What's this trickery? The macro `@view` literally takes the piece of Julia code `v[3:5]` and replaces it with the new piece of code `view(v, 3:5)`
 
 # Matrices
 
@@ -772,7 +766,8 @@ q(md"
 * If you were followign along, what is this going to do?
 
 ```julia
-v[4:7] = [0, 0, 0, 0]
+v3 = ones(3)
+v3[1:2] = [0, 0]
 ```
 
 #
@@ -802,15 +797,6 @@ begin
 	end
 end
 
-# ╔═╡ 81e2dc73-ba5d-4e1f-9bcd-1c98dcdfd798
-v = ones(12)
-
-# ╔═╡ d8a704bc-6701-11eb-2b46-090ac1815774
-# ╠═╡ disabled = true
-#=╠═╡
-v = ones(Int, 10)
-  ╠═╡ =#
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -828,7 +814,7 @@ PlutoUI = "~0.7.16"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.5"
+julia_version = "1.9.0-rc2"
 manifest_format = "2.0"
 project_hash = "9f87732ca83fe86dc7c22bd37a95ad50a75350a6"
 
@@ -916,7 +902,7 @@ version = "4.5.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.1+0"
+version = "1.0.2+0"
 
 [[deps.Contour]]
 git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
@@ -940,7 +926,9 @@ uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
 [[deps.DelimitedFiles]]
 deps = ["Mmap"]
+git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+version = "1.9.1"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -1218,7 +1206,7 @@ uuid = "38a345b3-de98-5d2b-a5d3-14cd9215e700"
 version = "2.36.0+0"
 
 [[deps.LinearAlgebra]]
-deps = ["Libdl", "libblastrampoline_jll"]
+deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
@@ -1255,7 +1243,7 @@ version = "1.1.7"
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.28.0+0"
+version = "2.28.2+0"
 
 [[deps.Measures]]
 git-tree-sha1 = "c13304c81eec1ed3af7fc20e75fb6b26092a1102"
@@ -1273,7 +1261,7 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
-version = "2022.2.1"
+version = "2022.10.11"
 
 [[deps.NaNMath]]
 deps = ["OpenLibm_jll"]
@@ -1294,7 +1282,7 @@ version = "1.3.5+1"
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
-version = "0.3.20+0"
+version = "0.3.21+4"
 
 [[deps.OpenLibm_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1333,7 +1321,7 @@ version = "1.4.1"
 [[deps.PCRE2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
-version = "10.40.0+0"
+version = "10.42.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates"]
@@ -1353,9 +1341,9 @@ uuid = "30392449-352a-5448-841d-b1acce4e97dc"
 version = "0.40.1+0"
 
 [[deps.Pkg]]
-deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-version = "1.8.0"
+version = "1.9.0"
 
 [[deps.PlotThemes]]
 deps = ["PlotUtils", "Statistics"]
@@ -1478,7 +1466,7 @@ uuid = "a2af1166-a08f-5f64-846c-94a0d3cef48c"
 version = "1.1.0"
 
 [[deps.SparseArrays]]
-deps = ["LinearAlgebra", "Random"]
+deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.SpecialFunctions]]
@@ -1490,6 +1478,7 @@ version = "2.1.7"
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+version = "1.9.0"
 
 [[deps.StatsAPI]]
 deps = ["LinearAlgebra"]
@@ -1503,15 +1492,20 @@ git-tree-sha1 = "d1bf48bfcc554a3761a133fe3a9bb01488e06916"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 version = "0.33.21"
 
+[[deps.SuiteSparse_jll]]
+deps = ["Artifacts", "Libdl", "Pkg", "libblastrampoline_jll"]
+uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
+version = "5.10.1+6"
+
 [[deps.TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
-version = "1.0.0"
+version = "1.0.3"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.1"
+version = "1.10.0"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1705,7 +1699,7 @@ version = "1.4.0+3"
 [[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
-version = "1.2.12+3"
+version = "1.2.13+0"
 
 [[deps.Zstd_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1732,9 +1726,9 @@ uuid = "0ac62f75-1d6f-5e53-bd7c-93b484bb37c0"
 version = "0.15.1+0"
 
 [[deps.libblastrampoline_jll]]
-deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
+deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.1.1+0"
+version = "5.4.0+0"
 
 [[deps.libfdk_aac_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1866,7 +1860,6 @@ version = "1.4.1+0"
 # ╠═3c4111cc-55a6-11eb-198b-458475b9b85f
 # ╟─75640521-a952-4c86-81cd-397df0280d64
 # ╟─899051a8-d1c4-4763-b372-3d7b3b499bd3
-# ╠═95a0b4ba-ed7b-4b42-9375-29423f592d45
 # ╠═73893134-1701-4e12-9567-176a4cf4c279
 # ╟─626879e4-6603-4606-83bd-9388071a46b9
 # ╟─85cda2a3-9a2e-45ea-b0a6-f982660660c9
@@ -1907,16 +1900,17 @@ version = "1.4.1+0"
 # ╠═2fae8126-55b0-11eb-17ac-c54318e62c5e
 # ╠═430925e6-55b0-11eb-1637-6fe56713e397
 # ╟─62656d47-64b9-4a59-870b-cab53e869315
-# ╠═51523a08-c8e6-4a91-9054-0190f3dffa2d
 # ╟─59708954-55b1-11eb-0e62-b72b3f3f65f0
+# ╠═25386099-4cfd-4162-b7a3-c544ffb0e646
 # ╠═7295c79e-6701-11eb-3ec4-2ba3c1f45bfe
 # ╠═85456dc2-6701-11eb-3348-379f534568c8
 # ╟─a21d3740-6701-11eb-3009-4da56916e76c
-# ╠═d8a704bc-6701-11eb-2b46-090ac1815774
 # ╠═fe354836-6701-11eb-191c-2de25e7daacf
 # ╟─074dccd8-6702-11eb-038c-0b8c14b62647
+# ╠═c2c94874-9858-41eb-b9e9-a7f38e2e4514
 # ╠═58d5e0ce-6702-11eb-2130-b1e9f84e5a65
 # ╠═64be4458-6702-11eb-02f9-37de11e2b41f
+# ╠═aec57e7c-de48-4da3-9149-b152a1b83b15
 # ╟─e71d752c-34a9-401b-9e0f-abf0c0bfde81
 # ╠═abd4c30f-806f-4cb3-8857-80cbd3b32ae5
 # ╟─164d6171-748c-4816-885e-d1884578cd27
@@ -1924,6 +1918,7 @@ version = "1.4.1+0"
 # ╟─6c9a8f92-af66-4d56-a824-ba8c065ab1d0
 # ╟─b2ef6805-383d-4537-9476-d2b922116a0a
 # ╟─7268d01a-6702-11eb-057d-a33ff7b6dff5
+# ╠═51386cdc-8641-42c8-885f-75ff4e5bf0e0
 # ╠═9aad3dec-6702-11eb-15c9-75d6b2d3713e
 # ╠═9e35cf88-6702-11eb-2a92-0f9271383c8f
 # ╟─ad8175b6-6702-11eb-2edf-c9b3304a5ddd
@@ -1931,18 +1926,14 @@ version = "1.4.1+0"
 # ╠═81e2dc73-ba5d-4e1f-9bcd-1c98dcdfd798
 # ╠═d91a964c-6702-11eb-12ad-f7d5398c1591
 # ╟─e48c1410-6702-11eb-06c4-8300fc6614af
+# ╟─578f31c2-6703-11eb-05a7-11f472bc9ee5
 # ╠═7e8ed468-df06-497f-bd84-1d543e11464b
 # ╠═00afe52e-a9a6-435d-984c-23810ed36560
-# ╠═9ece5cc3-e341-4e92-a676-05320b465c5d
-# ╟─578f31c2-6703-11eb-05a7-11f472bc9ee5
-# ╠═64ebb606-6703-11eb-332b-2d933e7bddec
-# ╟─6696f222-6703-11eb-3862-8938b0a92edb
-# ╠═6f9b3284-6703-11eb-1d85-9366ffbb66f0
-# ╠═7929685c-6703-11eb-3f14-61ebf493ecde
 # ╟─7dc0ec32-6703-11eb-2cd7-27b1f1dcca3a
 # ╠═a37e8fd0-6703-11eb-3d69-85511daf9720
 # ╠═1b7cd4bb-5d4a-43ea-b948-48212be59d1f
 # ╟─a6732366-6703-11eb-36da-110356d80106
+# ╠═1332b796-0a02-4868-9dc1-5df237f9a05f
 # ╠═c810b5ec-6703-11eb-293c-69fc0a8e573f
 # ╠═35ae4a94-6704-11eb-3ebd-a75cbd2ca619
 # ╟─3d914642-6704-11eb-00a4-c1011ff61fdd

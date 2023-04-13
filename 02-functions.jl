@@ -143,6 +143,62 @@ We can have the terse *ternary* notation `condition ? if true : if false` as wel
 # ╔═╡ 4983b419-ca26-486a-a5ce-4af1901c625c
 m < 4 ? md"m < 4 is true" :  md"m ≥ 4 is true"
 
+# ╔═╡ 8604c932-8add-4c81-891e-5b24e54acbb0
+md"""
+## A Running Example: Winsorized Mean
+
+> I have taken this example from [Julia for Data Analysis](https://www.manning.com/books/julia-for-data-analysis), which I **highly** recommend.
+
+The [Winsorized Mean](https://en.wikipedia.org/wiki/Winsorized_mean) is an outlier-robust estimator for the central tendency of a distribution. We use it fairly often in applied work. For example, working with income data, it is quite frequent that we need to deal with unrealistically large (like 1.2 million Euros per month) or small (like -10000 Euros) values. To fix ideas, the $k=1$ winsorized mean for 10 numbers  $x_{(i)} <x_{(i+1)}$ is
+
+$$\frac{x_{(2)} + x_{(2)} + x_{(3)} + \dots + x_{(8)} + x_{(9)} + x_{(9)}}{10}$$
+
+i.e. we *replace* the $k$ smallest and largest numbers by their adjacent (higher or lower) neighbors.
+"""
+
+# ╔═╡ 6a945894-780f-482b-9bfa-d6730fb1dcae
+md"""
+##
+"""
+
+# ╔═╡ dd10f06d-c8a5-4e14-ac7d-7d5a4c3ab364
+md"""
+##
+"""
+
+# ╔═╡ df65a4fd-f310-4673-9bde-9ce37e390ec2
+let
+	x = [10,1,6,4,5]
+	y = sort(x)
+	k = 1
+	for i in 1:k
+		y[i] = y[i + 1]
+		y[end - i + 1] = y[end - k]
+	end
+	y
+end
+
+# ╔═╡ c9d30e25-29a8-4a9c-9803-150391cfe046
+md"""
+##
+"""
+
+# ╔═╡ 549ff760-d912-4118-80c4-969a8f04e696
+let
+	x = [10,1,6,4,5]
+	y = sort(x)
+	k = 1
+	for i in 1:k
+		y[i] = y[i + 1]
+		y[end - i + 1] = y[end - k]
+	end
+	s = 0
+	for v in y
+		s += v
+	end
+	s / length(y)
+end
+
 # ╔═╡ 06101a96-097a-4cba-955a-a54ac48b24db
 md"""
 ## Functions
@@ -355,7 +411,7 @@ md"""
 
 # ╔═╡ fb61fd7f-aabf-442b-a6c8-3077cb2e8207
 md"""
----
+
 
 We can return more than one values by returning a tuple (or any other container like a dict or an array):
 """
@@ -373,6 +429,33 @@ end
 
 # ╔═╡ 3ab95641-080a-4d5d-84b6-4654e4900019
 g3(2)
+
+# ╔═╡ ab45b171-475c-410e-9d81-6e4c29f9e755
+md"""
+#
+"""
+
+# ╔═╡ ea10a64b-ce38-46b3-b66b-0845cfc296ce
+md"""
+#
+"""
+
+# ╔═╡ 34b13c95-a56b-4678-9d7d-9807c974bf30
+function winsorized_mean(x,k)
+	y = sort(x)
+	for i in 1:k
+		y[i] = y[i + 1]
+		y[end - i + 1] = y[end - k]
+	end
+	s = 0
+	for v in y
+		s += v
+	end
+	s / length(y)
+end
+
+# ╔═╡ b1ffb3ff-6cd0-40f8-b1a4-f44333846492
+winsorized_mean([10,1,6,4,5], 1)
 
 # ╔═╡ 871fec18-0ed4-4717-ad85-ac477e918886
 md"""
@@ -412,6 +495,11 @@ g("oh ","my ", z = "word!")
 # ╔═╡ 4524cc39-4d8f-4496-b0d1-8302c5614f47
 md"""
 All of those worked because the function `*` is defined for Floats (simple multiplication), conformable matrices (matrix multiplication), and strings (concatenate). Look at that:
+"""
+
+# ╔═╡ da7c60f7-a95b-44d4-96a6-8d3e22dc538f
+md"""
+#
 """
 
 # ╔═╡ 679a6875-44a4-4e7d-85cc-f5ea90ead8ff
@@ -491,6 +579,22 @@ md"""
 # ╔═╡ b7960f1b-93ed-4bf5-85d5-3e37aa0297a4
 tip(text) = Markdown.MD(Markdown.Admonition("tip", "Question", [text]));
 
+# ╔═╡ 0788133c-1796-4d44-8fb1-3b65f66f934e
+tip(md"""
+## First Implementation
+
+Let's do the following in the `julia` REPL:
+
+Suppose we have $$x = [10,1,6,4,5]$$, and $k=1$.
+1. Create vector `x` by using the `[]` operators
+2. Sort the vector from smallest to largest and save as `y`.
+3. Use a loop to replace the smallest $k$ values by the $k+1$ smallest value and the largest $k$ values by the $N-k$ largest value, where $N$ is the length of `y`.
+3. Inspect `y`.
+4. Compute the mean of `y` by first creating variable `s = 0` to which we add all components of `y`, and then and dividing by $N$. This number is the $k$-times winsorized mean of input $x$.
+
+ 
+""")
+
 # ╔═╡ 5d44a00b-8cb2-432b-a58b-01dd9bf72882
 tip(md"Notice that julia says it defined *two* methods here! A *method* is a specific *version of a function*. Can you think of a reason for this here? Try calling `methods(g)` to see what was defined!")
 
@@ -500,16 +604,24 @@ info(text) = Markdown.MD(Markdown.Admonition("info", "Info", [text]));
 # ╔═╡ 5142b680-af06-4100-b355-3c900d0e6dcc
 q(text) = Markdown.MD(Markdown.Admonition("tip", "Question", [text]));
 
+# ╔═╡ 95ec149b-9dbe-4b39-af66-0d9cf03c34d4
+q(md"""
+## Wrapping Winsor in a Function
+
+1. Copy our code from above into a function called `winsorized_mean(x,k)`.
+2. Check that your function returns the correct (i.e. same) result as above when called with `winsorized_mean([10,1,6,4,5],1)`.
+""")
+
 # ╔═╡ bfdf1dfb-7f42-451c-8de3-36b1625398c6
 q(md"""
 Newton's square root algorithm says that in order to compute $\sqrt{a} , a> 0$ up to arbitrary precision, you start with *any* given estimate $x >0$ of $\sqrt{a}$, and then you update your guess via
 
 $$x \leftarrow \frac{1}{2}\left(x + \frac{a}{x}\right)$$
 
-you will very quickly find the correct result of $\sqrt{y}$. 
+you will very quickly find the correct result of $\sqrt{a}$. 
 
 1. in a `.jl` file, define function `mysqrt_step(a,x)`, which returns the next guess for `x` as in the above formula.
-2. Try out your function manually in the REPL to compute $\sqrt{4}$, by calling `mysqrt_step(4,6)`, and then repeatedly using the output of the function to replace the second argument (so, instead of the `6` you put what comes out of the function).
+2. Try out your function manually in the REPL to compute $\sqrt{4}$, by calling `mysqrt_step(4,6)`, and then repeatedly using the output of the function to replace the second argument (so, instead of the `6` you put what comes out of your function).
 3. define a second function, `mysqrt(a,x; tol = 1e-8)`, which *iterates* on `mysqrt_step(a,x)` for *as long as the absolute distance* between two successive guesses for `x` is larger than the value set in keyword argument `tol`. Make the function return a tuple `(x,iters)`, where `iters` is the number of iterations the function needed to converge to the true value.
 4. Finally, 😓, write a function `sqrt_table()` which takes values for `a = 2:10`, and uses initial guesses `x = a^2`, and prints the output of `mysqrt(a,x)` to the following table, and onto your terminal. You want to get this output:
 ```
@@ -583,7 +695,7 @@ PlutoUI = "~0.7.34"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.9.0-rc1"
+julia_version = "1.9.0-rc2"
 manifest_format = "2.0"
 project_hash = "e766545f1b4ef968b5991d6a702e32de0b70adeb"
 
@@ -838,6 +950,13 @@ version = "17.4.0+0"
 # ╠═681733ec-046d-49fe-ae65-ec36e7b62509
 # ╟─b5274ca3-07d5-4340-ae5f-8609d0c190e0
 # ╠═4983b419-ca26-486a-a5ce-4af1901c625c
+# ╟─8604c932-8add-4c81-891e-5b24e54acbb0
+# ╟─6a945894-780f-482b-9bfa-d6730fb1dcae
+# ╟─0788133c-1796-4d44-8fb1-3b65f66f934e
+# ╟─dd10f06d-c8a5-4e14-ac7d-7d5a4c3ab364
+# ╠═df65a4fd-f310-4673-9bde-9ce37e390ec2
+# ╟─c9d30e25-29a8-4a9c-9803-150391cfe046
+# ╠═549ff760-d912-4118-80c4-969a8f04e696
 # ╟─06101a96-097a-4cba-955a-a54ac48b24db
 # ╠═12024ae2-c9cd-45d9-9bda-305e69cd6054
 # ╠═4de3eb6d-c728-4d8d-aa79-38b06a3292c7
@@ -876,11 +995,16 @@ version = "17.4.0+0"
 # ╠═0c54578e-2462-4ade-abb5-6f320ba83d5e
 # ╠═cfe0fac1-20ed-4fde-89c1-1752c30de477
 # ╟─2306607b-0090-4764-9bcd-a65dadc2779a
-# ╟─fb61fd7f-aabf-442b-a6c8-3077cb2e8207
+# ╠═fb61fd7f-aabf-442b-a6c8-3077cb2e8207
 # ╠═2962bf2a-dbee-4ca7-b3e6-e9df1a2d0bb4
 # ╠═b1f4f5ef-5f56-4ee8-8def-5c87b71be658
 # ╠═719682fd-9a6d-43e7-b8b4-ba6a27a6f500
 # ╠═3ab95641-080a-4d5d-84b6-4654e4900019
+# ╟─ab45b171-475c-410e-9d81-6e4c29f9e755
+# ╟─95ec149b-9dbe-4b39-af66-0d9cf03c34d4
+# ╟─ea10a64b-ce38-46b3-b66b-0845cfc296ce
+# ╠═34b13c95-a56b-4678-9d7d-9807c974bf30
+# ╠═b1ffb3ff-6cd0-40f8-b1a4-f44333846492
 # ╟─871fec18-0ed4-4717-ad85-ac477e918886
 # ╟─bfdf1dfb-7f42-451c-8de3-36b1625398c6
 # ╟─6e4d8075-3303-4967-9a81-9d497bfd3068
@@ -892,6 +1016,7 @@ version = "17.4.0+0"
 # ╟─276d64cb-e27f-4bdb-a964-bcf36c9a46d9
 # ╠═fe561c2c-fb7f-4e67-9e49-546041112c50
 # ╟─4524cc39-4d8f-4496-b0d1-8302c5614f47
+# ╟─da7c60f7-a95b-44d4-96a6-8d3e22dc538f
 # ╠═679a6875-44a4-4e7d-85cc-f5ea90ead8ff
 # ╟─5d85f558-1b4e-4be7-a530-72a6705f58ec
 # ╟─1d68be68-1064-425b-baaf-da76ec7af76a

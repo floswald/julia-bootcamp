@@ -52,7 +52,7 @@ y = x ^ 2
 α + β == 1
 
 # ╔═╡ 4ca5b69a-545b-4713-88f0-592182ee439d
-😄, 💃, 🍕 = (3, 2, 5)  # \:pizza: and TAB
+😄, 💃, 🍕 = (3, 1, 5)  # \:pizza: and TAB
 
 # ╔═╡ 6bf1f569-c6f8-43d0-9ea6-e77f3db4c7c4
 ifelse(😄 + 💃 == 🍕, md"🎉 this is the correct, OMG", md"🤮 Oh no, totally wrong")
@@ -279,7 +279,7 @@ you can refer to the location of the current file
 @__FILE__
 
 # ╔═╡ 6a126422-62cc-4b8e-998b-5fa11520049b
-@__DIR__  # current directory. useful for scripts andprograms
+@__DIR__  # current directory. useful for scripts and programs
 
 # ╔═╡ 9cbb941a-bbf6-49a1-892c-962f16bbab90
 pwd()  # useful in an interactive session
@@ -513,9 +513,6 @@ md"""
 #
 """
 
-# ╔═╡ 72229086-eedb-4bd0-8f0c-49bb5731e1f8
-phonebook[1]
-
 # ╔═╡ cd456c1f-0b63-45f7-aea2-f9f2a205bbb0
 phonebook[:peter] = 43210  # notice once it's created, assign with '='
 
@@ -629,7 +626,7 @@ PlutoUI = "~0.7.34"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.9.0-rc1"
+julia_version = "1.9.0-rc2"
 manifest_format = "2.0"
 project_hash = "08f43f32264ab90ef9fa60e537bc800dadd0a537"
 
@@ -931,7 +928,7 @@ version = "17.4.0+0"
 # ╟─856b1263-61d0-4d60-bf41-292d2cfcf012
 # ╟─e2471749-1374-47e7-8013-d0071b1d5ee0
 # ╠═64f9e174-0855-49fb-8dfa-d90adae7c268
-# ╠═e2ba69c5-94f4-4ec9-8acb-85bb8311f893
+# ╟─e2ba69c5-94f4-4ec9-8acb-85bb8311f893
 # ╠═872590dc-9756-48b6-9bf0-f7e1d8d01501
 # ╠═6a126422-62cc-4b8e-998b-5fa11520049b
 # ╠═9cbb941a-bbf6-49a1-892c-962f16bbab90
@@ -991,7 +988,6 @@ version = "17.4.0+0"
 # ╠═a858c992-d9f0-47c0-9a74-e42ef9f543fe
 # ╠═d02618a3-720d-42f1-89fb-ff80733e2339
 # ╟─7f873cab-e58e-4e3c-bf75-b60cf9628648
-# ╠═72229086-eedb-4bd0-8f0c-49bb5731e1f8
 # ╠═cd456c1f-0b63-45f7-aea2-f9f2a205bbb0
 # ╠═51d37b9d-f630-4ed3-9ec4-699cd68470cd
 # ╟─a3397a22-3917-4782-a4b4-ea330293b7cf
