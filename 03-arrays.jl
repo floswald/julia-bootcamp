@@ -295,7 +295,7 @@ md"""
 """
 
 # ╔═╡ b77ae9fe-679a-11eb-19de-678b04bcc042
-pushfirst!(z, 1, 1)
+pushfirst!(z, 1)
 
 # ╔═╡ be5f5cf0-679a-11eb-2b4f-f7d5ab85c6a0
 z
@@ -307,7 +307,7 @@ pop!(z)
 z
 
 # ╔═╡ 7c1e52b4-678a-11eb-1a97-3d56ba213b3b
-append!(z, 14)
+append!(z, 14, 15)
 
 # ╔═╡ 46695ecc-f3fe-4611-bb56-8bd04bd0bc53
 deleteat!(z, 1)

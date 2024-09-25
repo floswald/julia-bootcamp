@@ -131,6 +131,9 @@ md"""
 Once defined, we can *instantiate*, or *construct* an **instance** of our type like this, where we call `a` and `b` **instances** of their respective types:
 """
 
+# ╔═╡ ce4be32d-6373-40a9-a33e-a78cb8d90808
+
+
 # ╔═╡ e23742e2-7b6f-4b14-8a81-a366cf76dbd3
 a = A(1,2)
 
@@ -1078,6 +1081,7 @@ version = "17.4.0+2"
 # ╠═194dd1c4-9731-4a6b-a89a-8ec48a3afd0a
 # ╠═0b812de3-35ef-46f4-b564-3846f1d24546
 # ╟─2f8a6a81-04c0-4c2c-8059-5bdf25042eec
+# ╟─ce4be32d-6373-40a9-a33e-a78cb8d90808
 # ╠═e23742e2-7b6f-4b14-8a81-a366cf76dbd3
 # ╠═28bb8cb7-06cd-4971-acd2-f10e490f54be
 # ╟─f0d4b551-84e1-4cf7-9786-45ab326244f1
