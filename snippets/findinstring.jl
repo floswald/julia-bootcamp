@@ -1,0 +1,1 @@
+findall(r"g|😄","The weather is good today, I'm not going to take an umbrella 😄")
